@@ -1,0 +1,33 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>prog3.torvald</groupId>
+  <artifactId>bildverwaltung</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Bildverwaltung</name>
+  
+  <build>
+  	<plugins>
+  		<plugin>
+  			<groupId>org.apache.maven.plugins</groupId>
+  			<artifactId>maven-compiler-plugin</artifactId>
+  			<configuration>
+  				<source>1.8</source>
+  				<target>1.8</target>
+  			</configuration>
+  		</plugin>
+  	</plugins>
+  </build>
+  <modules>
+  	<module>Dao API</module>
+  	<module>Dao Impl</module>
+  	<module>Service API</module>
+  	<module>Service Impl</module>
+  	<module>Facade API</module>
+  	<module>Facade Impl</module>
+  	<module>Container API</module>
+  	<module>Container Impl</module>
+  	
+  	<module>bildverwaltung.gui.fx</module>
+  </modules>
+</project>
