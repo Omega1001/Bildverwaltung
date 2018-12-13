@@ -10,3 +10,5 @@ target
 */.project
 .classpath
 .project
+.DS_Store
+*/.DS_Store

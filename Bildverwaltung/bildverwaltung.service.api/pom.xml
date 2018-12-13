@@ -5,6 +5,6 @@
     <artifactId>bildverwaltung</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>bildverwaltung.service.dao</artifactId>
+  <artifactId>bildverwaltung.service.api</artifactId>
   <name>Service API</name>
 </project>

@@ -19,14 +19,14 @@
   	</plugins>
   </build>
   <modules>
-  	<module>Dao API</module>
-  	<module>Dao Impl</module>
-  	<module>Service API</module>
-  	<module>Service Impl</module>
-  	<module>Facade API</module>
-  	<module>Facade Impl</module>
-  	<module>Container API</module>
-  	<module>Container Impl</module>
+  	<module>bildverwaltung.dao.api</module>
+  	<module>bildverwaltung.dao.impl</module>
+  	<module>bildverwaltung.service.api</module>
+  	<module>bildverwaltung.service.impl</module>
+  	<module>bildverwaltung.facade.api</module>
+  	<module>bildverwaltung.facade.impl</module>
+  	<module>bildverwaltung.container.api</module>
+  	<module>bildverwaltung.container.impl</module>
   	
   	<module>bildverwaltung.gui.fx</module>
   </modules>
