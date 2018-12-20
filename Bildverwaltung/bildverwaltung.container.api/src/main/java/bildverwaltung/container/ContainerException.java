@@ -1,4 +1,4 @@
-package bildverwaltung.dao.exception;
+package bildverwaltung.container;
 
 public class ContainerException extends RuntimeException {
 
