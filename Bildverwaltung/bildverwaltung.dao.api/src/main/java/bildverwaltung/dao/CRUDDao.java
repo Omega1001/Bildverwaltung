@@ -14,6 +14,6 @@ public interface CRUDDao<E extends UUIDBase> {
 	
 	public List<E> getAll()throws DaoException;
 	
-	public boolean delete (UUID key)throws DaoException;
+	public void delete (UUID key)throws DaoException;
 	
 }
