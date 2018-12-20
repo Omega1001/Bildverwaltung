@@ -1,33 +1,66 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>prog3.torvald</groupId>
-  <artifactId>bildverwaltung</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
-  <packaging>pom</packaging>
-  <name>Bildverwaltung</name>
-  
-  <build>
-  	<plugins>
-  		<plugin>
-  			<groupId>org.apache.maven.plugins</groupId>
-  			<artifactId>maven-compiler-plugin</artifactId>
-  			<configuration>
-  				<source>1.8</source>
-  				<target>1.8</target>
-  			</configuration>
-  		</plugin>
-  	</plugins>
-  </build>
-  <modules>
-  	<module>bildverwaltung.dao.api</module>
-  	<module>bildverwaltung.dao.impl</module>
-  	<module>bildverwaltung.service.api</module>
-  	<module>bildverwaltung.service.impl</module>
-  	<module>bildverwaltung.facade.api</module>
-  	<module>bildverwaltung.facade.impl</module>
-  	<module>bildverwaltung.container.api</module>
-  	<module>bildverwaltung.container.impl</module>
-  	
-  	<module>bildverwaltung.gui.fx</module>
-  </modules>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>prog3.torvald</groupId>
+	<artifactId>bildverwaltung</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Bildverwaltung</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<modules>
+		<module>bildverwaltung.domainmodell</module>
+		<module>bildverwaltung.dao.api</module>
+		<module>bildverwaltung.dao.impl</module>
+		<module>bildverwaltung.service.api</module>
+		<module>bildverwaltung.service.impl</module>
+		<module>bildverwaltung.facade.api</module>
+		<module>bildverwaltung.facade.impl</module>
+		<module>bildverwaltung.container.api</module>
+		<module>bildverwaltung.container.impl</module>
+
+		<module>bildverwaltung.gui.fx</module>
+
+	</modules>
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.12</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.eclipse.persistence/eclipselink -->
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>2.7.3</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.eclipse.persistence</groupId>
+					<artifactId>javax.persistence</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>javax.persistence</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>1.1.3</version>
+		</dependency>
+	</dependencies>
 </project>

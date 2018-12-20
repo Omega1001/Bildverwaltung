@@ -7,4 +7,11 @@
   </parent>
   <artifactId>bildverwaltung.service.api</artifactId>
   <name>Service API</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.domainmodell</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  </dependencies>
 </project>

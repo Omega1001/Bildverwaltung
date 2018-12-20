@@ -7,4 +7,11 @@
   </parent>
   <artifactId>bildverwaltung.dao.api</artifactId>
   <name>Dao API</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.domainmodell</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  </dependencies>
 </project>

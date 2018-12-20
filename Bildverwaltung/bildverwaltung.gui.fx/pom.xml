@@ -7,4 +7,16 @@
   </parent>
   <artifactId>bildverwaltung.gui.fx</artifactId>
   <name>FX GUI</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.domainmodell</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.facade.api</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  </dependencies>
 </project>

@@ -7,4 +7,21 @@
   </parent>
   <artifactId>bildverwaltung.service.impl</artifactId>
   <name>Service Impl</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.domainmodell</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.service.api</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.dao.api</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  </dependencies>
 </project>

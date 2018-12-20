@@ -7,4 +7,11 @@
   </parent>
   <artifactId>bildverwaltung.container.impl</artifactId>
   <name>Container Impl</name>
+  <dependencies>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.container.api</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  </dependencies>
 </project>
