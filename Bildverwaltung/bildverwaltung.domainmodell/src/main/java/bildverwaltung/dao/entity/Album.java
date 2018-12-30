@@ -80,6 +80,12 @@ public class Album extends UUIDBase {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Album [getId()=").append(getId()).append(", name=").append(name).append("]");
+		return builder.toString();
+	}
 	
 	
 	

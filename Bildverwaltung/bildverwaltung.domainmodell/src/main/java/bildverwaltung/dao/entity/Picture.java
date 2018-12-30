@@ -169,6 +169,16 @@ public class Picture extends UUIDBase {
 	public void setComment(String comment) {
 		this.comment = comment;
 	}
+
+
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Picture [getId()=").append(getId()).append(", name=").append(name).append(", alben=")
+				.append(alben).append(", uri=").append(uri).append("]");
+		return builder.toString();
+	}
 	
 	
 	
