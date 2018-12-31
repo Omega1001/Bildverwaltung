@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="LOGFILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>logs/application.log</file>
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>50MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>%date{"yy-MM-dd HH:mm:ss,SSS",UTC} %.-1level [%-25.25thread%-30.30logger{30} %4line] %X{contextId} %msg%n%rootException
+			</Pattern>
+			<immediateFlush>true</immediateFlush>
+		</encoder>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="LOGFILE" />
+		<appender-ref ref="STDOUT" />
+	</root>
+	
+</configuration>
