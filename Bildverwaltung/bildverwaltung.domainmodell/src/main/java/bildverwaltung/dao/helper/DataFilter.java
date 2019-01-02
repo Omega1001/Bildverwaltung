@@ -79,6 +79,7 @@ public class DataFilter<En> {
 			throw new IllegalStateException("Fetched sub filter don't have a matching Type");
 		}
 		df.addOwnedFilter(filter);
+		foreignFilters.put(joinOver, df);
 	}
 	
 	/**
@@ -105,6 +106,7 @@ public class DataFilter<En> {
 			throw new IllegalStateException("Fetched sub filter don't have a matching Type");
 		}
 		df.addOwnedFilter(filter);
+		foreignFilters.put(joinOver, df);
 	}
 
 	public Class<En> getEntityClass() {

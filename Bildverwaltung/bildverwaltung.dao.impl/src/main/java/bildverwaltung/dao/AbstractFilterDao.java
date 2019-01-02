@@ -65,7 +65,7 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 		LOG.debug("Generating Filter Criterias");
 		generateFilterAndJoins(filters, joins, filterPredicates, root, cb);
 		LOG.debug("Propergating necessary joins");
-		query.multiselect(compileSelect(root, joins));
+		query.select(root);
 		if (!filterPredicates.isEmpty()) {
 			LOG.debug("Propergating where criterias");
 			query.where(filterPredicates.toArray(new Predicate[filterPredicates.size()]));
@@ -126,31 +126,6 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 			}
 		}
 
-	}
-
-	/**
-	 * Creates a array, that contains the root element and all joins<br>
-	 * The element at index 0 has to be the root element, followed by the joins, if
-	 * any<br>
-	 * There has to be a root element<br>
-	 * In case the list of joins are empty, an array with the length of 1 is
-	 * returned (containing only the root element)
-	 * 
-	 * @param root
-	 *            element
-	 * @param joins
-	 *            to be appended
-	 * @return an array containing the root element, followed by the passed joins
-	 *         (if any)
-	 */
-	private From<?, ?>[] compileSelect(Root<E> root, List<Join<E, ?>> joins) {
-		From<?, ?>[] selection = new From<?, ?>[joins.size() + 1];
-		selection[0] = root;
-		int i = 1;
-		for (Join<E, ?> join : joins) {
-			selection[i++] = join;
-		}
-		return selection;
 	}
 
 	/**
