@@ -15,6 +15,7 @@ import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import javax.persistence.metamodel.Attribute;
 import javax.persistence.metamodel.SingularAttribute;
 
 import org.slf4j.Logger;
@@ -108,8 +109,15 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 			for (FilterDiscriptor<E, ?> filter : filters.getEntityOwnedFilters()) {
 				addFilter(filter, root, cb, filterPredicates);
 			}
-			for (Entry<SingularAttribute<E, ?>, DataFilter<?>> join : filters.getForeignFilters().entrySet()) {
-				Join<E, ?> joinRoot = root.join(join.getKey());
+			for (Entry<Attribute<E, ?>, DataFilter<?>> join : filters.getForeignFilters().entrySet()) {
+				
+				Join<E, ?> joinRoot = null;
+				if(join.getKey() instanceof SingularAttribute) {
+					joinRoot = root.join((SingularAttribute<E, ?>)join.getKey());
+				}else  {
+					joinRoot = root.join(join.getKey().getName());
+				}
+				
 				LOG.trace("Adding Join for column {}", join.getKey().getName());
 				joins.add(joinRoot);
 				for (FilterDiscriptor<?, ?> filter : join.getValue().getEntityOwnedFilters()) {

@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.metamodel.Attribute;
+import javax.persistence.metamodel.PluralAttribute;
 import javax.persistence.metamodel.SingularAttribute;
 
 /**
@@ -31,7 +33,7 @@ public class DataFilter<En> {
 
 	private final Class<En> entityClass;
 	private final List<FilterDiscriptor<En, ?>> entityOwnedFilters = new LinkedList<>();
-	private final Map<SingularAttribute<En, ?>, DataFilter<?>> foreignFilters = new HashMap<>();
+	private final Map<Attribute<En, ?>, DataFilter<?>> foreignFilters = new HashMap<>();
 
 	/**
 	 * Creates a new, empty DataFilter
@@ -78,6 +80,32 @@ public class DataFilter<En> {
 		}
 		df.addOwnedFilter(filter);
 	}
+	
+	/**
+	 * Adds a <b>Foreign Filter</b> to this {@link DataFilter}<br>
+	 * Also passed is the relationship between the base entity and the entity that
+	 * owns this filter
+	 * 
+	 * @param filter
+	 *            to be added
+	 * @param joinOver
+	 *            Attribute that is used for the join from the base entity to the
+	 *            entity that ownes the passed filter
+	 */
+	@SuppressWarnings("unchecked") // Checked in code
+	public <Ten> void addForeignFilter(FilterDiscriptor<Ten, ?> filter, PluralAttribute<En,?, Ten> joinOver) {
+		DataFilter<?> dfRaw = foreignFilters.get(joinOver);
+		DataFilter<Ten> df = null;
+		if (dfRaw == null) {
+			df = new DataFilter<>(joinOver.getBindableJavaType());
+		} else if (dfRaw.getEntityClass().equals(joinOver.getJavaType())) {
+			df = (DataFilter<Ten>) dfRaw;
+		} else {
+			// This should be impossible ...
+			throw new IllegalStateException("Fetched sub filter don't have a matching Type");
+		}
+		df.addOwnedFilter(filter);
+	}
 
 	public Class<En> getEntityClass() {
 		return entityClass;
@@ -87,7 +115,7 @@ public class DataFilter<En> {
 		return entityOwnedFilters;
 	}
 
-	public Map<SingularAttribute<En, ?>, DataFilter<?>> getForeignFilters() {
+	public Map<Attribute<En, ?>, DataFilter<?>> getForeignFilters() {
 		return foreignFilters;
 	}
 
