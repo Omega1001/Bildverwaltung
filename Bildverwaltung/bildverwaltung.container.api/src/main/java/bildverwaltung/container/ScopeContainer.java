@@ -107,4 +107,6 @@ public interface ScopeContainer {
 	 */
 	public void endSubScope(UUID subScopeId);
 
+	ScopeContainer getSubScope(UUID subScopeId);
+
 }
