@@ -45,7 +45,7 @@ public class ResourceStringServiceImpl implements ResourceStringService {
 
 		public DBResourceBundel(List<ResourceString> rsStrings, ResourceBundle parent) {
 			setParent(parent);
-			translations = new HashMap<>(translations.size() + 1, 0);
+			translations = new HashMap<>(rsStrings.size() + 1, 1);
 			for (ResourceString rs : rsStrings) {
 				translations.put(rs.getResourceStringId(), rs.getTranslation());
 			}
