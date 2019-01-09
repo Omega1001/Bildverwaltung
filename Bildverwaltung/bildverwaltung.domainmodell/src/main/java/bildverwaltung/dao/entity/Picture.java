@@ -22,7 +22,7 @@ public class Picture extends UUIDBase {
 	private String extension;
 	private int heigth;
 	private int width;
-	private Date creationDate;
+	private Date creationDate = new Date();
 	private String comment;
 	
 	public Picture(String name, URI uri, List<Album> alben,

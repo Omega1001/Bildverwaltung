@@ -11,13 +11,13 @@ public class URI_StringConverter implements AttributeConverter<URI,String> {
 
 	@Override
 	public String convertToDatabaseColumn(URI arg0) {
-		return arg0.toASCIIString();
+		return arg0 == null ? null : arg0.toASCIIString();
 	}
 
 	@Override
 	public URI convertToEntityAttribute(String arg0) {
 		try {
-			return new URI(arg0);
+			return arg0 == null ? null : new URI(arg0);
 		} catch (URISyntaxException e) {
 			throw new IllegalArgumentException(arg0);
 		}

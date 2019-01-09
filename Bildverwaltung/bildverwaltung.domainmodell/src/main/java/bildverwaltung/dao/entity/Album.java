@@ -13,7 +13,7 @@ public class Album extends UUIDBase {
 
 	private String name;
 	private List<Picture> pictures;
-	private Date creationDate;
+	private Date creationDate = new Date();
 	private String comment;
 	
 	public Album(String name, List<Picture> pictures, Date creationDate,
