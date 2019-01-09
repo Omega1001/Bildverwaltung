@@ -1,0 +1,7 @@
+<Translations defaultLanguage="en">
+	<Language languageCode="en" countryCode="">
+		<ResourceString id="itemLabelGenericSearchDISABLED">Disabled</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_EQUAL">is equal to</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">is not equal to</ResourceString>
+	</Language>
+</Translations>
