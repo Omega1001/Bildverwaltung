@@ -8,11 +8,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<artifactId>bildverwaltung.db-data</artifactId>
-	
+
 	<properties>
 		<processRs></processRs>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>prog3.torvald</groupId>
@@ -30,37 +30,15 @@
 			<version>1.2.3</version>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>properties-maven-plugin</artifactId>
-				 <version>1.0.0</version>
-				<executions>
-					<execution>
-						<phase>initialize</phase>
-						<goals>
-							<goal>read-project-properties</goal>
-						</goals>
-						<configuration>
-							<files>
-								<file>${basedir}/db-data-build.properties</file>
-							</files>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 
 	<profiles>
-	<profile>
-		<id>BuildRs</id>
-		<properties>
-			<processRs>buildRS</processRs>
-		</properties>
-	</profile>
-	
+		<profile>
+			<id>BuildRs</id>
+			<properties>
+				<processRs>buildRS</processRs>
+			</properties>
+		</profile>
+
 		<profile>
 			<id>ProcessData</id>
 			<activation>
@@ -68,6 +46,24 @@
 			</activation>
 			<build>
 				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>properties-maven-plugin</artifactId>
+						<version>1.0.0</version>
+						<executions>
+							<execution>
+								<phase>initialize</phase>
+								<goals>
+									<goal>read-project-properties</goal>
+								</goals>
+								<configuration>
+									<files>
+										<file>${basedir}/db-data-build.properties</file>
+									</files>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>exec-maven-plugin</artifactId>
