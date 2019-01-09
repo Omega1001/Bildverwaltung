@@ -10,6 +10,7 @@
 		<class>bildverwaltung.dao.entity.Album</class>
 		<class>bildverwaltung.dao.entity.Picture</class>
 		<class>bildverwaltung.dao.entity.UUIDBase</class>
+		<class>bildverwaltung.dao.entity.ResourceString</class>
 		<properties>
 			<property
 				name="javax.persistence.schema-generation.database.action"

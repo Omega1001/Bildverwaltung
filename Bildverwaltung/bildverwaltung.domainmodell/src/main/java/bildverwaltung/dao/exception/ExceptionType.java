@@ -1,6 +1,7 @@
 package bildverwaltung.dao.exception;
 
 public enum ExceptionType {
+	UNKNOWN("Unknown error",null,null);
 
 	;
 	private final String message;
