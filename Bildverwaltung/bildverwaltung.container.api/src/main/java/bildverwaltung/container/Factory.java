@@ -19,11 +19,10 @@ public interface Factory<T> {
 	 * 
 	 * @param container Parent to be used for requesting additional dependencies
 	 * @param scope in that the implementation is to be stored in
-	 * @param scopeContainer Managed container, in that the scopes are kept
 	 * @return an implementation of the interface T
 	 * @throws ContainerException if there was an error during generating the implementation
 	 */
-	public T generate(ManagedContainer container,Scope scope, ScopeContainer scopeContainer);
+	public T generate(ManagedContainer container,Scope scope);
 	
 	/**
 	 * Method to be called, if an implementation is removed from the scope
