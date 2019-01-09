@@ -28,7 +28,9 @@
 								<processor>org.eclipse.persistence.internal.jpa.modelgen.CanonicalModelProcessor</processor>
 							</processors>
 							<outputDirectory>${project.build.directory}/generated-sources/jpametamodel</outputDirectory>
-							<compilerArguments>-Aeclipselink.persistencexml=src/main/resources/META-INF/persistence.xml</compilerArguments>
+							<options>
+								<eclipselink.persistencexml>${project.build.resources[0].directory}/META-INF/persistence.xml</eclipselink.persistencexml>
+							</options>
 						</configuration>
 					</execution>
 				</executions>
