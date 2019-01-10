@@ -1,3 +1,4 @@
+import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.ExceptionType;
 import bildverwaltung.dao.exception.ServiceException;
@@ -6,6 +7,9 @@ import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.imageio.ImageIO;
@@ -20,12 +24,22 @@ public class PictureImportImpl implements PictureImport {
         } else {
 
             try {
+                //attribute von picture extrahieren
                 BufferedImage pictureStream = ImageIO.read(picture);
+                String name = picture.getName();
+                URI uri = picture.toURI(); // TODO replace with copied path
+                String extension = getFileExtension(picture);
+                int height = pictureStream.getHeight();
+                int width = pictureStream.getWidth();
+                Date date = new Date();
+
+                //some parameters need to be replaced
+                return new Picture(name, uri, new ArrayList<Album>(), extension, height, width, date, "");
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
 
-            Picture newPicture = new Picture();
 
         }
 
@@ -69,5 +83,14 @@ public class PictureImportImpl implements PictureImport {
         }
 
         return false;
+    }
+
+    private String getFileExtension(File file) {
+        String name = file.getName();
+        int lastIndexOf = name.lastIndexOf(".");
+        if (lastIndexOf == -1) {
+            return ""; // empty extension
+        }
+        return name.substring(lastIndexOf);
     }
 }
