@@ -9,6 +9,10 @@ package bildverwaltung.dao.helper;
  */
 public enum ComparisonMode {
 	/**
+	 * Specifies that a filter is not in use
+	 */
+	DISABLED,
+	/**
 	 * Specifies, that a value has to be the exact same as the provided to match
 	 * @see #NOT_EQUAL
 	 */
@@ -19,6 +23,6 @@ public enum ComparisonMode {
 	 * See {@link #IS_EQUAL} to learn more
 	 * @see #IS_EQUAL 
 	 */
-	NOT_EQUAL,
+	NOT_EQUAL;
 
 }
