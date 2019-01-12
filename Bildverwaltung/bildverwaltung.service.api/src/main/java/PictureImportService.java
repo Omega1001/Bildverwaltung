@@ -9,7 +9,7 @@ import java.util.List;
  * @author Alessio
  */
 
-public interface PictureImport {
+public interface PictureImportService {
 
     /**
      * convert a List of Files to Picture (if they are actually a picture) into the DB

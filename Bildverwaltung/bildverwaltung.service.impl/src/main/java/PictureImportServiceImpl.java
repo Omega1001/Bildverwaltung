@@ -1,7 +1,5 @@
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
-import bildverwaltung.dao.exception.ExceptionType;
-import bildverwaltung.dao.exception.ServiceException;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -12,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-public class PictureImportImpl implements PictureImport {
+public class PictureImportServiceImpl implements PictureImportService {
 
     private Picture convertToEntity(File picture) {
         if(!isPicture(picture) || picture == null) {
@@ -24,10 +20,12 @@ public class PictureImportImpl implements PictureImport {
         } else {
 
             try {
-                //attribute von picture extrahieren
+				// extract attributes from picture
                 BufferedImage pictureStream = ImageIO.read(picture);
                 String name = picture.getName();
-                URI uri = picture.toURI(); // TODO replace with copied path
+
+                //TODO replace the URI with the path of the copied file ( of course we need to first implement the actual copy step)
+                URI uri = picture.toURI();
                 String extension = getFileExtension(picture);
                 int height = pictureStream.getHeight();
                 int width = pictureStream.getWidth();
