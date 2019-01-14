@@ -1,6 +1,7 @@
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
 
+
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -12,6 +13,8 @@ import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import static java.nio.file.Files.copy;
 
 public class PictureImportServiceImpl implements PictureImportService {
 
@@ -68,7 +71,27 @@ public class PictureImportServiceImpl implements PictureImportService {
      */
     @Override
     public void importPicture(File picture) {
+        File directory = new File("PictureManager");
+        File newFile = new File(directory.getAbsolutePath() + File.pathSeparator + picture.getName());
 
+        directory.mkdirs();
+
+        try {
+
+            Files.copy(picture.toPath(), newFile.toPath());
+
+
+            Picture newPicture = convertToEntity(newFile);
+
+            //rename the File in copy directory to the corresponding UUID of the Picture entity
+            newFile.renameTo(new File(newPicture.getId().toString()));
+
+            //TODO add Picture entity to DB
+
+
+        } catch(IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -95,58 +118,15 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @return
      */
     private boolean checkIfCopyDirectoryExists() {
-        return new File(System.getProperty("user.home") + File.separator + "Pictures" + File.separator + "PicManager").exists();
+        return new File("PicManager").exists();
     }
 
     /**
      * Create the copy directory where the new pictures will be copied in
      * @return
      */
-    private File createCopyDirectory() {
-
-        if(checkIfCopyDirectoryExists()) {
-            // throw new ServiceException("Directory already exists");
-        }
-
-        File directory = new File(System.getProperty("user.home") + File.separator + "Pictures"
-                                      + File.separator + "PicManager");
-        boolean success = directory.mkdirs();
-
-        if(!success) {
-            // throw new ServiceException();
-        }
-
-        return directory;
-
-    }
-
-    private File getCopyDirectory() {
-        return new File(System.getProperty("user.home") + File.separator + "Pictures" + File.separator + "PicManager");
-    }
-
-    /**
-     * Copy the given picture to our own copy directory
-     * @param picture
-     * @return
-     */
-    private Path copyPicture(File picture) {
-        Path copiedPath = getCopyDirectory().toPath();
-
-        try {
-            copiedPath = Files.copy(picture.toPath(), getCopyDirectory().toPath(), StandardCopyOption.REPLACE_EXISTING);
-            return copiedPath;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // me no liking this impl. me must change implementation later
-        return copiedPath;
-
-        //TODO it should return the File to do further stuff with it...
 
 
-
-    }
 
     private String getFileExtension(File file) {
         String name = file.getName();
