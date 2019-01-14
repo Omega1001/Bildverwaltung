@@ -1,10 +1,12 @@
 package bildverwaltung.container;
 
+import com.sun.tools.javac.comp.Todo;
+
 import java.util.*;
 
 public class ScopeContainerImpl implements ScopeContainer {
 
-    List<UUID> subScopes;
+    Map<UUID,ScopeContainer> subScopes;
     Scope managedScope;
     Map<Factory<?>, Object> factories;
 
@@ -14,7 +16,7 @@ public class ScopeContainerImpl implements ScopeContainer {
         if(scope == Scope.APPLICATION) {
             subScopes = null;
         } else {
-            subScopes= new ArrayList<UUID>();
+            subScopes= new HashMap<>();
         }
 
         factories = new HashMap<>();
@@ -54,10 +56,6 @@ public class ScopeContainerImpl implements ScopeContainer {
      */
     @Override
     public boolean hasImplementationForFactory(Factory<?> factory, UUID subScopeId) {
-        if(!subScopes.contains(subScopeId)) {
-            throw new ContainerException("Scope does not have a subscope with such ID.");
-        }
-
         return getSubScope(subScopeId).getImplementationForFactory(factory) != null;
     }
 
@@ -69,12 +67,87 @@ public class ScopeContainerImpl implements ScopeContainer {
      * parameter
      *
      * @param factory the implementation is associated with
-     * @return the associated implementation
+     * @return the associated implementation or null!
      */
     @Override
     public <T> T getImplementationForFactory(Factory<T> factory) {
-        if(factories.get(factory) == null) {
-            //exception
+            return (T) factories.get(factory);
+    }
+
+    /**
+     * This method returns the implementation associated with the specified factory
+     * from the subScope with the specified subScopeId<br>
+     *
+     * @param factory    the implementation is associated with
+     * @param subScopeId id of the subScope to look into
+     * @return the associated implementation from the specified subScope or null if
+     * no such implementation exists
+     */
+    @Override
+    public <T> T getImplementationForFactory(Factory<T> factory, UUID subScopeId) {
+        return null; //TODO
+
+    }
+
+    /**
+     * Associates the implementation with the specified factory in the primary
+     * scope<br>
+     * This method does the same as
+     * {@link #setImplementationForFactory(Object, Factory, UUID)} with 'null' as
+     * second parameter
+     *
+     * @param impl    to be associated
+     * @param factory to be associated with
+     */
+    @Override
+    public void setImplementationForFactory(Object impl, Factory<?> factory) {
+        //TODO
+    }
+
+    /**
+     * Associates the implementation with the specified factory in the primary
+     * scope<br>
+     *
+     * @param impl       to be associated
+     * @param factory    to be associated with
+     * @param subScopeId Id of the subScope to be associated with
+     */
+    @Override
+    public void setImplementationForFactory(Object impl, Factory<?> factory, UUID subScopeId) {
+        //TODO
+    }
+
+    /**
+     * This method ends a subScope<br>
+     * If a scope ends, all implementations that are managed in that subScope have
+     * to be dereferenced<br>
+     * Prior to that, the implementation have to be put thru its factories
+     * {@link Factory#preDestroy(Object)} method
+     *
+     * @param subScopeId of the subScope to be ended
+     */
+    @Override
+    public void endSubScope(UUID subScopeId) {
+        //TODO
+    }
+
+    public void beginSubScope(){
+        //TODO do we need it?
+    }
+
+    /**
+     * Method to get a SubscopeContainer.
+     *
+     * @param subScopeId UUID which specifies a SubscopeContainer
+     * @throws ContainerException if the ScopeContainer does not contain a SubscopeContainer with specified subScopeId
+     * @return ScopeContainer which belongs to the subScopeId
+     */
+    @Override
+    public ScopeContainer getSubScope(UUID subScopeId) {
+        if(subScopes.containsKey(subScopeId)&& subScopes.get(subScopeId)!= null) {
+            return subScopes.get(subScopeId);
+        }else{
+            throw new ContainerException("Scope does not have a subscope with such ID.");
         }
     }
 }
