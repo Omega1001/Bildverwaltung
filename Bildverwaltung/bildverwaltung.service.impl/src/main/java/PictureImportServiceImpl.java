@@ -6,6 +6,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -52,6 +55,10 @@ public class PictureImportServiceImpl implements PictureImportService {
     @Override
     public void importAll(List<File> pictures) {
 
+        for(File picture: pictures) {
+            importPicture(picture);
+        }
+
     }
 
     /**
@@ -81,6 +88,64 @@ public class PictureImportServiceImpl implements PictureImportService {
         }
 
         return false;
+    }
+
+    /**
+     * Check if the copy directory already exists.
+     * @return
+     */
+    private boolean checkIfCopyDirectoryExists() {
+        return new File(System.getProperty("user.home") + File.separator + "Pictures" + File.separator + "PicManager").exists();
+    }
+
+    /**
+     * Create the copy directory where the new pictures will be copied in
+     * @return
+     */
+    private File createCopyDirectory() {
+
+        if(checkIfCopyDirectoryExists()) {
+            // throw new ServiceException("Directory already exists");
+        }
+
+        File directory = new File(System.getProperty("user.home") + File.separator + "Pictures"
+                                      + File.separator + "PicManager");
+        boolean success = directory.mkdirs();
+
+        if(!success) {
+            // throw new ServiceException();
+        }
+
+        return directory;
+
+    }
+
+    private File getCopyDirectory() {
+        return new File(System.getProperty("user.home") + File.separator + "Pictures" + File.separator + "PicManager");
+    }
+
+    /**
+     * Copy the given picture to our own copy directory
+     * @param picture
+     * @return
+     */
+    private Path copyPicture(File picture) {
+        Path copiedPath = getCopyDirectory().toPath();
+
+        try {
+            copiedPath = Files.copy(picture.toPath(), getCopyDirectory().toPath(), StandardCopyOption.REPLACE_EXISTING);
+            return copiedPath;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        // me no liking this impl. me must change implementation later
+        return copiedPath;
+
+        //TODO it should return the File to do further stuff with it...
+
+
+
     }
 
     private String getFileExtension(File file) {
