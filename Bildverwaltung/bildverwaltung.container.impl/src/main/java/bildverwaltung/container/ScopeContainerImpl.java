@@ -1,12 +1,10 @@
 package bildverwaltung.container;
 
-import com.sun.tools.javac.comp.Todo;
-
 import java.util.*;
 
 public class ScopeContainerImpl implements ScopeContainer {
 
-    Map<UUID,ScopeContainer> subScopes;
+    Map<UUID,ScopeContainerImpl> subScopes;
     Scope managedScope;
     Map<Factory<?>, Object> factories;
 
@@ -85,8 +83,7 @@ public class ScopeContainerImpl implements ScopeContainer {
      */
     @Override
     public <T> T getImplementationForFactory(Factory<T> factory, UUID subScopeId) {
-        return null; //TODO
-
+        return getSubScope(subScopeId).getImplementationForFactory(factory);
     }
 
     /**
@@ -128,10 +125,17 @@ public class ScopeContainerImpl implements ScopeContainer {
      */
     @Override
     public void endSubScope(UUID subScopeId) {
-        //TODO
+               Map factories= subScopes.remove(subScopeId).getFactories();
+               factories.forEach((k,v)->{((Factory)k).preDestroy(v);});
+               factories.clear();
+    }
+
+    public Map<Factory<?>, Object> getFactories() {
+        return factories;
     }
 
     public void beginSubScope(){
+
         //TODO do we need it?
     }
 
