@@ -1,8 +1,8 @@
-package bildverwaltung.service.impl;
-
+import bildverwaltung.dao.PictureDao;
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
-import bildverwaltung.service.PictureImportService;
+import bildverwaltung.dao.exception.DaoException;
+import bildverwaltung.factory.impl.FactoryPictureDao;
 
 
 import javax.imageio.ImageIO;
@@ -74,6 +74,9 @@ public class PictureImportServiceImpl implements PictureImportService {
      */
     @Override
     public void importPicture(File picture) {
+
+        //TODO implement that the method returns a boolean wether the import into the DB did succeed or not
+
         File directory = new File("PictureManager");
         File newFile = new File(directory.getAbsolutePath() + File.pathSeparator + picture.getName());
 
@@ -89,7 +92,16 @@ public class PictureImportServiceImpl implements PictureImportService {
             //rename the File in copy directory to the corresponding UUID of the Picture entity
             newFile.renameTo(new File(newPicture.getId().toString()));
 
-            //TODO add Picture entity to DB
+
+            PictureDao dao = new FactoryPictureDao().generate(null, null, null);
+
+            try {
+                dao.save(newPicture);
+            } catch (DaoException e) {
+                throw new RuntimeException("Saving into the database failed!! [TODO: replace with ServiceException (when i learn how the ServiceException works...) ]");
+            } finally {
+
+            }
 
 
         } catch(IOException e) {
@@ -130,7 +142,11 @@ public class PictureImportServiceImpl implements PictureImportService {
      */
 
 
-
+    /**
+     * get the file extension of a given file.
+     * @param file
+     * @return either the extension or an empty string if there isn't any extension in the filename.
+     */
     private String getFileExtension(File file) {
         String name = file.getName();
         int lastIndexOf = name.lastIndexOf(".");
