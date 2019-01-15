@@ -4,12 +4,13 @@ import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.service.pictureimport.PictureImportService;
 
 import java.io.File;
+import java.net.URISyntaxException;
 
 public class TestImportFile {
 
-    public static void main(String [] args) {
+    public static void main(String [] args) throws URISyntaxException {
 
-        File test = new File("Art-gordon-greybg.jpg");
+        File test = new File(PictureImportServiceImpl.class.getResource("/ex_pics/Art-gordon-greybg.jpg").toURI());
         PictureImportService testerino = new PictureImportServiceImpl();
         try {
             testerino.importPicture(test);
