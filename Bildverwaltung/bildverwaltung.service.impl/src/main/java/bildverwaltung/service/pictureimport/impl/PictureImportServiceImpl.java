@@ -4,7 +4,10 @@ import bildverwaltung.dao.PictureDao;
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.DaoException;
+import bildverwaltung.dao.exception.ExceptionType;
+import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.factory.impl.FactoryPictureDao;
+import bildverwaltung.service.pictureimport.PictureImportService;
 
 
 import javax.imageio.ImageIO;
@@ -24,7 +27,8 @@ public class PictureImportServiceImpl implements PictureImportService {
     private Picture convertToEntity(File picture) {
         if(!isPicture(picture) || picture == null) {
 
-            // wtf is ExceptionType
+            // nvm found out how to use ExceptionType
+            // TODO implement this Exception
             //throw new ServiceException();
         } else {
 
@@ -62,7 +66,11 @@ public class PictureImportServiceImpl implements PictureImportService {
     public void importAll(List<File> pictures) {
 
         for(File picture: pictures) {
-            importPicture(picture);
+            try {
+                importPicture(picture);
+            } catch (ServiceException e) {
+                e.printStackTrace();
+            }
         }
 
     }
@@ -73,32 +81,33 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @param picture
      */
     @Override
-    public void importPicture(File picture) {
+    public void importPicture(File picture) throws ServiceException{
 
         //TODO implement that the method returns a boolean wether the import into the DB did succeed or not
 
         File directory = new File("PictureManager");
-        File newFile = new File(directory.getAbsolutePath() + File.pathSeparator + picture.getName());
+        File newFile = new File("PictureManager/tmp" );
 
         directory.mkdirs();
+
+        System.out.println(newFile.toPath());
 
         try {
 
             Files.copy(picture.toPath(), newFile.toPath());
 
-
             Picture newPicture = convertToEntity(newFile);
 
             //rename the File in copy directory to the corresponding UUID of the Picture entity
-            newFile.renameTo(new File(newPicture.getId().toString()));
-
+            newFile.renameTo(new File( directory.getName() + File.separator + newPicture.getId().toString()));
 
             PictureDao dao = new FactoryPictureDao().generate(null, null, null);
 
             try {
                 dao.save(newPicture);
             } catch (DaoException e) {
-                throw new RuntimeException("Saving into the database failed!! [TODO: replace with ServiceException (when i learn how the ServiceException works...) ]");
+                //throw new RuntimeException("Saving into the database failed!! [TODO: replace with ServiceException (when i learn how the ServiceException works...) ]");
+                throw new ServiceException(ExceptionType.DAO_EXCEPTION);
             } finally {
 
             }
@@ -106,6 +115,7 @@ public class PictureImportServiceImpl implements PictureImportService {
 
         } catch(IOException e) {
             e.printStackTrace();
+            throw new ServiceException(ExceptionType.IO_EXCEPTION);
         }
     }
 
@@ -119,7 +129,7 @@ public class PictureImportServiceImpl implements PictureImportService {
     public boolean isPicture(File asumptedPicture) {
         try {
             //ImageIO can only read a real picture file, if it is something else, it returns null
-            return (ImageIO.read(asumptedPicture) == null);
+            return (ImageIO.read(asumptedPicture) != null);
 
         } catch(IOException e) {
             e.printStackTrace();

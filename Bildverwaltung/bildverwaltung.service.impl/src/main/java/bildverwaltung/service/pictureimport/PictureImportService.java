@@ -1,6 +1,6 @@
-package bildverwaltung.service.impl;
+package bildverwaltung.service.pictureimport;
 
-import bildverwaltung.dao.entity.Picture;
+import bildverwaltung.dao.exception.ServiceException;
 
 import java.io.File;
 import java.util.List;
@@ -17,13 +17,13 @@ public interface PictureImportService {
      * convert a List of Files to Picture (if they are actually a picture) into the DB
      * @param pictures given (assumpted) picture as file
      */
-    public void importAll(List<File> pictures);
+    public void importAll(List<File> pictures) throws ServiceException;
 
     /**
      * converts a single file to Picture and imports it into the DB.
      * @param picture
      */
-    public void importPicture(File picture);
+    public void importPicture(File picture) throws ServiceException;
 
     /**
      * Check if given file is actually a Picture
