@@ -2,8 +2,10 @@ package bildverwaltung.dao.exception;
 
 public enum ExceptionType {
 
-	IO_EXCEPTION("Error while reading the file!", "test", "test"),
-	DAO_EXCEPTION("Error while putting file into the DB", "", "");
+	IO_EXCEPTION("Error while reading the file!", "", ""),
+	DAO_EXCEPTION("Error while putting file into the DB", "", ""),
+	NO_PICTURE_EXCEPTION("given file is not actually a picture", "", "")
+
 
 	;
 	private final String message;
