@@ -1,5 +1,8 @@
+package bildverwaltung.service.impl;
+
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
+import bildverwaltung.service.PictureImportService;
 
 
 import javax.imageio.ImageIO;

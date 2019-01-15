@@ -19,5 +19,23 @@
 		<artifactId>bildverwaltung.container.api</artifactId>
 		<version>${project.version}</version>
 	</dependency>
+      <dependency>
+          <groupId>prog3.torvald</groupId>
+          <artifactId>bildverwaltung.dao.api</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>prog3.torvald</groupId>
+          <artifactId>bildverwaltung.dao.api</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+          <scope>compile</scope>
+      </dependency>
+      <dependency>
+          <groupId>prog3.torvald</groupId>
+          <artifactId>bildverwaltung.dao.impl</artifactId>
+          <version>0.0.1-SNAPSHOT</version>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
 </project>
