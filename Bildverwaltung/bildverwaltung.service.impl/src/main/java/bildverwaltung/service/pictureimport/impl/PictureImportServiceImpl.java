@@ -1,3 +1,5 @@
+package bildverwaltung.service.pictureimport.impl;
+
 import bildverwaltung.dao.PictureDao;
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
@@ -11,8 +13,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
