@@ -24,37 +24,43 @@ import static java.nio.file.Files.copy;
 
 public class PictureImportServiceImpl implements PictureImportService {
 
-    private Picture convertToEntity(File picture) {
+    /**
+     * convert a given File to a picture entity that can be added to the DB
+     * @param picture
+     * @return Picture Entity
+     * @throws ServiceException if given file is not actually a picture
+     * @throws ServiceException if there is a exception thrown while reading the file
+     */
+    private Picture convertToEntity(File picture) throws ServiceException{
         if(!isPicture(picture) || picture == null) {
 
-            // nvm found out how to use ExceptionType
-            // TODO implement this Exception
-            //throw new ServiceException();
+           throw new ServiceException(ExceptionType.NO_PICTURE_EXCEPTION);
+
         } else {
 
+            String name = picture.getName(); // Does this give the file name with the extension?
+            URI uri = picture.toURI();
+            String extension = getFileExtension(picture);
+            Date date = new Date(); // TODO maybe we should change this to the "added" day that the file manager of the OS shows?
+
+            // extract attributes from the picture itself
+            int width;
+            int height;
             try {
-				// extract attributes from picture
+
                 BufferedImage pictureStream = ImageIO.read(picture);
-                String name = picture.getName();
-
-                //TODO replace the URI with the path of the copied file ( of course we need to first implement the actual copy step)
-                URI uri = picture.toURI();
-                String extension = getFileExtension(picture);
-                int height = pictureStream.getHeight();
-                int width = pictureStream.getWidth();
-                Date date = new Date();
-
-                //some parameters need to be replaced
-                return new Picture(name, uri, new ArrayList<Album>(), extension, height, width, date, "");
+                height = pictureStream.getHeight();
+                width = pictureStream.getWidth();
 
             } catch (IOException e) {
+
                 e.printStackTrace();
+                throw new ServiceException(ExceptionType.IO_EXCEPTION);
+
             }
 
-
+            return new Picture(name, uri, new ArrayList<Album>(), extension, height, width, date, "");
         }
-
-        return null;
     }
 
     /**
@@ -67,9 +73,13 @@ public class PictureImportServiceImpl implements PictureImportService {
 
         for(File picture: pictures) {
             try {
+
                 importPicture(picture);
+
             } catch (ServiceException e) {
+
                 e.printStackTrace();
+
             }
         }
 
@@ -104,10 +114,14 @@ public class PictureImportServiceImpl implements PictureImportService {
             PictureDao dao = new FactoryPictureDao().generate(null, null, null);
 
             try {
+
                 dao.save(newPicture);
+
             } catch (DaoException e) {
-                //throw new RuntimeException("Saving into the database failed!! [TODO: replace with ServiceException (when i learn how the ServiceException works...) ]");
+
+                e.printStackTrace();
                 throw new ServiceException(ExceptionType.DAO_EXCEPTION);
+
             } finally {
 
             }
@@ -128,11 +142,14 @@ public class PictureImportServiceImpl implements PictureImportService {
     @Override
     public boolean isPicture(File asumptedPicture) {
         try {
+
             //ImageIO can only read a real picture file, if it is something else, it returns null
             return (ImageIO.read(asumptedPicture) != null);
 
         } catch(IOException e) {
+
             e.printStackTrace();
+
         }
 
         return false;
@@ -140,6 +157,7 @@ public class PictureImportServiceImpl implements PictureImportService {
 
     /**
      * Check if the copy directory already exists.
+     * Do we really still need this?
      * @return
      */
     private boolean checkIfCopyDirectoryExists() {
@@ -160,9 +178,13 @@ public class PictureImportServiceImpl implements PictureImportService {
     private String getFileExtension(File file) {
         String name = file.getName();
         int lastIndexOf = name.lastIndexOf(".");
+
         if (lastIndexOf == -1) {
+
             return ""; // empty extension
+
         }
+
         return name.substring(lastIndexOf);
     }
 }
