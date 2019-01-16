@@ -6,7 +6,7 @@ public class ScopeContainerImpl implements ScopeContainer {
 
     Map<UUID,ScopeContainerImpl> subScopes;
     Scope managedScope;
-    Map<Factory<?>, Object> factories;
+    Map<Factory<?>, Object> factories; //speichert (factory,implementation) paare
 
     public ScopeContainerImpl(Scope scope) {
 
@@ -98,7 +98,7 @@ public class ScopeContainerImpl implements ScopeContainer {
      */
     @Override
     public void setImplementationForFactory(Object impl, Factory<?> factory) {
-        //TODO
+        factories.put(factory,impl);
     }
 
     /**
@@ -111,7 +111,7 @@ public class ScopeContainerImpl implements ScopeContainer {
      */
     @Override
     public void setImplementationForFactory(Object impl, Factory<?> factory, UUID subScopeId) {
-        //TODO
+        subScopes.get(subScopeId).getFactories().put(factory,impl);
     }
 
     /**
@@ -134,10 +134,11 @@ public class ScopeContainerImpl implements ScopeContainer {
         return factories;
     }
 
-    public void beginSubScope(){
+    /*public void beginSubScope(){
 
-        //TODO do we need it?
-    }
+        TODO do we need it?
+        Methode bereits in ManagedContainer
+    }*/
 
     /**
      * Method to get a SubscopeContainer.
