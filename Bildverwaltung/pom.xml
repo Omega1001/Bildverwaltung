@@ -30,6 +30,7 @@
 		<module>bildverwaltung.facade.impl</module>
 		<module>bildverwaltung.container.api</module>
 		<module>bildverwaltung.container.impl</module>
+		<module>bildverwaltung.factory.impl</module>
 
 		<module>bildverwaltung.gui.fx</module>
 
