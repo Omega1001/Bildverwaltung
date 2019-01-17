@@ -43,6 +43,7 @@ public class ResourceStringInserter extends DefaultHandler {
 		} else if ("ResourceString".equals(qName)) {
 			work = new ResourceString();
 			work.setResourceStringId(attributes.getValue("id"));
+			work.setTranslation("");
 			work.setLanguageKey("".equals(langKey) ? null:langKey.substring(0, 2));
 			work.setCountryKey("".equals(countryKey) ? null:countryKey.substring(0, 2));
 		}

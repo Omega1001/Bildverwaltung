@@ -94,12 +94,13 @@ public class Executer {
 			throw new IllegalArgumentException("Missing open database connection");
 		}
 		if(source == null ) {
+			LOG.error("Unable to locate resource : {}",source);
 			throw new IllegalArgumentException("Source file must be specified");
 		}
 		File src = new File(source);
 		
 		if(!src.exists()|| src.isDirectory()) {
-			src.createNewFile();
+			LOG.error("Invalid resource existing:{}, directory:{}: {}",src.exists(),src.isDirectory(),src);
 			throw new IllegalArgumentException("Invalid source file");
 		}
 		try {
