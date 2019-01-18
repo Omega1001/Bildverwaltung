@@ -28,60 +28,52 @@
 		</dependency>
 	</dependencies>
 
-	<profiles>
-		<profile>
-			<id>Build_Container_List</id>
-			<activation>
-				<activeByDefault>false</activeByDefault>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>1.2.1</version>
-						<executions>
-							<execution>
-							<id>Add Factory List ini</id>
-								<goals>
-									<goal>java</goal>
-								</goals>
-								<phase>test</phase>
-							</execution>
-						</executions>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<id>Add Factory List ini</id>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<phase>test</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>${maven.test.skip}</skip>
+					<mainClass>bildverwaltung.factories.inigenerator.ContainerFactoryIniGenerator</mainClass>
+					<classpathScope>test</classpathScope>
+					<arguments>
+						<argument>${project.build.directory}/generated-sources/factories/META-INF/factories.ini</argument>
+						<argument>${project.build.outputDirectory}</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Add Factory List ini</id>
+						<phase>test</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
 						<configuration>
-							<mainClass>bildverwaltung.factories.inigenerator.ContainerFactoryIniGenerator</mainClass>
-							<classpathScope>test</classpathScope>
-							<arguments>
-								<argument>${project.build.directory}/generated-sources/factories/META-INF/factories.ini</argument>
-								<argument>${project.build.outputDirectory}</argument>
-							</arguments>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/generated-sources/factories</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
 						</configuration>
-					</plugin>
-					<plugin>
-						<artifactId>maven-resources-plugin</artifactId>
-						<executions>
-							<execution>
-								<id>Add Factory List ini</id>
-								<!-- here the phase you need -->
-								<phase>test</phase>
-								<goals>
-									<goal>copy-resources</goal>
-								</goals>
-								<configuration>
-									<outputDirectory>${project.build.outputDirectory}</outputDirectory>
-									<resources>
-										<resource>
-											<directory>${project.build.directory}/generated-sources/factories</directory>
-											<filtering>false</filtering>
-										</resource>
-									</resources>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>
