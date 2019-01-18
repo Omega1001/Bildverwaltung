@@ -199,6 +199,11 @@ public class ManagedContainerImpl implements ManagedContainer {
     public <T> void addFactory(Factory<T> factory, Class<T> targetInterface) {
 
     }
+    
+    @Override
+    public <T> void addFactory(Factory<?> factory) {
+    	System.out.println();
+    }
 
     /**
      * This method creates a new subScope

@@ -163,12 +163,19 @@ public interface ManagedContainer {
 	public <T> List<T> materializeAll(Class<T> interfaceClass);
 
 	/**
-	 * Adds a {@link Factory} to the container to be used
+	 * Adds a {@link Factory} to the container to be used, overriding the targetInterface of the factory
 	 * 
 	 * @param factory         to be added
 	 * @param targetInterface The implementations interface created by this factory
 	 */
 	public <T> void addFactory(Factory<T> factory, Class<T> targetInterface);
+	
+	/**
+	 * Adds a {@link Factory} to the container to be used
+	 * 
+	 * @param factory         to be added
+	 */
+	public <T> void addFactory(Factory<?> factory);
 
 	/**
 	 * This method creates a new subScope
