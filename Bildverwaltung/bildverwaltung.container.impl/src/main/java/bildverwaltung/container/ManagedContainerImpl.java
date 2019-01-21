@@ -6,7 +6,7 @@ import java.util.UUID;
 
 public class ManagedContainerImpl implements ManagedContainer {
 
-    Map<Scope,ScopeContainer> scopeContainer;
+    private Map<Scope,ScopeContainer> scopeContainer;
     Map<Class,Factory<?>> factories; //speichert (interface, factory) paare
 
 
@@ -34,6 +34,54 @@ public class ManagedContainerImpl implements ManagedContainer {
      */
     @Override
     public <T> T materialize(Class<T> interfaceClass, Scope scope, UUID scopeId) {
+        switch(scope) {
+            case APPLICATION:
+                if(scopeId != null) {
+                    throw new ContainerException("no subscopes allowed in APPLICATION Scope");
+                } else {
+                    ScopeContainer container = scopeContainer.get(scope);
+
+                    Factory  desiredFactory = factories.get(interfaceClass);
+
+                    if(desiredFactory == null) {
+                        throw new ContainerException("given class does not have a factory");
+                    }
+
+                    if(!container.hasImplementationForFactory(desiredFactory)) {
+                        throw new ContainerException("Scope does not have a implementation for this interface");
+                    } else {
+                        return (T) container.getImplementationForFactory(desiredFactory);
+                    }
+                }
+
+            case DEFAULT:
+                if(scopeId != null) {
+
+                    throw new ContainerException("no subscopes allowed in DEFAULT Scope");
+
+                } else {
+
+                    Factory desiredFactory = factories.get(interfaceClass);
+
+                    if (desiredFactory == null) {
+
+                        throw new ContainerException("given class does not have a factory");
+
+                    } else {
+
+                        return  (T) desiredFactory.generate(this, null);
+
+                    }
+                }
+
+
+            default:
+                break;
+
+
+        }
+
+
         return null;
     }
 
