@@ -34,7 +34,7 @@ public class PictureImportServiceImpl implements PictureImportService {
     private Picture convertToEntity(File picture) throws ServiceException{
         if(!isPicture(picture) || picture == null) {
 
-           throw new ServiceException(ExceptionType.NO_PICTURE_EXCEPTION);
+           throw new ServiceException(ExceptionType.NOT_A_PICTURE);
 
         } else {
 
@@ -55,7 +55,7 @@ public class PictureImportServiceImpl implements PictureImportService {
             } catch (IOException e) {
 
                 e.printStackTrace();
-                throw new ServiceException(ExceptionType.IO_EXCEPTION);
+                throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED);
 
             }
 
@@ -106,30 +106,27 @@ public class PictureImportServiceImpl implements PictureImportService {
 
             Files.copy(picture.toPath(), newFile.toPath());
 
-            Picture newPicture = convertToEntity(newFile);
-
-            //rename the File in copy directory to the corresponding UUID of the Picture entity
-            newFile.renameTo(new File( directory.getName() + File.separator + newPicture.getId().toString()));
-
-            PictureDao dao = new FactoryPictureDao().generate(null, null, null);
-
-            try {
-
-                dao.save(newPicture);
-
-            } catch (DaoException e) {
-
-                e.printStackTrace();
-                throw new ServiceException(ExceptionType.DAO_EXCEPTION);
-
-            } finally {
-
-            }
-
 
         } catch(IOException e) {
             e.printStackTrace();
-            throw new ServiceException(ExceptionType.IO_EXCEPTION);
+            throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
+        }
+
+        Picture newPicture = convertToEntity(newFile);
+
+        //rename the File in copy directory to the corresponding UUID of the Picture entity
+        newFile.renameTo(new File( directory.getName() + File.separator + newPicture.getId().toString()));
+
+        PictureDao dao = new FactoryPictureDao().generate(null, null, null);
+
+        try {
+
+            dao.save(newPicture);
+
+        } catch (DaoException e) {
+
+            e.printStackTrace();
+            throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
         }
     }
 
