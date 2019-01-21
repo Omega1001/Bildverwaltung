@@ -100,8 +100,6 @@ public class PictureImportServiceImpl implements PictureImportService {
 
         directory.mkdirs();
 
-        System.out.println(newFile.toPath());
-
         try {
 
             Files.copy(picture.toPath(), newFile.toPath());
@@ -150,15 +148,6 @@ public class PictureImportServiceImpl implements PictureImportService {
         }
 
         return false;
-    }
-
-    /**
-     * Check if the copy directory already exists.
-     * Do we really still need this?
-     * @return
-     */
-    private boolean checkIfCopyDirectoryExists() {
-        return new File("PicManager").exists();
     }
 
     /**
