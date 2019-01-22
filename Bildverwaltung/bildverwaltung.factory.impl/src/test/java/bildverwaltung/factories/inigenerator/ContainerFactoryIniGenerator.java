@@ -16,11 +16,15 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.function.Function;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bildverwaltung.container.Factory;
+import bildverwaltung.container.init.ContainerIniFileFieldNames;
+import bildverwaltung.container.startup.StartupTask;
+import bildverwaltung.utils.IniFileBuilder;
 
 public class ContainerFactoryIniGenerator {
 
@@ -34,33 +38,18 @@ public class ContainerFactoryIniGenerator {
 			throws URISyntaxException, IOException, ClassNotFoundException {
 		List<File> files = getFileList(baseDirs);
 		ClassLoader loader = generateClassLoader(files);
-		Map<String, List<String>> factoryClassNames = new HashMap<>();
-		for (File f : files) {
-			LOG.info("Processing directory {}", f);
-			mergeIntoMap(factoryClassNames, processDir(f, f.getAbsolutePath().length(), loader));
 
-		}
+		IniFileBuilder iniFileBuilder = new IniFileBuilder();
+		addFactorySection(iniFileBuilder, baseDirs, loader);
+		addStartupSection(iniFileBuilder, baseDirs, loader);
+
 		PrintWriter out = null;
-		LOG.info("Writing Factory List");
 		try {
 			if (!output.getParentFile().exists()) {
 				output.getParentFile().mkdirs();
 			}
 			out = new PrintWriter(new FileWriter(output, false));
-			for (Entry<String, List<String>> factoryName : factoryClassNames.entrySet()) {
-				out.print(factoryName.getKey());
-				out.print('=');
-				Iterator<String> it = factoryName.getValue().iterator();
-				while (it.hasNext()) {
-					out.print(it.next());
-					if (it.hasNext()) {
-						out.print(',');
-					}
-				}
-				out.println();
-			}
-			out.flush();
-			LOG.info("Finished writing Factory List File");
+			out.print(iniFileBuilder.generate().toString());
 		} catch (IOException e) {
 			LOG.error("Error during writing factory list to file {} : ", output, e);
 		} finally {
@@ -71,68 +60,22 @@ public class ContainerFactoryIniGenerator {
 
 	}
 
-	private static void mergeIntoMap(Map<String, List<String>> target, Map<String, List<String>> source) {
-		for (String key : source.keySet()) {
-			List<String> val = target.get(key);
-			if (val == null) {
-				val = new LinkedList<>();
-			}
-			val.addAll(source.get(key));
-			target.put(key, val);
-		}
+	private static void addStartupSection(IniFileBuilder iniFileBuilder, List<String> baseDirs, ClassLoader loader) {
+		iniFileBuilder.beginSection(ContainerIniFileFieldNames.STARTUP_SECTION_NAME);
+		List<Class<?>> startups = listClassesOfInterface(baseDirs, StartupTask.class, loader);
+		iniFileBuilder.addEntry(ContainerIniFileFieldNames.STARTUP_CLASSES,
+				toCSV(new IteratorConverter<>(startups.iterator(), (c) -> c.getName())));
 
 	}
 
-	private static Map<String, List<String>> processDir(File dir, int basePathLength, ClassLoader loader)
-			throws ClassNotFoundException {
-		Map<String, List<String>> factoryClassNames = new HashMap<>();
-		LOG.debug("Processing directory {}", dir);
-		for (File f : dir.listFiles()) {
-			if (f.isDirectory()) {
-				factoryClassNames.putAll(processDir(f, basePathLength, loader));
-			} else if (f.getName().endsWith(".class")) {
-				String path = f.getAbsolutePath();
-				path = path.substring(basePathLength + ((path.charAt(0) == '/' || path.charAt(0) == '\\') ? 2 : 1),
-						path.length() - 6);
-				path = path.replace('/', '.').replace('\\', '.');
-				Class<?> c = loader.loadClass(path);
-				LOG.debug("Processing class {}", c.getName());
-				if (!Modifier.isAbstract(c.getModifiers()) || c.isInterface()) {
-					LOG.trace("Class is not an interface or abstract");
-					if (Factory.class.isAssignableFrom(c)) {
-						LOG.debug("Class is a Factory");
-						try {
-							Factory<?> factory = (Factory<?>) c.newInstance();
-							Class<?> intf = factory.getInterfaceType();
-							if (intf != null && intf.isInterface()) {
-								LOG.info("Added Factory {}", c.getName());
-								List<String> l = factoryClassNames.get(intf.getName());
-								if (l == null) {
-									l = new LinkedList<>();
-								}
-								l.add(c.getName());
-								factoryClassNames.put(intf.getName(), l);
-							} else {
-								LOG.warn(
-										"Found invalid factory {} : interface type is null or not an interface, ignoring",
-										c.getName());
-							}
-						} catch (IllegalAccessException e) {
-							LOG.error("Found factory {}, but it has no public standard constructor, skipping",
-									c.getName(), e);
-						} catch (InstantiationException e) {
-							LOG.error("Found factory {}, but it threw an exception while instanciation, skipping",
-									c.getName(), e);
-						}
-					} else {
-						LOG.debug("Class is not a factory");
-					}
-				} else {
-					LOG.debug("Class is abstract or interface, ignoring");
-				}
-			}
+	private static void addFactorySection(IniFileBuilder iniFileBuilder, List<String> baseDirs, ClassLoader loader) {
+		iniFileBuilder.beginSection(ContainerIniFileFieldNames.FACTORY_SECTION_NAME);
+		@SuppressWarnings("rawtypes")
+		List<Factory> factories = listInstancesOfInterfaces(baseDirs, Factory.class, loader);
+		Map<String, List<String>> factoryMapping = mapFactorieToInterface(factories);
+		for (Entry<String, List<String>> factoryName : factoryMapping.entrySet()) {
+			iniFileBuilder.addEntry(factoryName.getKey(), toCSV(factoryName.getValue().iterator()));
 		}
-		return factoryClassNames;
 	}
 
 	private static ClassLoader generateClassLoader(List<File> files) {
@@ -166,5 +109,109 @@ public class ContainerFactoryIniGenerator {
 			}
 		}
 		return files;
+	}
+
+	private static void searchDir(File dir, int basePathLength, Class<?> interfaceClass, ClassLoader loader,
+			List<Class<?>> res) {
+		for (File f : dir.listFiles()) {
+			if (f.isDirectory()) {
+				searchDir(f, basePathLength, interfaceClass, loader, res);
+			} else if (f.getName().endsWith(".class")) {
+				String path = f.getAbsolutePath();
+				path = path.substring(
+						basePathLength
+								+ ((path.charAt(basePathLength) == '/' || path.charAt(basePathLength) == '\\') ? 1 : 0),
+						path.length() - 6);
+				path = path.replace('/', '.').replace('\\', '.');
+				try {
+					Class<?> c = loader.loadClass(path);
+					if(interfaceClass.isAssignableFrom(c)) {
+						res.add(c);
+					}
+				} catch (ClassNotFoundException e) {
+					LOG.warn("Unable to load class : ", e);
+				}
+			}
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static <T> List<T> listInstancesOfInterfaces(List<String> baseDirs, Class<T> interfaceClass,
+			ClassLoader loader) {
+		List<T> res = new LinkedList<>();
+		for (Class<?> c : listClassesOfInterface(baseDirs, interfaceClass, loader)) {
+			if (!Modifier.isAbstract(c.getModifiers()) && !c.isInterface()) {
+				try {
+					res.add((T) c.newInstance());
+				} catch (IllegalAccessException e) {
+					LOG.error("Found factory {}, but it has no public standard constructor, skipping", c.getName(), e);
+				} catch (InstantiationException e) {
+					LOG.error("Found factory {}, but it threw an exception while instanciation, skipping", c.getName(),
+							e);
+				}
+			}
+		}
+		return res;
+	}
+
+	private static List<Class<?>> listClassesOfInterface(List<String> baseDirs, Class<?> interfaceClass,
+			ClassLoader loader) {
+		List<Class<?>> res = new LinkedList<>();
+		for (String s : baseDirs) {
+			File f = new File(s);
+			if (f.exists() && f.isDirectory()) {
+				searchDir(f, s.length(), interfaceClass, loader, res);
+			}
+		}
+		return res;
+	}
+
+	@SuppressWarnings("rawtypes")
+	private static Map<String, List<String>> mapFactorieToInterface(List<Factory> factories) {
+		Map<String, List<String>> res = new HashMap<>();
+		for (Factory<?> f : factories) {
+			String key = f.getInterfaceType().getName();
+			List<String> l = res.get(key);
+			if (l == null) {
+				l = new LinkedList<>();
+			}
+			l.add(f.getClass().getName());
+			res.put(key, l);
+		}
+		return res;
+	}
+
+	private static String toCSV(Iterator<String> it) {
+		StringBuilder sb = new StringBuilder();
+		while (it.hasNext()) {
+			if (sb.length() > 0) {
+				sb.append(',');
+			}
+			sb.append(it.next());
+		}
+		return sb.toString();
+	}
+
+	private static class IteratorConverter<S, T> implements Iterator<T> {
+		private Iterator<S> source;
+		private Function<S, T> converter;
+
+		public IteratorConverter(Iterator<S> source, Function<S, T> converter) {
+			super();
+			this.source = source;
+			this.converter = converter;
+		}
+
+		@Override
+		public boolean hasNext() {
+			return source.hasNext();
+		}
+
+		@Override
+		public T next() {
+			S s = source.next();
+			return s != null ? converter.apply(s) : null;
+		}
+
 	}
 }

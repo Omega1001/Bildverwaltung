@@ -1,28 +1,29 @@
 package bildverwaltung.container;
 
 import java.io.InputStream;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Scanner;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bildverwaltung.container.startup.ContainerStartupException;
 import bildverwaltung.container.startup.StartUpPhase;
 import bildverwaltung.container.startup.StartupTask;
+import bildverwaltung.container.startup.StartupTaskFactory;
+import bildverwaltung.utils.IniFile;
+import bildverwaltung.utils.IniFileReader;
+
+import static bildverwaltung.container.init.ContainerIniFileFieldNames.*;
 
 class ContainerLoader {
 	private static final Logger LOG = LoggerFactory.getLogger(ContainerLoader.class);
-	private static final String MANAGED_CONTAINER_IMPL_CLASS_NAME = "managedContainerImplClass";
 
 	public static ManagedContainer loadContainer() {
-		Map<String, String> ini = loadContainerIni();
+		IniFile ini = loadContainerIni();
 		ManagedContainer container = instanciateContainer(ini);
-		Map<String, String> factories = loadFactoryList();
-		registerFactories(container, factories);
+		IniFile factoryInit = loadFactoryList();
+		registerFactories(container, factoryInit);
+		registerStartups(container,factoryInit);
 		runContainerSideStartup(container);
 		return container;
 	}
@@ -47,9 +48,9 @@ class ContainerLoader {
 
 	}
 
-	private static void registerFactories(ManagedContainer container, Map<String, String> factories) {
+	private static void registerFactories(ManagedContainer container, IniFile ini) {
 		ClassLoader loader = ContainerLoader.class.getClassLoader();
-		for (Entry<String, String> entry : factories.entrySet()) {
+		for (Entry<String, String> entry : ini.getSectionAsMap(FACTORY_SECTION_NAME).entrySet()) {
 			String[] factoryNames = entry.getValue().split(",");
 			for (String factoryName : factoryNames) {
 				try {
@@ -62,18 +63,38 @@ class ContainerLoader {
 				} catch (InstantiationException | IllegalAccessException | ClassNotFoundException e) {
 					LOG.error("Error during instantiating factory {} for interface {}, skipping : ", factoryName,
 							entry.getKey(), e);
+					throw new RuntimeException(e);
 				}
 			}
 		}
 
 	}
 
-	private static Map<String, String> loadFactoryList() {
-		return parseIni(ContainerLoader.class.getClassLoader().getResourceAsStream("META-INF/factories.ini"));
+	@SuppressWarnings("unchecked")
+	private static void registerStartups(ManagedContainer container, IniFile factoryInit) {
+		String [] types = factoryInit.get(STARTUP_SECTION_NAME, STARTUP_CLASSES).split(",");
+		ClassLoader loader = ContainerLoader.class.getClassLoader();
+		for(String className : types) {
+			try {
+				Class<?> c = loader.loadClass(className);
+				container.addFactory(new StartupTaskFactory((Class<? super StartupTask>) c));
+			} catch (ClassNotFoundException e) {
+				LOG.error("Unable to locate declared Startup");
+				throw new RuntimeException(e);
+			}
+		}
+		
 	}
 
-	private static ManagedContainer instanciateContainer(Map<String, String> ini) {
-		String className = ini.get(MANAGED_CONTAINER_IMPL_CLASS_NAME);
+	private static IniFile loadFactoryList() {
+		return IniFileReader.readFromFile(ContainerLoader.class.getClassLoader().getResourceAsStream("META-INF/factories.ini"));
+	}
+
+	private static ManagedContainer instanciateContainer(IniFile ini) {
+		String className = ini.get(CONTAINER_CONFIG_SECTION_NAME,CONTAINER_CONFIG_IMPL_CLASS);
+		if(className == null) {
+			throw new IllegalArgumentException("Missing container impl class name");
+		}
 		ClassLoader loader = ContainerLoader.class.getClassLoader();
 		ManagedContainer res = null;
 		try {
@@ -103,32 +124,8 @@ class ContainerLoader {
 		return res;
 	}
 
-	private static Map<String, String> loadContainerIni() {
-		return parseIni(ContainerLoader.class.getClassLoader().getResourceAsStream("META-INF/container.ini"));
-	}
-
-	private static Map<String, String> parseIni(InputStream in) {
-		Map<String, String> res = new HashMap<>();
-		Scanner sc = null;
-		try {
-			sc = new Scanner(in);
-			while (sc.hasNextLine()) {
-				String line = sc.nextLine().trim();
-				int seperator = line.indexOf('=');
-				if (seperator < 0) {
-					res.put(line, "");
-				} else if (seperator == line.length() - 1) {
-					res.put(line.substring(0, line.length() - 1), "");
-				} else {
-					res.put(line.substring(0, seperator), line.substring(seperator + 1));
-				}
-			}
-		} finally {
-			if (sc != null) {
-				sc.close();
-			}
-		}
-		return res;
+	private static IniFile loadContainerIni() {
+		return IniFileReader.readFromFile(ContainerLoader.class.getClassLoader().getResourceAsStream("META-INF/container.ini"));
 	}
 
 }
