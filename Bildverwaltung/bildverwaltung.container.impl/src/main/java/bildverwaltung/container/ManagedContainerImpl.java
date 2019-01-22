@@ -1,13 +1,17 @@
 package bildverwaltung.container;
 
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 public class ManagedContainerImpl implements ManagedContainer {
 
-    Map<Scope,ScopeContainer> scopeContainer;
-    Map<Class,Factory<?>> factories; //speichert (interface, factory) paare
+    private Map<Scope,ScopeContainer> scopeContainer;
+    Map<Class,List<Factory<?>>> factories; //speichert (interface, factory) paare
+
+    public ManagedContainerImpl() {
+        factories = new HashMap<Class, List<Factory<?>>>();
+        scopeContainer = new HashMap<>();
+    }
+
 
 
 
@@ -34,7 +38,79 @@ public class ManagedContainerImpl implements ManagedContainer {
      */
     @Override
     public <T> T materialize(Class<T> interfaceClass, Scope scope, UUID scopeId) {
+        switch(scope) {
+            case APPLICATION:
+
+                if(scopeId != null) {
+
+                    throw new ContainerException("no subscopes allowed in APPLICATION Scope");
+
+                } else {
+
+                    ScopeContainer container = scopeContainer.get(scope);
+
+                    List desiredFactory = factories.get(interfaceClass);
+
+                    if(desiredFactory == null) {
+
+                        throw new ContainerException("given class does not have a factory");
+
+                    }
+
+                    if(desiredFactory.size() > 1) {
+
+                        throw new ContainerException("ambigous materialize: more than one factory for this interface");
+
+                    }
+
+                    if(!container.hasImplementationForFactory( (Factory) desiredFactory.get(0))) {
+
+                        throw new ContainerException("Scope does not have a implementation for this interface");
+
+                    } else {
+
+                        return (T) container.getImplementationForFactory( (Factory) desiredFactory);
+
+                    }
+                }
+
+            case DEFAULT:
+
+                // TODO a bit refactoring
+
+                if(scopeId != null) {
+
+                    throw new ContainerException("no subscopes allowed in DEFAULT Scope");
+
+                } else {
+
+                    // Factory desiredFactory = factories.get(interfaceClass);
+                    List desiredFactory = factories.get(interfaceClass);
+
+                    if (desiredFactory == null) {
+
+                        throw new ContainerException("given class does not have a factory");
+
+                    }else if(desiredFactory.size() > 1) {
+
+                        throw new ContainerException("ambiguous materialize: more than one factory for this interface");
+
+                    } else {
+
+                        Factory factory =  (Factory) desiredFactory.get(0);
+                        return (T) factory.generate(this, null);
+
+                    }
+                }
+
+
+            default:
+                break;
+        }
+
         return null;
+
+
     }
 
     /**
@@ -54,7 +130,7 @@ public class ManagedContainerImpl implements ManagedContainer {
      */
     @Override
     public <T> T materialize(Class<T> interfaceClass, Scope scope) {
-        return null;
+        return materialize(interfaceClass, scope, null);
     }
 
     /**
@@ -74,7 +150,7 @@ public class ManagedContainerImpl implements ManagedContainer {
      */
     @Override
     public <T> T materialize(Class<T> interfaceClass) {
-        return null;
+        return materialize(interfaceClass, null);
     }
 
     /**
@@ -197,6 +273,18 @@ public class ManagedContainerImpl implements ManagedContainer {
      */
     @Override
     public <T> void addFactory(Factory<T> factory, Class<T> targetInterface) {
+        //factories.put(targetInterface, factory.);
+        List<Factory<?>> list = factories.get(targetInterface);
+
+        if(list == null) {
+            list = new ArrayList<Factory<?>>();
+        } else {
+           if(!list.contains(factory)) {
+               list.add(factory);
+           }
+        }
+
+        factories.put(targetInterface, list);
 
     }
     
@@ -213,7 +301,14 @@ public class ManagedContainerImpl implements ManagedContainer {
      */
     @Override
     public UUID beginCustomScope(Scope scope) {
-        return null;
+        if(scope == Scope.APPLICATION || scope == Scope.DEFAULT) {
+            throw new ContainerException("The given scope " + scope.name() + " does not support any subscope");
+        } else {
+            //TODO add a functioning implementation for this
+            return null;
+        }
+
+
     }
 
     /**
@@ -224,6 +319,8 @@ public class ManagedContainerImpl implements ManagedContainer {
      */
     @Override
     public void endCustomScope(Scope scope, UUID scopeId) {
-
+        if(scope == Scope.APPLICATION || scope == Scope.DEFAULT) {
+            throw new ContainerException("The given scope " + scope.name() + " does not support any subscope so there is nothing to close");
+        }
     }
 }
