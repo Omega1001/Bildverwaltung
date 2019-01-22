@@ -23,6 +23,17 @@ import java.util.List;
 import static java.nio.file.Files.copy;
 
 public class PictureImportServiceImpl implements PictureImportService {
+    private PictureDao dao;
+
+    public PictureImportServiceImpl() {
+
+        dao = new FactoryPictureDao().generate(null, null, null);
+
+    }
+
+    public PictureImportServiceImpl(PictureDao dao) {
+        this.dao = dao;
+    }
 
     /**
      * convert a given File to a picture entity that can be added to the DB
@@ -91,7 +102,7 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @param picture
      */
     @Override
-    public void importPicture(File picture) throws ServiceException{
+    public Picture importPicture(File picture) throws ServiceException{
 
         //TODO implement that the method returns a boolean wether the import into the DB did succeed or not
 
@@ -106,16 +117,19 @@ public class PictureImportServiceImpl implements PictureImportService {
 
 
         } catch(IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
         }
 
         Picture newPicture = convertToEntity(newFile);
 
         //rename the File in copy directory to the corresponding UUID of the Picture entity
-        newFile.renameTo(new File( directory.getName() + File.separator + newPicture.getId().toString()));
+        File newName = new File( directory.getName() + File.separator + newPicture.getId().toString());
 
-        PictureDao dao = new FactoryPictureDao().generate(null, null, null);
+        newFile.renameTo(newName);
+        newPicture.setUri(newName.toURI());
+
+
 
         try {
 
@@ -125,7 +139,10 @@ public class PictureImportServiceImpl implements PictureImportService {
 
             e.printStackTrace();
             throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
+
         }
+
+        return newPicture;
     }
 
     /**
