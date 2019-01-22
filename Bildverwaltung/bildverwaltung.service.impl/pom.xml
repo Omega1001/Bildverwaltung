@@ -35,11 +35,5 @@
           <version>0.0.1-SNAPSHOT</version>
           <scope>compile</scope>
       </dependency>
-      <dependency>
-          <groupId>prog3.torvald</groupId>
-          <artifactId>bildverwaltung.factory.impl</artifactId>
-          <version>0.0.1-SNAPSHOT</version>
-          <scope>compile</scope>
-      </dependency>
   </dependencies>
 </project>
