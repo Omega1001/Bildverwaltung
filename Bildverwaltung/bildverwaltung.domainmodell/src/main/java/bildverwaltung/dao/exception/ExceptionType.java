@@ -1,7 +1,9 @@
 package bildverwaltung.dao.exception;
 
 public enum ExceptionType {
-	UNKNOWN("Unknown error",null,null);
+	UNKNOWN("Unknown error",null,null), 
+	
+	URI_RESOLUTION_0001("Unable to resolve uri : no compatible handler",null,null);
 
 	;
 	private final String message;

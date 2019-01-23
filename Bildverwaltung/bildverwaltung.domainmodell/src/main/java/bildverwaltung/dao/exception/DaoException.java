@@ -15,4 +15,14 @@ public class DaoException extends ServiceException {
 		super(type);
 	}
 
+	public DaoException(ExceptionType type, boolean rollback, Throwable cause) {
+		super(type, rollback, cause);
+	}
+
+	public DaoException(ExceptionType type, boolean rollback) {
+		super(type, rollback);
+	}
+	
+	
+
 }
