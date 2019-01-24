@@ -1,5 +1,6 @@
 package bildverwaltung.container;
 
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -97,6 +98,13 @@ public interface ScopeContainer {
 	public void setImplementationForFactory(Object impl, Factory<?> factory, UUID subScopeId);
 
 	/**
+	 * begin a new subscope in the given scopeContainer
+	 * @return of the new ScopeContainer
+	 */
+	public UUID beginSubScope();
+
+
+	/**
 	 * This method ends a subScope<br>
 	 * If a scope ends, all implementations that are managed in that subScope have
 	 * to be dereferenced<br>
@@ -108,5 +116,7 @@ public interface ScopeContainer {
 	public void endSubScope(UUID subScopeId);
 
 	ScopeContainer getSubScope(UUID subScopeId);
+
+	public Map<Factory<?>, Object> getFactories();
 
 }
