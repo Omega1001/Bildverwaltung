@@ -9,14 +9,14 @@ public class ManagedContainerImpl implements ManagedContainer {
 
     //private Map<Scope,ScopeContainer> scopeContainer;
     private Map<Scope,ScopeContainer> scopeContainer;
-    private Map<Class,List<Factory<?>>> factories; //save in (interface, factory) pairs
+    private Map<Class<?>,List<Factory<?>>> factories; //save in (interface, factory) pairs
 
     private UUID creationalContextScopeId;
 
     private static final Logger LOG = LoggerFactory.getLogger(ManagedContainerImpl.class);
 
     public ManagedContainerImpl() {
-        factories = new HashMap<Class, List<Factory<?>>>();
+        factories = new HashMap<Class<?>, List<Factory<?>>>();
         scopeContainer = new HashMap<>();
         scopeContainer.put(Scope.APPLICATION, new ScopeContainerImpl(Scope.APPLICATION));
     }
@@ -24,7 +24,7 @@ public class ManagedContainerImpl implements ManagedContainer {
     @Override
     public <T> T materialize(Class<T> interfaceClass, Scope scope, UUID scopeId) {
 
-        List desiredFactory = factories.get(interfaceClass);
+        List<Factory<?>> desiredFactory = factories.get(interfaceClass);
 
         if (desiredFactory == null) {
             LOG.error("given class does not have a factory");
@@ -36,12 +36,13 @@ public class ManagedContainerImpl implements ManagedContainer {
 
             // differentiate the different scopes
         } else {
-            Factory<?> singleFactory = (Factory<?>) desiredFactory.get(0);
+            @SuppressWarnings("unchecked")
+			Factory<T> singleFactory = (Factory<T>) desiredFactory.get(0);
 
             if (scope == Scope.DEFAULT) {
-                LOG.debug("given scope is " + scope + " so a new object is given");
-
-                return (T) singleFactory.generate(this, scope);
+                LOG.debug("given scope is {} so a new object is given",scope);
+				T res = singleFactory.generate(this, scope);
+                return res;
 
             } else if (scope == Scope.APPLICATION) {
 
@@ -71,21 +72,21 @@ public class ManagedContainerImpl implements ManagedContainer {
                 }
 
                 // First try to get from creationalContext
-                T wantedObject = (T) container
+				T wantedObject = container
                         .getImplementationForFactory(singleFactory, creationalContextScopeId);
 
                 // If it does not work, try to get from primary Scope
                 if (wantedObject == null) {
-                    wantedObject = (T) container.getImplementationForFactory(singleFactory);
+                    wantedObject = container.getImplementationForFactory(singleFactory);
                 }
 
                 // IF it also not works, generate it
                 if (wantedObject == null) {
-                    wantedObject = (T) singleFactory.generate(this, scope);
+                    wantedObject = singleFactory.generate(this, scope);
                 }
 
-                container.setImplementationForFactory(wantedObject, (Factory<?>) desiredFactory.get(0));
-                container.setImplementationForFactory(wantedObject, (Factory<?>) desiredFactory.get(0), creationalContextScopeId);
+                container.setImplementationForFactory(wantedObject, singleFactory);
+                container.setImplementationForFactory(wantedObject, singleFactory, creationalContextScopeId);
 
                 if (!hadCCSId) {
                     LOG.debug("+ CCS subScope will be destroyed");
@@ -96,7 +97,7 @@ public class ManagedContainerImpl implements ManagedContainer {
                 }
 
 
-                LOG.info("Object " + wantedObject + " is materialized.");
+                LOG.info("Object {} is materialized.",wantedObject);
                 return wantedObject;
 
             } else {
@@ -116,7 +117,7 @@ public class ManagedContainerImpl implements ManagedContainer {
         return materialize(interfaceClass, null);
     }
 
-    @Override
+	@Override
     public <T> T materializeAny(Class<T> interfaceClass, Scope scope, UUID scopeId) {
     /*
 
@@ -132,7 +133,7 @@ public class ManagedContainerImpl implements ManagedContainer {
                 } else {
 
                     ScopeContainer container = scopeContainer.get(scope);
-                    List desiredFactory = factories.get(interfaceClass);
+                    List<Factory<?>> desiredFactory = factories.get(interfaceClass);
 
                     if(desiredFactory == null) {
                         throw new ContainerException("given class does not have a factory");
@@ -142,10 +143,12 @@ public class ManagedContainerImpl implements ManagedContainer {
                         throw new ContainerException("ambiguous materialize: more than one factory for this interface");
                     }
 
-                    if(!container.hasImplementationForFactory( (Factory) desiredFactory.get(0))) {
+                    if(!container.hasImplementationForFactory(desiredFactory.get(0))) {
                         throw new ContainerException("Scope does not have a implementation for this interface");
                     } else {
-                        return (T) container.getImplementationForFactory((Factory) desiredFactory.get(0));
+                    	@SuppressWarnings("unchecked")
+						Factory<T> f = (Factory<T>) desiredFactory.get(0);
+                        return container.getImplementationForFactory(f);
                     }
                 }
 
@@ -155,13 +158,13 @@ public class ManagedContainerImpl implements ManagedContainer {
                     throw new ContainerException("no subscopes allowed in DEFAULT Scope");
                 } else {
 
-                    List desiredFactory = factories.get(interfaceClass);
+                    List<Factory<?>> desiredFactory = factories.get(interfaceClass);
 
                     if (desiredFactory == null) {
                     	throw new ContainerException("given class does not have a factory");
                     } else {
-
-                        Factory factory =  (Factory) desiredFactory.get(0);
+                        @SuppressWarnings("unchecked")
+						Factory<T> factory = (Factory<T>)desiredFactory.get(0);
                         return (T) factory.generate(this, Scope.DEFAULT);
 
                     }
@@ -204,7 +207,7 @@ public class ManagedContainerImpl implements ManagedContainer {
 
                     ScopeContainer container = scopeContainer.get(scope);
 
-                    List desiredFactory = factories.get(interfaceClass);
+                    List<Factory<?>> desiredFactory = factories.get(interfaceClass);
 
                     if(desiredFactory == null) {
 
@@ -218,18 +221,18 @@ public class ManagedContainerImpl implements ManagedContainer {
 
                     }
 
-                    if(!container.hasImplementationForFactory( (Factory) desiredFactory.get(0))) {
+                    if(!container.hasImplementationForFactory(desiredFactory.get(0))) {
 
                         throw new ContainerException("Scope does not have a implementation for this interface");
 
                     } else {
 
-                        List<T> implementations = new ArrayList();
+                        List<T> implementations = new ArrayList<>();
 
                         for(int i = 0; i < desiredFactory.size(); i++) {
-
-                            Factory curFactory = (Factory) desiredFactory.get(i);
-                            implementations.add((T) container.getImplementationForFactory(curFactory));
+                            @SuppressWarnings("unchecked")
+							Factory<T> curFactory = (Factory<T>) desiredFactory.get(i);
+                            implementations.add(container.getImplementationForFactory(curFactory));
 
                         }
 
@@ -244,7 +247,7 @@ public class ManagedContainerImpl implements ManagedContainer {
                     throw new ContainerException("no subscopes allowed in DEFAULT Scope");
                 } else {
 
-                    List desiredFactory = factories.get(interfaceClass);
+                    List<Factory<?>> desiredFactory = factories.get(interfaceClass);
 
                     if (desiredFactory == null) {
                         throw new ContainerException("given class does not have a factory");
@@ -252,12 +255,13 @@ public class ManagedContainerImpl implements ManagedContainer {
                         throw new ContainerException("ambiguous materialize: more than one factory for this interface");
                     } else {
 
-                    	List<T> implementations = new ArrayList();
+                    	List<T> implementations = new ArrayList<>();
 
                         for(int i = 0; i < desiredFactory.size(); i++) {
 
-                            Factory curFactory = (Factory) desiredFactory.get(i);
-                            implementations.add((T) curFactory.generate(this,Scope.DEFAULT));
+                            @SuppressWarnings("unchecked")
+							Factory<T> curFactory = (Factory<T>) desiredFactory.get(i);
+                            implementations.add(curFactory.generate(this,Scope.DEFAULT));
 
                         }
 
@@ -319,7 +323,7 @@ public class ManagedContainerImpl implements ManagedContainer {
             UUID newScopeId = scopeContainer.get(scope).beginSubScope();
             return  newScopeId;
         } else {
-            LOG.error("unknown scope " + scope + " or scope has currently no implementation for subScopes.");
+            LOG.error("unknown scope {} or scope has currently no implementation for subScopes.",scope);
             throw new ContainerException("unknown scope");
         }
     }
