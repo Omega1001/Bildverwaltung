@@ -11,7 +11,7 @@ package bildverwaltung.container;
  *
  * @param <T>
  */
-public interface Factory<T> {
+public interface Factory<T> extends AutoCloseable {
 
 	/**
 	 * Returns the type of an interface that is assignment compatible with the type
@@ -47,6 +47,8 @@ public interface Factory<T> {
 	 * @param toDestroy
 	 *            Implementation to be removed
 	 */
-	public default void preDestroy(T toDestroy) {
-	};
+	public default void preDestroy(T toDestroy) {}
+	
+	@Override
+	default void close() throws Exception {}
 }
