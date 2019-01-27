@@ -367,4 +367,10 @@ public class ManagedContainerImpl implements ManagedContainer {
             scopeContainer.get(scope).endSubScope(scopeId);
 		}
     }
+
+	@Override
+	public void close() throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 }

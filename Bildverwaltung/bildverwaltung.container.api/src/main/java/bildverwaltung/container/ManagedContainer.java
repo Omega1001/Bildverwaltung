@@ -10,7 +10,7 @@ import java.util.UUID;
  * @author jannik
  *
  */
-public interface ManagedContainer {
+public interface ManagedContainer extends AutoCloseable{
 	/**
 	 * This method materializes an implementation of a certain interface<br>
 	 * The returned implementation will be associated with the specified scope and
