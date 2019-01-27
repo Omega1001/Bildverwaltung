@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import bildverwaltung.container.Factory;
 import bildverwaltung.container.init.ContainerIniFileFieldNames;
+import bildverwaltung.container.shutdown.ShutdownTask;
 import bildverwaltung.container.startup.StartupTask;
 import bildverwaltung.utils.IniFileBuilder;
 
@@ -42,6 +43,7 @@ public class ContainerFactoryIniGenerator {
 		IniFileBuilder iniFileBuilder = new IniFileBuilder();
 		addFactorySection(iniFileBuilder, baseDirs, loader);
 		addStartupSection(iniFileBuilder, baseDirs, loader);
+		addShutdownSection(iniFileBuilder, baseDirs, loader);
 
 		PrintWriter out = null;
 		try {
@@ -58,6 +60,13 @@ public class ContainerFactoryIniGenerator {
 			}
 		}
 
+	}
+
+	private static void addShutdownSection(IniFileBuilder iniFileBuilder, List<String> baseDirs, ClassLoader loader) {
+		iniFileBuilder.beginSection(ContainerIniFileFieldNames.SHUTDOWN_SECTION_NAME);
+		List<Class<?>> shutdowns= listClassesOfInterface(baseDirs, ShutdownTask.class, loader);
+		iniFileBuilder.addEntry(ContainerIniFileFieldNames.SHUTDOWN_CLASSES,
+				toCSV(new IteratorConverter<>(shutdowns.iterator(), (c) -> c.getName())));
 	}
 
 	private static void addStartupSection(IniFileBuilder iniFileBuilder, List<String> baseDirs, ClassLoader loader) {

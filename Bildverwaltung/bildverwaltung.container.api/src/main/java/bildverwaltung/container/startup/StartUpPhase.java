@@ -3,7 +3,7 @@ package bildverwaltung.container.startup;
 public enum StartUpPhase{
 	PRE_CONFIGURE,
 	CONFIGURE,
-	DB_CONNECT,
+	RESOURCE_LOGIN,
 	POST_CONFIGURE,
 	PREPAIR_APP,
 	POST_PREPAIR_APP,

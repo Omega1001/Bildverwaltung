@@ -8,4 +8,8 @@ public interface StartupTask {
 		return StartUpPhase.PREPAIR_APP;
 	}
 	
+	public default String getTaskName() {
+		return this.getClass().getSimpleName();
+	}
+	
 }
