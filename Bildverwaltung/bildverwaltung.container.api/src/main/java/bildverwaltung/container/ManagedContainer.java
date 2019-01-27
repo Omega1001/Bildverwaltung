@@ -10,7 +10,7 @@ import java.util.UUID;
  * @author jannik
  *
  */
-public interface ManagedContainer extends AutoCloseable{
+public interface ManagedContainer extends AutoCloseable {
 	/**
 	 * This method materializes an implementation of a certain interface<br>
 	 * The returned implementation will be associated with the specified scope and
@@ -26,11 +26,15 @@ public interface ManagedContainer extends AutoCloseable{
 	 * <li>there was an error during creating the implementation</li>
 	 * </ul>
 	 * 
-	 * @param interfaceClass Class to be materialized
-	 * @param scope          to take/put implementation from/to
-	 * @param scopeId        Id of the subScope to use or 'null' to use primaryScope
+	 * @param interfaceClass
+	 *            Class to be materialized
+	 * @param scope
+	 *            to take/put implementation from/to
+	 * @param scopeId
+	 *            Id of the subScope to use or 'null' to use primaryScope
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 */
 	public <T> T materialize(Class<T> interfaceClass, Scope scope, UUID scopeId);
 
@@ -43,10 +47,13 @@ public interface ManagedContainer extends AutoCloseable{
 	 * scope<br>
 	 * For more informations, see {@link #materialize(Class, Scope, UUID)}
 	 * 
-	 * @param interfaceClass Class to be materialized
-	 * @param scope          to take/put implementation from/to
+	 * @param interfaceClass
+	 *            Class to be materialized
+	 * @param scope
+	 *            to take/put implementation from/to
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 * @see #materialize(Class, Scope, UUID)
 	 */
 	public <T> T materialize(Class<T> interfaceClass, Scope scope);
@@ -61,9 +68,11 @@ public interface ManagedContainer extends AutoCloseable{
 	 * See {@link Scope#DEFAULT} for more informations For more informations, see
 	 * {@link #materialize(Class, Scope, UUID)}
 	 * 
-	 * @param interfaceClass Class to be materialized
+	 * @param interfaceClass
+	 *            Class to be materialized
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 * @see #materialize(Class, Scope, UUID)
 	 */
 	public <T> T materialize(Class<T> interfaceClass);
@@ -73,11 +82,15 @@ public interface ManagedContainer extends AutoCloseable{
 	 * that this method will return a implementation instead of throwing an
 	 * exception if there is more than one factory present
 	 * 
-	 * @param interfaceClass Class to be materialized
-	 * @param scope          to take/put implementation from/to
-	 * @param scopeId        Id of the subScope to use or 'null' to use primaryScope
+	 * @param interfaceClass
+	 *            Class to be materialized
+	 * @param scope
+	 *            to take/put implementation from/to
+	 * @param scopeId
+	 *            Id of the subScope to use or 'null' to use primaryScope
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 */
 	public <T> T materializeAny(Class<T> interfaceClass, Scope scope, UUID scopeId);
 
@@ -86,10 +99,13 @@ public interface ManagedContainer extends AutoCloseable{
 	 * this method will return a implementation instead of throwing an exception if
 	 * there is more than one factory present
 	 * 
-	 * @param interfaceClass Class to be materialized
-	 * @param scope          to take/put implementation from/to
+	 * @param interfaceClass
+	 *            Class to be materialized
+	 * @param scope
+	 *            to take/put implementation from/to
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 */
 	public <T> T materializeAny(Class<T> interfaceClass, Scope scope);
 
@@ -98,9 +114,11 @@ public interface ManagedContainer extends AutoCloseable{
 	 * method will return a implementation instead of throwing an exception if there
 	 * is more than one factory present
 	 * 
-	 * @param interfaceClass Class to be materialized
+	 * @param interfaceClass
+	 *            Class to be materialized
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 */
 	public <T> T materializeAny(Class<T> interfaceClass);
 
@@ -118,11 +136,15 @@ public interface ManagedContainer extends AutoCloseable{
 	 * <li>there was an error during creating the implementation</li>
 	 * </ul>
 	 * 
-	 * @param interfaceClass Class to be materialized
-	 * @param scope          to take/put implementation from/to
-	 * @param scopeId        Id of the subScope to use or 'null' to use primaryScope
+	 * @param interfaceClass
+	 *            Class to be materialized
+	 * @param scope
+	 *            to take/put implementation from/to
+	 * @param scopeId
+	 *            Id of the subScope to use or 'null' to use primaryScope
 	 * @return all implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 */
 	public <T> List<T> materializeAll(Class<T> interfaceClass, Scope scope, UUID scopeId);
 
@@ -136,10 +158,13 @@ public interface ManagedContainer extends AutoCloseable{
 	 * scope<br>
 	 * For more informations, see {@link #materialize(Class, Scope, UUID)}
 	 * 
-	 * @param interfaceClass Class to be materialized
-	 * @param scope          to take/put implementation from/to
+	 * @param interfaceClass
+	 *            Class to be materialized
+	 * @param scope
+	 *            to take/put implementation from/to
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 * @see #materialize(Class, Scope, UUID)
 	 */
 	public <T> List<T> materializeAll(Class<T> interfaceClass, Scope scope);
@@ -155,32 +180,39 @@ public interface ManagedContainer extends AutoCloseable{
 	 * See {@link Scope#DEFAULT} for more informations For more informations, see
 	 * {@link #materialize(Class, Scope, UUID)}
 	 * 
-	 * @param interfaceClass Class to be materialized
+	 * @param interfaceClass
+	 *            Class to be materialized
 	 * @return an implementation of the supplied interface
-	 * @throws ContainerException if there was an error
+	 * @throws ContainerException
+	 *             if there was an error
 	 * @see #materialize(Class, Scope, UUID)
 	 */
 	public <T> List<T> materializeAll(Class<T> interfaceClass);
 
 	/**
-	 * Adds a {@link Factory} to the container to be used, overriding the targetInterface of the factory
+	 * Adds a {@link Factory} to the container to be used, overriding the
+	 * targetInterface of the factory
 	 * 
-	 * @param factory         to be added
-	 * @param targetInterface The implementations interface created by this factory
+	 * @param factory
+	 *            to be added
+	 * @param targetInterface
+	 *            The implementations interface created by this factory
 	 */
 	public <T> void addFactory(Factory<T> factory, Class<T> targetInterface);
-	
+
 	/**
 	 * Adds a {@link Factory} to the container to be used
 	 * 
-	 * @param factory         to be added
+	 * @param factory
+	 *            to be added
 	 */
 	public <T> void addFactory(Factory<?> factory);
 
 	/**
 	 * This method creates a new subScope
 	 * 
-	 * @param scope to create subScope in
+	 * @param scope
+	 *            to create subScope in
 	 * @return the subScopeId of the new subScope
 	 */
 	public UUID beginCustomScope(Scope scope);
@@ -188,9 +220,25 @@ public interface ManagedContainer extends AutoCloseable{
 	/**
 	 * Ends a subScope<br>
 	 * 
-	 * @param scope Referenced scope
-	 * @param scopeId of the subScope to be ended
+	 * @param scope
+	 *            Referenced scope
+	 * @param scopeId
+	 *            of the subScope to be ended
 	 */
 	public void endCustomScope(Scope scope, UUID scopeId);
+
+	/**
+	 * <b>Under normal circumstances, this method is NOT to be called inside your
+	 * code.</b><br>
+	 * This Method is usually called by the ContainerLoader, that previously
+	 * performs various shutdown actions.<br>
+	 * Only call this method, if you <b>know exactly what you're doing</b>.
+	 * <p>
+	 * {@inheritDoc}
+	 * 
+	 * @see java.lang.AutoCloseable#close()
+	 */
+	@Override
+	public void close();
 
 }

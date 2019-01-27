@@ -18,9 +18,56 @@ import bildverwaltung.utils.IniFileReader;
 
 import static bildverwaltung.container.init.ContainerIniFileFieldNames.*;
 
-class ContainerLoader {
+/**
+ * This class is used to handle {@link ManagedContainer} startup and
+ * shutdown<br>
+ * In order to do this, this class provides the following public methods:<br>
+ * <table>
+ * <tr>
+ * <td>Method name</td>
+ * <td>Usage</td
+ * </tr>
+ * <tr>
+ * <td>{@link #loadContainer()}</td>
+ * <td>Create a new {@link ManagedContainer} and perform startup</td>
+ * </tr>
+ * <tr>
+ * <td>{@link #handleContainerShutdown(ManagedContainer)}</td>
+ * <td>Perform a regular shutdown on the passed container</td
+ * </tr>
+ * </table>
+ * 
+ * @author Jannik
+ *
+ */
+public class ContainerLoader {
 	private static final Logger LOG = LoggerFactory.getLogger(ContainerLoader.class);
 
+	/*
+	 * Prevent instantiation
+	 */
+	private ContainerLoader() {
+	};
+
+	/**
+	 * This method is used to instantiate a new {@link ManagedContainer}<br>
+	 * To do that, this container loads the container.ini and factory.ini files<br>
+	 * Then it instantiates a new {@link ManagedContainer} using the class name from
+	 * the ini<br>
+	 * Then all {@link Factory}s from the factory.ini are beeing constructed and
+	 * added to the {@link ManagedContainer}<br>
+	 * In the end, all {@link StartupTask} are being materialised, an eecuted, based
+	 * on there {@link StartUpPhase}<br>
+	 * <p>
+	 * If an exception occurred during initialization, an {@link ContainerException}
+	 * is thrown<br>
+	 * Except if the exception is a {@link ContainerStartupException} whose
+	 * isAboardStartup method returns false
+	 * 
+	 * @return an new, fully initialized {@link ManagedContainer}
+	 * @throws ContainerException
+	 *             if there was an error during startup
+	 */
 	public static ManagedContainer loadContainer() {
 		LOG.trace("Enter loadContainer");
 		IniFile ini = loadContainerIni();
@@ -37,6 +84,26 @@ class ContainerLoader {
 		return container;
 	}
 
+	/**
+	 * This method is used to perform an ordinary shutdown on the passed
+	 * {@link ManagedContainer}<br>
+	 * In order to do that, all {@link ShutdownTask} are injected and executed,
+	 * based on there {@link ShutdownPhase}<br>
+	 * After that, the close method of the {@link ManagedContainer} is called, to
+	 * release any resources associated with it
+	 * <p>
+	 * If an exception is cought during doing so, it is stored, so the shutdown can
+	 * continue as good as possible<br>
+	 * After the execution is completed a single {@link ContainerShutdownException}
+	 * is thrown, that incorporates all intercepted exceptions as suppressed
+	 * exceptions
+	 * <p>
+	 * 
+	 * @param container
+	 *            to be closed
+	 * @throws ContainerShutdownException
+	 *             if there was en error during shuting down
+	 */
 	public static void handleContainerShutdown(ManagedContainer container) {
 		LOG.trace("Enter handleContainerShutdown container={}", container);
 		ContainerShutdownException ex = null;
@@ -191,7 +258,7 @@ class ContainerLoader {
 		try {
 			Class<?> rawContainer = loader.loadClass(className);
 			if (ManagedContainer.class.isAssignableFrom(rawContainer)) {
-				LOG.debug("About to Instantiate ManagedContainer implementation {}",rawContainer.getSimpleName());
+				LOG.debug("About to Instantiate ManagedContainer implementation {}", rawContainer.getSimpleName());
 				res = (ManagedContainer) rawContainer.newInstance();
 			} else {
 				LOG.error(
