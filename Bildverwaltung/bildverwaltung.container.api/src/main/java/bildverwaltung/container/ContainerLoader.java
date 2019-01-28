@@ -205,7 +205,7 @@ public class ContainerLoader {
 		for (String className : types) {
 			try {
 				Class<?> c = loader.loadClass(className);
-				if (c.isAssignableFrom(StartupTask.class)) {
+				if (StartupTask.class.isAssignableFrom(c)) {
 					LOG.debug("Adding startup task {}", c.getSimpleName());
 					container.addFactory(new StartupTaskFactory((Class<? super StartupTask>) c));
 				} else {
@@ -228,7 +228,7 @@ public class ContainerLoader {
 		for (String className : types) {
 			try {
 				Class<?> c = loader.loadClass(className);
-				if (c.isAssignableFrom(StartupTask.class)) {
+				if (ShutdownTask.class.isAssignableFrom(c)) {
 					LOG.debug("Adding shutdown task {}", c.getSimpleName());
 					container.addFactory(new ShutdownTaskFactory((Class<? super ShutdownTask>) c));
 				} else {
