@@ -13,7 +13,8 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 
-import org.hamcrest.core.IsEqual;
+import org.hamcrest.BaseMatcher;
+import org.hamcrest.Description;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
@@ -124,7 +125,7 @@ public class ManagedContainerImplTest {
 	public void testMaterializeClassOfTScopeUUID_005() {
 		// Exception during instantiation
 		exception.expect(ContainerException.class);
-		exception.expectCause(IsEqual.equalTo(new RuntimeException(ERROR_MESSAGE)));
+		exception.expectCause(new ExceptionMatcher<>(RuntimeException.class, ERROR_MESSAGE));
 		underTest.materialize(Cloneable.class, Scope.APPLICATION, null);
 	}
 
@@ -186,7 +187,7 @@ public class ManagedContainerImplTest {
 	public void testMaterializeAllClassOfTScopeUUID_005() {
 		// Exception during instantiation
 		exception.expect(ContainerException.class);
-		exception.expectCause(IsEqual.equalTo(new RuntimeException(ERROR_MESSAGE)));
+		exception.expectCause(new ExceptionMatcher<>(RuntimeException.class, ERROR_MESSAGE));
 		underTest.materializeAll(Cloneable.class, Scope.APPLICATION, null);
 	}
 
@@ -255,7 +256,7 @@ public class ManagedContainerImplTest {
 	public void testMaterializeAnyClassOfTScopeUUID_005() {
 		// Exception during instantiation
 		exception.expect(ContainerException.class);
-		exception.expectCause(IsEqual.equalTo(new RuntimeException(ERROR_MESSAGE)));
+		exception.expectCause(new ExceptionMatcher<>(RuntimeException.class, ERROR_MESSAGE));
 		underTest.materializeAny(Cloneable.class, Scope.APPLICATION, null);
 	}
 
@@ -433,6 +434,41 @@ public class ManagedContainerImplTest {
 			Supplier s = container.materialize(Supplier.class, scope);
 			return new AbstractMap.SimpleEntry<>(s.get(), container.materialize(Closeable.class));
 		}
+	}
+	
+	protected static class ExceptionMatcher<T extends Throwable> extends BaseMatcher<T>{
+
+		private final Class<T> expectedType;
+	    private final String expectedMessage;
+	 
+	    public ExceptionMatcher(Class<T> expectedType, 
+	                            String expectedMessage) {
+	        this.expectedType = expectedType;
+	        this.expectedMessage = expectedMessage;
+	    }
+	 
+	 
+	    @Override
+	    public void describeTo(Description description) {
+	        description.appendText("expects type ")
+	                   .appendValue(expectedType)
+	                   .appendText(" and a message ")
+	                   .appendValue(expectedMessage);
+	    }
+
+
+		@Override
+		public boolean matches(Object item) {
+			if(!expectedType.isInstance(item)) {
+				return false;
+			}
+			T obj = (T) item;
+			if(!expectedMessage.equals(obj.getMessage())) {
+				return false;
+			}
+			return true;
+		}
+		
 	}
 
 }
