@@ -239,6 +239,6 @@ public interface ManagedContainer extends AutoCloseable {
 	 * @see java.lang.AutoCloseable#close()
 	 */
 	@Override
-	public void close();
+	public void close() throws Exception;
 
 }
