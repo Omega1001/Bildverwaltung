@@ -21,27 +21,11 @@ public class ManagedContainerImpl implements ManagedContainer {
         scopeContainer.put(Scope.APPLICATION, new ScopeContainerImpl(Scope.APPLICATION));
     }
 
-    @Override
-    public <T> T materialize(Class<T> interfaceClass, Scope scope, UUID scopeId) {
 
-        List<Factory<?>> desiredFactory = factories.get(interfaceClass);
-
-        if (desiredFactory == null) {
-            LOG.error("given class does not have a factory");
-            throw new ContainerException("given class does not have a factory");
-        } else if (desiredFactory.size() > 1) {
-            // materialize method only usable when there is only one factory max for an given interface
-            LOG.error("ambiguous materialize: more than one factory for this interface");
-            throw new ContainerException("ambiguous materialize: more than one factory for this interface");
-
-            // differentiate the different scopes
-        } else {
-            @SuppressWarnings("unchecked")
-			Factory<T> singleFactory = (Factory<T>) desiredFactory.get(0);
-
+    private <T> T getImplementation(Factory<?> singleFactory, Scope scope, UUID scopeId) {
             if (scope == Scope.DEFAULT) {
                 LOG.debug("given scope is {} so a new object is given",scope);
-				T res = singleFactory.generate(this, scope);
+				T res = (T) singleFactory.generate(this, scope);
                 return res;
 
             } else if (scope == Scope.APPLICATION) {
@@ -72,17 +56,21 @@ public class ManagedContainerImpl implements ManagedContainer {
                 }
 
                 // First try to get from creationalContext
-				T wantedObject = container
+				T wantedObject = (T) container
                         .getImplementationForFactory(singleFactory, creationalContextScopeId);
 
                 // If it does not work, try to get from primary Scope
                 if (wantedObject == null) {
-                    wantedObject = container.getImplementationForFactory(singleFactory);
+                    wantedObject = (T) container.getImplementationForFactory(singleFactory);
 
 
                     // IF it also not works, generate it
                     if (wantedObject == null) {
-                        wantedObject = singleFactory.generate(this, scope);
+                        try {
+                            wantedObject = (T) singleFactory.generate(this, scope);
+                        } catch (RuntimeException e) {
+                            throw new ContainerException("Exception while generating a implementation", e);
+                        }
                     }
                 }
 
@@ -105,6 +93,27 @@ public class ManagedContainerImpl implements ManagedContainer {
                 LOG.warn("Given scope is unknown. New added scope or why is it not implemented yet?");
                 return null;
             }
+        }
+
+    @Override
+    public <T> T materialize(Class<T> interfaceClass, Scope scope, UUID scopeId) {
+
+        List<Factory<?>> desiredFactory = factories.get(interfaceClass);
+
+        if (desiredFactory == null) {
+            LOG.error("given class does not have a factory");
+            throw new ContainerException("given class does not have a factory");
+        } else if (desiredFactory.size() > 1) {
+            // materialize method only usable when there is only one factory max for an given interface
+            LOG.error("ambiguous materialize: more than one factory for this interface");
+            throw new ContainerException("ambiguous materialize: more than one factory for this interface");
+
+            // differentiate the different scopes
+        } else {
+            @SuppressWarnings("unchecked")
+			Factory<T> singleFactory = (Factory<T>) desiredFactory.get(0);
+
+            return getImplementation(singleFactory,scope,scopeId);
         }
     }
 
@@ -131,73 +140,7 @@ public class ManagedContainerImpl implements ManagedContainer {
         } else {
             @SuppressWarnings("unchecked")
             Factory<T> singleFactory = (Factory<T>) desiredFactory.get(0);
-
-            if (scope == Scope.DEFAULT) {
-                LOG.debug("given scope is {} so a new object is given",scope);
-                T res = singleFactory.generate(this, scope);
-                return res;
-
-            } else if (scope == Scope.APPLICATION) {
-
-                ScopeContainer container;
-                boolean hadCCSId;
-
-                // scopeId = null gives the primary scope
-                if (scopeId == null) {
-                    container = scopeContainer.get(Scope.APPLICATION);
-                } else {
-                    container = scopeContainer.get(Scope.APPLICATION).getSubScope(scopeId);
-                }
-
-                // Was CreationalContextSubScope already created?
-                if (creationalContextScopeId != null) {
-
-                    LOG.debug("- CCS was already created");
-                    hadCCSId = true;
-
-                } else {
-
-                    LOG.debug("- CCS is not created so it will be created");
-                    hadCCSId = false;
-                    //creationalContextScopeId = scopeContainer.get(scopeId).beginSubScope();
-                    creationalContextScopeId = beginCustomScope(scope);
-
-                }
-
-                // First try to get from creationalContext
-                T wantedObject = container
-                        .getImplementationForFactory(singleFactory, creationalContextScopeId);
-
-                // If it does not work, try to get from primary Scope
-                if (wantedObject == null) {
-                    wantedObject = container.getImplementationForFactory(singleFactory);
-
-
-                    // IF it also not works, generate it
-                    if (wantedObject == null) {
-                        wantedObject = singleFactory.generate(this, scope);
-                    }
-                }
-
-                container.setImplementationForFactory(wantedObject, singleFactory);
-                container.setImplementationForFactory(wantedObject, singleFactory, creationalContextScopeId);
-
-                if (!hadCCSId) {
-                    LOG.debug("+ CCS subScope will be destroyed");
-                    container.endSubScope(creationalContextScopeId);
-                    creationalContextScopeId = null;
-                } else {
-                    LOG.debug("+ CCS subScope does not need to be destroyed");
-                }
-
-
-                LOG.info("Object {} is materialized.",wantedObject);
-                return wantedObject;
-
-            } else {
-                LOG.warn("Given scope is unknown. New added scope or why is it not implemented yet?");
-                return null;
-            }
+            return getImplementation(singleFactory, scope, scopeId);
         }
     }
 
@@ -227,80 +170,9 @@ public class ManagedContainerImpl implements ManagedContainer {
         } else {
 
 
-            if (scope == Scope.DEFAULT) {
                 desiredFactory.forEach(singleFactory-> {
-                    LOG.debug("given scope is {} so a new object is given", scope);
-                    //unchecked
-                    T res = (T) singleFactory.generate(this, scope);
-                    resList.add(res);
+                    resList.add(getImplementation(singleFactory, scope, scopeId));
                 });
-
-            } else if (scope == Scope.APPLICATION) {
-                desiredFactory.forEach(singleFactory-> {
-                    ScopeContainer container;
-                    boolean hadCCSId;
-
-                    // scopeId = null gives the primary scope
-                    if (scopeId == null) {
-                        container = scopeContainer.get(Scope.APPLICATION);
-                    } else {
-                        container = scopeContainer.get(Scope.APPLICATION).getSubScope(scopeId);
-                    }
-
-                    // Was CreationalContextSubScope already created?
-                    if (creationalContextScopeId != null) {
-
-                        LOG.debug("- CCS was already created");
-                        hadCCSId = true;
-
-                    } else {
-
-                        LOG.debug("- CCS is not created so it will be created");
-                        hadCCSId = false;
-                        //creationalContextScopeId = scopeContainer.get(scopeId).beginSubScope();
-                        creationalContextScopeId = beginCustomScope(scope);
-
-                    }
-
-                    // First try to get from creationalContext
-                    //unchecked
-                    T wantedObject = (T) container
-                            .getImplementationForFactory(singleFactory, creationalContextScopeId);
-
-                    // If it does not work, try to get from primary Scope
-                    if (wantedObject == null) {
-                        //unchecked
-                        wantedObject = (T) container.getImplementationForFactory(singleFactory);
-
-
-                        // IF it also not works, generate it
-                        if (wantedObject == null) {
-                            //unchecked
-                            wantedObject = (T) singleFactory.generate(this, scope);
-                        }
-                    }
-
-                    container.setImplementationForFactory(wantedObject, singleFactory);
-                    container.setImplementationForFactory(wantedObject, singleFactory, creationalContextScopeId);
-
-                    if (!hadCCSId) {
-                        LOG.debug("+ CCS subScope will be destroyed");
-                        container.endSubScope(creationalContextScopeId);
-                        creationalContextScopeId = null;
-                    } else {
-                        LOG.debug("+ CCS subScope does not need to be destroyed");
-                    }
-
-
-                    LOG.info("Object {} is materialized.", wantedObject);
-                    resList.add(wantedObject);
-                });
-
-            } else {
-                LOG.warn("Given scope is unknown. New added scope or why is it not implemented yet?");
-                return null;
-            }
-
         }
         return resList;
     }
@@ -334,8 +206,6 @@ public class ManagedContainerImpl implements ManagedContainer {
 
 
         factories.put(targetInterface, list);
-
-        System.out.println(factories.get(String.class));
     }
     
     @Override
@@ -350,7 +220,8 @@ public class ManagedContainerImpl implements ManagedContainer {
     public UUID beginCustomScope(Scope scope) {
         if(scope == Scope.DEFAULT) {
             throw new ContainerException("The given scope " + scope.name() + " does not support any subscope");
-        } else if(scope == Scope.APPLICATION){
+        } else if(scope == Scope.APPLICATION && creationalContextScopeId == null){
+            LOG.debug("begin CCS subScope");
             UUID newScopeId = scopeContainer.get(scope).beginSubScope();
             return  newScopeId;
         } else {
