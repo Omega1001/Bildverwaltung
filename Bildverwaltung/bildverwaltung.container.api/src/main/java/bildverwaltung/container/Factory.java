@@ -2,7 +2,8 @@ package bildverwaltung.container;
 
 /**
  * Method to generate an implementation of the interface T<br>
- * Any dependencies to that implementation are to be requested from the container, rather then creating them yourself<br>
+ * Any dependencies to that implementation are to be requested from the
+ * container, rather then creating them yourself<br>
  * 
  * The type T must be an interface<br>
  * 
@@ -10,26 +11,44 @@ package bildverwaltung.container;
  *
  * @param <T>
  */
-public interface Factory<T> {
+public interface Factory<T> extends AutoCloseable {
+
 	/**
-	 * Generates an Implementation of type T and puts it into the scopeContainer<br>
-	 * While doing so, the implementation is able to request other dependent Implementations, to use those while creating an implementation<br>
+	 * Returns the type of an interface that is assignment compatible with the type
+	 * returned by {@link #generate(ManagedContainer, Scope)}<br>
+	 * The returned Type must be an interface<br>
+	 * 
+	 * @return the interface for witch this factory supplies an implementation
+	 */
+	public Class<T> getInterfaceType();
+
+	/**
+	 * Generates an Implementation of type T<br>
+	 * While doing so, the implementation is able to request other dependent
+	 * Implementations, to use those while creating an implementation<br>
 	 * The returned value must be not null<br>
-	 * in case of an error, an {@link ContainerException} is thrown<br>
+	 * The returned value must be assignment compatible with the interface returned by {@link #getInterfaceType()}<br>
+	 * In case of an error, an {@link ContainerException} is thrown<br>
 	 * 
-	 * @param container Parent to be used for requesting additional dependencies
-	 * @param scope in that the implementation is to be stored in
-	 * @param scopeContainer Managed container, in that the scopes are kept
+	 * @param container
+	 *            Parent to be used for requesting additional dependencies
+	 * @param scope
+	 *            in that the implementation is to be stored in
 	 * @return an implementation of the interface T
-	 * @throws ContainerException if there was an error during generating the implementation
+	 * @throws ContainerException
+	 *             if there was an error during generating the implementation
 	 */
-	public T generate(ManagedContainer container,Scope scope, ScopeContainer scopeContainer);
-	
+	public T generate(ManagedContainer container, Scope scope);
+
 	/**
-	 * Method to be called, if an implementation is removed from the scope
-	 * The default implementation is to do noting 
+	 * Method to be called, if an implementation is removed from the scope The
+	 * default implementation is to do noting
 	 * 
-	 * @param toDestroy Implementation to be removed
+	 * @param toDestroy
+	 *            Implementation to be removed
 	 */
-	public default void preDestroy(T toDestroy) {};
+	public default void preDestroy(T toDestroy) {}
+	
+	@Override
+	default void close() throws Exception {}
 }
