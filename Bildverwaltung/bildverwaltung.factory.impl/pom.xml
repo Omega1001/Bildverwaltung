@@ -21,6 +21,36 @@
 			<artifactId>bildverwaltung.container.api</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.dao.api</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.dao.impl</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.service.api</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.service.impl</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.facade.api</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.facade.impl</artifactId>
+		<version>${project.version}</version>
+	</dependency>
 	</dependencies>
 
 	<build>
