@@ -23,7 +23,7 @@ public class Eclipselink2SLF4J extends AbstractSessionLog {
 	      MAP_LEVELS.put(SessionLog.FINEST, LogLevel.TRACE);
 	      MAP_LEVELS.put(SessionLog.FINER, LogLevel.TRACE);
 	      MAP_LEVELS.put(SessionLog.FINE, LogLevel.DEBUG);
-	      MAP_LEVELS.put(SessionLog.CONFIG, LogLevel.INFO);
+	      MAP_LEVELS.put(SessionLog.CONFIG, LogLevel.DEBUG);
 	      MAP_LEVELS.put(SessionLog.INFO, LogLevel.INFO);
 	      MAP_LEVELS.put(SessionLog.WARNING, LogLevel.WARN);
 	      MAP_LEVELS.put(SessionLog.SEVERE, LogLevel.ERROR);
@@ -116,7 +116,6 @@ public class Eclipselink2SLF4J extends AbstractSessionLog {
 	      for (String category : SessionLog.loggerCatagories) {
 	         addLogger(category, ECLIPSELINK_NAMESPACE + "." + category);
 	      }
-	      // Logger default para cuando no hay categoría.
 	      addLogger(DEFAULT_CATEGORY, DEFAULT_ECLIPSELINK_NAMESPACE);
 	   }
 
