@@ -11,8 +11,12 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bildverwaltung.dao.entity.UUIDBase;
 import bildverwaltung.dao.exception.DaoException;
+import bildverwaltung.dao.exception.ExceptionType;
 
 /**
  * @author jannik
@@ -20,6 +24,7 @@ import bildverwaltung.dao.exception.DaoException;
  */
 public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E> {
 
+	private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
 	private EntityManager em;
 	private Class<E> entityClass;
 
@@ -52,7 +57,16 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E> {
 	 */
 	@Override
 	public E save(E toSave) throws DaoException {
-		return em.merge(toSave);
+		if (toSave == null) {
+			LOG.error("Entity : {} :Unable to save null ", entityClass.getName());
+			throw new DaoException(ExceptionType.ABS_DAO_0001);
+		}
+		try {
+			return em.merge(toSave);
+		} catch (Exception e) {
+			LOG.error("Entity : {} :Error during saving Entity {} : ", entityClass.getName(), toSave, e);
+			throw new DaoException(ExceptionType.ABS_DAO_0004, e);
+		}
 	}
 
 	/*
@@ -62,7 +76,16 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E> {
 	 */
 	@Override
 	public E get(UUID key) throws DaoException {
-		return em.find(entityClass, key);
+		if (key == null) {
+			LOG.error("Entity : {} :Unable to retrieve null ", entityClass.getName());
+			throw new DaoException(ExceptionType.ABS_DAO_0003);
+		}
+		try {
+			return em.find(entityClass, key);
+		} catch (Exception e) {
+			LOG.error("Entity : {} :Error during fetching Entity with key {} : ", entityClass.getName(), key, e);
+			throw new DaoException(ExceptionType.ABS_DAO_0005, e);
+		}
 	}
 
 	/*
@@ -72,11 +95,16 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E> {
 	 */
 	@Override
 	public List<E> getAll() throws DaoException {
-		CriteriaQuery<E> q = em.getCriteriaBuilder().createQuery(entityClass);
-		Root<E> c = q.from(entityClass);
-		q.select(c);
-		TypedQuery<E> query = em.createQuery(q);
-		return query.getResultList();
+		try {
+			CriteriaQuery<E> q = em.getCriteriaBuilder().createQuery(entityClass);
+			Root<E> c = q.from(entityClass);
+			q.select(c);
+			TypedQuery<E> query = em.createQuery(q);
+			return query.getResultList();
+		} catch (Exception e) {
+			LOG.error("Entity : {} :Error during fetching all Entities : ", entityClass.getName(), e);
+			throw new DaoException(ExceptionType.ABS_DAO_0007, e);
+		}
 	}
 
 	/*
@@ -86,7 +114,16 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E> {
 	 */
 	@Override
 	public void delete(UUID key) throws DaoException {
-		em.remove(get(key));
+		if (key == null) {
+			LOG.error("Entity : {} :Unable to save null ", entityClass.getName());
+			throw new DaoException(ExceptionType.ABS_DAO_0002);
+		}
+		try {
+			em.remove(get(key));
+		} catch (Exception e) {
+			LOG.error("Entity : {} :Error during removing Entity with key{} : ", entityClass.getName(), key, e);
+			throw new DaoException(ExceptionType.ABS_DAO_0006, e);
+		}
 	}
 
 }
