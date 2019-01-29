@@ -22,7 +22,7 @@ import bildverwaltung.dao.exception.ExceptionType;
  * @author jannik
  *
  */
-public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E> {
+public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,AutoCloseable{
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
 	private EntityManager em;
@@ -124,6 +124,11 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E> {
 			LOG.error("Entity : {} :Error during removing Entity with key{} : ", entityClass.getName(), key, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0006, e);
 		}
+	}
+	
+	@Override
+	public void close() throws Exception {
+		em.close();
 	}
 
 }
