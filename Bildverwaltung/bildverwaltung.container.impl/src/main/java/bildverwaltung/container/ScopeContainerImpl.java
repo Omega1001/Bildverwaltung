@@ -1,11 +1,13 @@
 package bildverwaltung.container;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.*;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ScopeContainerImpl implements ScopeContainer {
+public class ScopeContainerImpl implements ScopeContainer, Closeable {
 	private static final Logger LOG = LoggerFactory.getLogger(ScopeContainerImpl.class);
 	private final UUID scopeId;
 	private Map<UUID, ScopeContainer> subScopes;
@@ -15,16 +17,7 @@ public class ScopeContainerImpl implements ScopeContainer {
 	public ScopeContainerImpl(Scope scope, UUID scopeId) {
 
 		this.managedScope = scope;
-
-		if (scope == Scope.APPLICATION) {
-
-			subScopes = new HashMap<>();
-			subScopes.put(scopeId, this);
-
-		} else {
-			subScopes = new HashMap<>();
-		}
-
+		subScopes = new HashMap<>();
 		factories = new HashMap<>();
 		this.scopeId = scopeId;
 
@@ -142,4 +135,8 @@ public class ScopeContainerImpl implements ScopeContainer {
 		return factories;
 	}
 
+	@Override
+	public void close() throws IOException {
+
+	}
 }

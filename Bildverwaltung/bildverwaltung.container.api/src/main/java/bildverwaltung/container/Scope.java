@@ -18,11 +18,17 @@ package bildverwaltung.container;
  * Implementations created with this scope are not to be reused
  * </td>
  * </tr>
+ * <tr>
+ *     <td>{@link #CREATIONALCONTEXT}</td>
+ *     This scope is always created temporary when trying to materialize a interface in ManagedContainer.
+ *     It is used to keep an "context" between all the different objects that will be created or used
+ *     while the "materializing" process.
+ * </tr>
  * </table>
  * 
  * @author jannik
  *
  */
 public enum Scope {
-	APPLICATION, DEFAULT;
+	APPLICATION, DEFAULT,CREATIONALCONTEXT;
 }
