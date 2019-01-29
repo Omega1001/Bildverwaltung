@@ -65,8 +65,7 @@ public class ContainerLoader {
 	 * isAboardStartup method returns false
 	 * 
 	 * @return an new, fully initialized {@link ManagedContainer}
-	 * @throws ContainerException
-	 *             if there was an error during startup
+	 * @throws ContainerException if there was an error during startup
 	 */
 	public static ManagedContainer loadContainer() {
 		LOG.trace("Enter loadContainer");
@@ -99,33 +98,36 @@ public class ContainerLoader {
 	 * exceptions
 	 * <p>
 	 * 
-	 * @param container
-	 *            to be closed
-	 * @throws ContainerShutdownException
-	 *             if there was en error during shuting down
+	 * @param container to be closed
+	 * @throws ContainerShutdownException if there was en error during shuting down
 	 */
 	public static void handleContainerShutdown(ManagedContainer container) {
 		LOG.trace("Enter handleContainerShutdown container={}", container);
 		ContainerShutdownException ex = null;
-		List<ShutdownTask> shutdownTasks = container.materializeAll(ShutdownTask.class, Scope.DEFAULT);
-		LOG.debug("Recieved {} shutdown tasks from container", shutdownTasks != null ? shutdownTasks.size() : 0);
-		for (ShutdownPhase phase : ShutdownPhase.values()) {
-			LOG.debug("Begin shutdown phase {}", phase);
-			for (ShutdownTask task : shutdownTasks) {
-				if (phase.equals(task.getExecutionPhase())) {
-					try {
-						LOG.debug("Executiong shutdown task {}", task.getTaskName());
-						task.execute();
-					} catch (Exception e) {
-						LOG.error("Error during executing shutdown task {}: ", task.getTaskName(), e);
-						if (ex == null) {
-							ex = new ContainerShutdownException("Error during shuting down container", e);
-						} else {
-							ex.addSuppressed(e);
+		try {
+			List<ShutdownTask> shutdownTasks = container.materializeAll(ShutdownTask.class, Scope.DEFAULT);
+			LOG.debug("Recieved {} shutdown tasks from container", shutdownTasks != null ? shutdownTasks.size() : 0);
+			for (ShutdownPhase phase : ShutdownPhase.values()) {
+				LOG.debug("Begin shutdown phase {}", phase);
+				for (ShutdownTask task : shutdownTasks) {
+					if (phase.equals(task.getExecutionPhase())) {
+						try {
+							LOG.debug("Executiong shutdown task {}", task.getTaskName());
+							task.execute();
+						} catch (Exception e) {
+							LOG.error("Error during executing shutdown task {}: ", task.getTaskName(), e);
+							if (ex == null) {
+								ex = new ContainerShutdownException("Error during shuting down container", e);
+							} else {
+								ex.addSuppressed(e);
+							}
 						}
 					}
 				}
 			}
+		} catch (Exception e) {
+			ex = new ContainerShutdownException("Error during shuting down container");
+			ex.addSuppressed(e);
 		}
 		LOG.debug("Invoking container side shutdown");
 		try {
@@ -199,21 +201,24 @@ public class ContainerLoader {
 	@SuppressWarnings("unchecked")
 	private static void registerStartups(ManagedContainer container, IniFile factoryInit) {
 		LOG.trace("Enter registerStartups container={}, factoryInit={}", container, factoryInit);
-		String[] types = factoryInit.getOrDefault(STARTUP_SECTION_NAME, STARTUP_CLASSES, "").split(",");
-		LOG.debug("Found {} potential startup tasks");
-		ClassLoader loader = ContainerLoader.class.getClassLoader();
-		for (String className : types) {
-			try {
-				Class<?> c = loader.loadClass(className);
-				if (StartupTask.class.isAssignableFrom(c)) {
-					LOG.debug("Adding startup task {}", c.getSimpleName());
-					container.addFactory(new StartupTaskFactory((Class<? super StartupTask>) c));
-				} else {
-					LOG.warn("Listed startup task does not implements StartupTask");
+		String classes = factoryInit.get(STARTUP_SECTION_NAME, STARTUP_CLASSES);
+		if (classes != null) {
+			String[] types = classes.split(",");
+			LOG.debug("Found {} potential startup tasks");
+			ClassLoader loader = ContainerLoader.class.getClassLoader();
+			for (String className : types) {
+				try {
+					Class<?> c = loader.loadClass(className);
+					if (StartupTask.class.isAssignableFrom(c)) {
+						LOG.debug("Adding startup task {}", c.getSimpleName());
+						container.addFactory(new StartupTaskFactory((Class<? super StartupTask>) c));
+					} else {
+						LOG.warn("Listed startup task does not implements StartupTask");
+					}
+				} catch (ClassNotFoundException e) {
+					LOG.error("Unable to locate declared Startup");
+					throw new RuntimeException(e);
 				}
-			} catch (ClassNotFoundException e) {
-				LOG.error("Unable to locate declared Startup");
-				throw new RuntimeException(e);
 			}
 		}
 		LOG.trace("Exit registerStartups");
@@ -222,21 +227,24 @@ public class ContainerLoader {
 	@SuppressWarnings("unchecked")
 	private static void registerShutdowns(ManagedContainer container, IniFile factoryInit) {
 		LOG.trace("Enter registerShutdowns container={}, factoryInit={}", container, factoryInit);
-		String[] types = factoryInit.getOrDefault(SHUTDOWN_SECTION_NAME, SHUTDOWN_CLASSES, "").split(",");
-		LOG.debug("Found {} potential shutdown tasks");
-		ClassLoader loader = ContainerLoader.class.getClassLoader();
-		for (String className : types) {
-			try {
-				Class<?> c = loader.loadClass(className);
-				if (ShutdownTask.class.isAssignableFrom(c)) {
-					LOG.debug("Adding shutdown task {}", c.getSimpleName());
-					container.addFactory(new ShutdownTaskFactory((Class<? super ShutdownTask>) c));
-				} else {
-					LOG.warn("Listed shutdown task does not implements ShutdownTask");
+		String classes = factoryInit.get(SHUTDOWN_SECTION_NAME, SHUTDOWN_CLASSES);
+		if (classes != null) {
+			String[] types = classes.split(",");
+			LOG.debug("Found {} potential shutdown tasks");
+			ClassLoader loader = ContainerLoader.class.getClassLoader();
+			for (String className : types) {
+				try {
+					Class<?> c = loader.loadClass(className);
+					if (ShutdownTask.class.isAssignableFrom(c)) {
+						LOG.debug("Adding shutdown task {}", c.getSimpleName());
+						container.addFactory(new ShutdownTaskFactory((Class<? super ShutdownTask>) c));
+					} else {
+						LOG.warn("Listed shutdown task does not implements ShutdownTask");
+					}
+				} catch (ClassNotFoundException e) {
+					LOG.error("Unable to locate declared shutdown");
+					throw new RuntimeException(e);
 				}
-			} catch (ClassNotFoundException e) {
-				LOG.error("Unable to locate declared shutdown");
-				throw new RuntimeException(e);
 			}
 		}
 		LOG.trace("Exit registerShutdowns");
