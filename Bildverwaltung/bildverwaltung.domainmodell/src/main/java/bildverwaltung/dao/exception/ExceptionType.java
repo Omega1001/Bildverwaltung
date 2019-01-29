@@ -4,6 +4,9 @@ public enum ExceptionType {
 	UNKNOWN("Unknown error",null,null), 
 	
 	URI_RESOLUTION_0001("Unable to resolve uri : no compatible handler",null,null),
+	URI_RESOLUTION_0002("Unable to resolve uri : error during reading target",null,null),
+	
+	
 	ABS_DAO_0001("Can not save null object",null,null),
 	ABS_DAO_0002("Can not delete key null",null,null),
 	ABS_DAO_0003("Can not get key null",null,null), 
