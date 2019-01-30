@@ -43,8 +43,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 public class Main extends Application {
-	double HEIGHT  = 800.0;
-	double WIDTH = 600.0;
+	
+	private static final String ORGANIZE = "Verwalten";
+	
+	private static final double HEIGHT  = 800.0;
+	private static final double WIDTH = 600.0;
 	private static final Logger log = Logger.getLogger( Main.class.getName() );
 
 @Override
@@ -52,8 +55,8 @@ public void start( final javafx.stage.Stage primaryStage ){
 	log.info( "Start" );
 	
 	primaryStage.setTitle("Bilderverwaltung");
-	primaryStage.setHeight(HOEHE);
-	primaryStage.setWidth(BREITE);
+	primaryStage.setHeight(HEIGHT);
+	primaryStage.setWidth(WIDTH);
 	
 	Group root = new Group();
 
@@ -64,9 +67,9 @@ public void start( final javafx.stage.Stage primaryStage ){
 	 /*
 	  * Menu Verwaltung werden hier angelegt
 	  */
-	 Menu menuOrganize   		= new Menu("Verwalten");
+	 Menu menuOrganize   		= new Menu(ORGANIZE);
 	 Menu organizeFiles 		= new Menu("Alben Verwalten");
-	 MenuItem openFile 			= new MenuItem("Album Öffnen");
+	 MenuItem openFile 		= new MenuItem("Album Öffnen");
 	 MenuItem newFile   		= new MenuItem("Album Anlegen");
 	 MenuItem fileLocation 		= new MenuItem("Album Verschieben");
 	 MenuItem deleteFile 		= new MenuItem("Album Löschen");
