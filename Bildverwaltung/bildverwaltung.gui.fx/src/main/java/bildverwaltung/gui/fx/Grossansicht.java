@@ -38,9 +38,9 @@ public class Grossansicht extends Application{
 	
 	private static final String WARNING_DELETE = "Wollen Sie dieses Bild löschen?";
 	
-	private static final String HEIGHT = 800.0;
-	private static final String WIDTH = 600.0;
-	private static final String PAD = 15;
+	private static final double HEIGHT = 800.0;
+	private static final double WIDTH = 600.0;
+	private static final int PAD = 15;
 	Stage stage; 
 	@Override
 	public void start(final Stage stage) throws Exception {
