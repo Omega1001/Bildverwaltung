@@ -40,7 +40,11 @@ import javafx.stage.Stage;
 		private static final String WARNING_SINGLE = "Wollen Sie dieses Bild hier löschen?";
 		private static final String WARNING_EVERYWHERE = "Wollen Sie dieses Bild hier komplett entfernen";
 		private static final String WARNING_ALL = "Wollen Sie alle Bilder hier löschen?";
-		private static final String WARNING_TITLE = "SICHERHEITSFRAGE: LÖSCHEN";	 
+		private static final String WARNING_TITLE = "SICHERHEITSFRAGE: LÖSCHEN";	
+	
+		private static final String HEIGHT = 200.0;
+		private static final String WIDTH = 400.0;
+
 	    @Override
 	    public void start(Stage stage) {
 	 
@@ -185,7 +189,7 @@ import javafx.stage.Stage;
 	            }
 	        });
 	 
-	        Scene scene = new Scene(root, 400, 200);
+	        Scene scene = new Scene(root, WIDTH, HEIGHT);
 	 
 	        stage.setScene(scene);
 	        stage.show();
