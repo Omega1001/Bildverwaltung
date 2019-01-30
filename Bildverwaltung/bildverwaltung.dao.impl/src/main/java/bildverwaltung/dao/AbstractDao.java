@@ -58,13 +58,13 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 	@Override
 	public E save(E toSave) throws DaoException {
 		if (toSave == null) {
-			LOG.error("Entity : {} :Unable to save null ", entityClass.getName());
+			LOG.error("Entity : {} :Unable to save null ", entityClass.getSimpleName());
 			throw new DaoException(ExceptionType.ABS_DAO_0001);
 		}
 		try {
 			return em.merge(toSave);
 		} catch (Exception e) {
-			LOG.error("Entity : {} :Error during saving Entity {} : ", entityClass.getName(), toSave, e);
+			LOG.error("Entity : {} :Error during saving Entity {} : ", entityClass.getSimpleName(), toSave, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0004, e);
 		}
 	}
@@ -77,13 +77,13 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 	@Override
 	public E get(UUID key) throws DaoException {
 		if (key == null) {
-			LOG.error("Entity : {} :Unable to retrieve null ", entityClass.getName());
+			LOG.error("Entity : {} :Unable to retrieve null ", entityClass.getSimpleName());
 			throw new DaoException(ExceptionType.ABS_DAO_0003);
 		}
 		try {
 			return em.find(entityClass, key);
 		} catch (Exception e) {
-			LOG.error("Entity : {} :Error during fetching Entity with key {} : ", entityClass.getName(), key, e);
+			LOG.error("Entity : {} :Error during fetching Entity with key {} : ", entityClass.getSimpleName(), key, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0005, e);
 		}
 	}
@@ -102,7 +102,7 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 			TypedQuery<E> query = em.createQuery(q);
 			return query.getResultList();
 		} catch (Exception e) {
-			LOG.error("Entity : {} :Error during fetching all Entities : ", entityClass.getName(), e);
+			LOG.error("Entity : {} :Error during fetching all Entities : ", entityClass.getSimpleName(), e);
 			throw new DaoException(ExceptionType.ABS_DAO_0007, e);
 		}
 	}
@@ -115,13 +115,17 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 	@Override
 	public void delete(UUID key) throws DaoException {
 		if (key == null) {
-			LOG.error("Entity : {} :Unable to save null ", entityClass.getName());
+			LOG.error("Entity : {} :Unable to save null ", entityClass.getSimpleName());
 			throw new DaoException(ExceptionType.ABS_DAO_0002);
 		}
 		try {
-			em.remove(get(key));
+			E obj = get(key);
+			if(obj == null) {
+				LOG.debug("Entity : {} : Key {} delete is not persistent, doing nothing",entityClass.getSimpleName(),key);
+			}
+			em.remove(obj);
 		} catch (Exception e) {
-			LOG.error("Entity : {} :Error during removing Entity with key{} : ", entityClass.getName(), key, e);
+			LOG.error("Entity : {} :Error during removing Entity with key{} : ", entityClass.getSimpleName(), key, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0006, e);
 		}
 	}

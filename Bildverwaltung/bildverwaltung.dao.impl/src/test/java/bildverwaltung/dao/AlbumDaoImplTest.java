@@ -82,7 +82,7 @@ public class AlbumDaoImplTest {
 		albumDao.save(null);
 		em.getTransaction().commit();
 
-		List<Album> p = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> p = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(p, containsInAnyOrder(album1, album2, album3));
 	}
 	
@@ -97,7 +97,7 @@ public class AlbumDaoImplTest {
 		albumDao.save(album4);
 		em.getTransaction().commit();
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2, album3, album4));
 	}
 	
@@ -113,7 +113,7 @@ public class AlbumDaoImplTest {
 		albumDao.save(album5);
 		em.getTransaction().commit();
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2, album3, album4, album5));
 	}
 	
@@ -128,7 +128,7 @@ public class AlbumDaoImplTest {
 		albumDao.save(album1);
 		em.getTransaction().commit();
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2, album3));
 	}
 	
@@ -144,7 +144,7 @@ public class AlbumDaoImplTest {
 		albumDao.save(album4);
 		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2, album3, album4));
 	}
 	
@@ -157,9 +157,9 @@ public class AlbumDaoImplTest {
 		
 		em.getTransaction().begin();
 		albumDao.save(album1B);
-		em.getTransaction().begin();
+		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1B, album2, album3));
 	}
 	
@@ -173,9 +173,9 @@ public class AlbumDaoImplTest {
 		em.getTransaction().begin();
 		albumDao.save(album1);
 		albumDao.save(album1B);
-		em.getTransaction().begin();
+		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1B, album2, album3));
 	}
 	
@@ -189,9 +189,9 @@ public class AlbumDaoImplTest {
 		em.getTransaction().begin();
 		albumDao.save(album1B);
 		albumDao.save(album1);
-		em.getTransaction().begin();
+		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2, album3));
 	}
 	
@@ -206,7 +206,7 @@ public class AlbumDaoImplTest {
 		albumDao.save(null);
 		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1));
 	}
 	
@@ -219,7 +219,7 @@ public class AlbumDaoImplTest {
 		albumDao.save(album1);
 		em.getTransaction().commit();
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1));
 	}
 	
@@ -234,7 +234,7 @@ public class AlbumDaoImplTest {
 		em.getTransaction().commit();
 		
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album4, album5));
 	}
 	
@@ -249,7 +249,7 @@ public class AlbumDaoImplTest {
 		em.getTransaction().commit();
 		
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1B));
 	}
 	
@@ -264,7 +264,7 @@ public class AlbumDaoImplTest {
 		
 		albumDao.get(null);
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1B, album2, album3));
 	}
 	
@@ -277,7 +277,7 @@ public class AlbumDaoImplTest {
 		
 		assertEquals(albumDao.get(uUID1), em.find(Album.class, uUID1));
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1B, album2, album3));
 	}
 	
@@ -290,7 +290,7 @@ public class AlbumDaoImplTest {
 		
 		assertEquals(albumDao.get(uUID5), null);
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1B, album2, album3));
 	}
 	
@@ -303,7 +303,7 @@ public class AlbumDaoImplTest {
 		
 		albumDao.get(null);
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, IsEmptyCollection.empty());
 	}
 	
@@ -314,7 +314,7 @@ public class AlbumDaoImplTest {
 		
 		assertNull(albumDao.get(uUID1));
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, IsEmptyCollection.empty());
 	}
 	
@@ -325,7 +325,7 @@ public class AlbumDaoImplTest {
 		
 		fillEM();
 		
-		// assertThat("List equality without order", albumDao.getAll(), containsInAnyOrder(album1, album, album3));
+		assertThat("List equality without order", albumDao.getAll(), containsInAnyOrder(album1, album2, album3));
 	}
 	
 	@Test
@@ -349,7 +349,7 @@ public class AlbumDaoImplTest {
 		albumDao.delete(null);
 		em.getTransaction().commit();
 
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2, album3));	
 	}
 	
@@ -366,7 +366,7 @@ public class AlbumDaoImplTest {
 		
 		assertEquals(null, em.find(Album.class, uUID3));
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2));	
 	}
 	
@@ -383,7 +383,7 @@ public class AlbumDaoImplTest {
 		albumDao.delete(uUID5);
 		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, containsInAnyOrder(album1, album2, album3));
 	}
 	
@@ -398,7 +398,7 @@ public class AlbumDaoImplTest {
 		albumDao.delete(null);
 		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, IsEmptyCollection.empty());
 	}
 	
@@ -411,7 +411,7 @@ public class AlbumDaoImplTest {
 		albumDao.delete(uUID1);
 		em.getTransaction().commit();
 		
-		List<Album> a = em.createQuery("SELECT a FROM ALBUM a", Album.class).getResultList();
+		List<Album> a = em.createQuery("SELECT a FROM Album a", Album.class).getResultList();
 		assertThat(a, IsEmptyCollection.empty());
 	}
 	

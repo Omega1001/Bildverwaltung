@@ -101,7 +101,7 @@ public class PictureDaoImplTest {
 		picDao.save(null);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -116,7 +116,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic4);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3, pic4));
 	}
 
@@ -132,7 +132,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic5);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3, pic4, pic5));
 	}
 
@@ -147,7 +147,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic1);
 		em.getTransaction().commit();
 
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -163,7 +163,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic4);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3, pic4));
 	}
 
@@ -178,7 +178,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic1B);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1B, pic2, pic3));
 	}
 	
@@ -194,7 +194,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic1B);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1B, pic2, pic3));
 	}
 	
@@ -210,7 +210,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic1);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -225,7 +225,7 @@ public class PictureDaoImplTest {
 		picDao.save(null);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, IsEmptyCollection.empty());
 	}
 
@@ -238,7 +238,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic1);
 		em.getTransaction().commit();
 	
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1));
 	}
 
@@ -252,7 +252,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic5);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic4, pic5));
 	}
 	
@@ -266,7 +266,7 @@ public class PictureDaoImplTest {
 		picDao.save(pic1B);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1B));
 	}
 
@@ -280,7 +280,7 @@ public class PictureDaoImplTest {
 		exception.expect(DaoException.class);
 		picDao.get(null);
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -293,7 +293,7 @@ public class PictureDaoImplTest {
 
 		assertEquals(picDao.get(uUID1), em.find(Picture.class, uUID1));
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -306,7 +306,7 @@ public class PictureDaoImplTest {
 
 		assertEquals(picDao.get(uUID5), null);
 
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -319,7 +319,7 @@ public class PictureDaoImplTest {
 		
 		picDao.get(null);
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, IsEmptyCollection.empty());
 	}
 
@@ -330,7 +330,7 @@ public class PictureDaoImplTest {
 
 		assertNull(picDao.get(uUID1));
 
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, IsEmptyCollection.empty());
 	}
 
@@ -365,7 +365,7 @@ public class PictureDaoImplTest {
 		picDao.delete(null);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -397,7 +397,7 @@ public class PictureDaoImplTest {
 		picDao.delete(uUID5);
 		em.getTransaction().commit();
 		
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, containsInAnyOrder(pic1, pic2, pic3));
 	}
 
@@ -412,7 +412,7 @@ public class PictureDaoImplTest {
 		picDao.delete(null);
 		em.getTransaction().commit();
 
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, IsEmptyCollection.empty());
 	}
 
@@ -427,7 +427,7 @@ public class PictureDaoImplTest {
 		picDao.delete(uUID1);
 		em.getTransaction().commit();
 
-		List<Picture> p = em.createQuery("SELECT p FROM PICTURE p", Picture.class).getResultList();
+		List<Picture> p = em.createQuery("SELECT p FROM Picture p", Picture.class).getResultList();
 		assertThat(p, IsEmptyCollection.empty());
 	}
 
