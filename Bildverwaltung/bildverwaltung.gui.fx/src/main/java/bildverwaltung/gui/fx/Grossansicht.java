@@ -25,7 +25,18 @@ import javafx.stage.Stage;
 
 public class Grossansicht extends Application{
 	private static final Logger log = Logger.getLogger( Grossansicht.class.getName() );
+	private static final String SAVE = "Speichern";
+	private static final String LAST_PIC = "Letztes Bild";
+	private static final String FULL_PIC = "Vollbild";
+	private static final String NEXT_PIC = "NÃ¤chstes Bild";
+	private static final String DELETE_PIC = "LÃ¶schen";
+	private static final String COMMENTAR = "Kommentar";
 	
+	private static final String WARNING_DELETE = "Wollen Sie dieses Bild lÃ¶schen?";
+	
+	private static final String HEIGHT = 800.0;
+	private static final String WIDTH = 600.0;
+	private static final String PAD = 15;
 	//int Bewertung =0;
 	  Stage stage; 
 	@Override
@@ -56,7 +67,7 @@ public class Grossansicht extends Application{
 		        );
 		        
 				ToolBar toolBarTop = new ToolBar();
-				Button buttonSave = new Button("Speichern");
+				Button buttonSave = new Button(SAVE);
 				toolBarTop.getItems().addAll(buttonSave);
 			     
 			    ToolBar toolBarBottom = new ToolBar();
@@ -70,7 +81,7 @@ public class Grossansicht extends Application{
 		            }
 		        });
 			    
-			    Tooltip tooltipBack = new Tooltip("Letztes Bild");
+			    Tooltip tooltipBack = new Tooltip(LAST_PIC);
 			    buttonBack.setTooltip(tooltipBack);
 			    tooltipBack.setTextAlignment(TextAlignment.RIGHT);
 			    buttonBack.setOnAction(new EventHandler<ActionEvent>() {
@@ -83,7 +94,7 @@ public class Grossansicht extends Application{
 			    
 			    Button buttonFullScreen = new Button ("O");
 			    
-			    Tooltip tooltipFullScreen = new Tooltip("Vollbild");
+			    Tooltip tooltipFullScreen = new Tooltip(FULL_PIC);
 			    buttonFullScreen.setTooltip(tooltipFullScreen);
 			    tooltipFullScreen.setTextAlignment(TextAlignment.RIGHT);
 			    buttonFullScreen.setOnAction(new EventHandler<ActionEvent>() {
@@ -96,19 +107,19 @@ public class Grossansicht extends Application{
 			    
 			    
 			    Button buttonNext = new Button (">");
-			    Tooltip tooltipNext = new Tooltip("Nächstes Bild");
+			    Tooltip tooltipNext = new Tooltip(NEXT_PIC);
 			    buttonNext.setTooltip(tooltipNext);
 			    tooltipNext.setTextAlignment(TextAlignment.RIGHT);
 			    
 			    Button buttonComment = new Button ("C");
-			    Tooltip tooltipComment = new Tooltip("Kommentar einfügen");
+			    Tooltip tooltipComment = new Tooltip(COMMENTAR);
 			    buttonComment.setTooltip(tooltipComment);
 			    tooltipComment.setTextAlignment(TextAlignment.RIGHT);
 			    
 			    
 			    Button buttonDelete = new Button ("X");
 		
-			    Tooltip tooltipDelete = new Tooltip("Löschen");
+			    Tooltip tooltipDelete = new Tooltip(DELETE);
 			    buttonDelete.setTooltip(tooltipDelete);
 			    tooltipDelete.setTextAlignment(TextAlignment.RIGHT);
 			    
@@ -119,13 +130,13 @@ public class Grossansicht extends Application{
 				//Wie funktioniert das Positionieren der Buttons??
 			    toolBarBottom.getItems().addAll(leftSpacer,midSpacer,buttonBack,buttonFullScreen,buttonNext,middleSpacer, buttonComment, rightSpacer, buttonDelete);
 				TilePane view = new TilePane(); 
-			    view.setPadding(new Insets(15, 15, 15, 15)); 
-			    view.setHgap(15); 
+			    view.setPadding(new Insets(PAD, PAD, PAD, PAD)); 
+			    view.setHgap(PAD); 
 		
 					BorderPane borderPane = new BorderPane();
 			 	borderPane.setTop(toolBarTop);
 			 	borderPane.setBottom(toolBarBottom);
-			 	Scene scene = new Scene(borderPane, 500, 600);
+			 	Scene scene = new Scene(borderPane, WIDTH, HEIGHT);
 			 	
 				stage.setScene(scene);
 			    stage.show();
