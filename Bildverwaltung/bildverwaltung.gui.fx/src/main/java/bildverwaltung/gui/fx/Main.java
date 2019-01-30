@@ -1,4 +1,5 @@
-import java.awt.Panel;
+import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -6,210 +7,260 @@ import java.util.logging.Logger;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler; 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.RadioButton;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SplitPane;
+import javafx.scene.control.TitledPane;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Label;
+import javafx.scene.layout.FlowPane;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
+import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage; 
 
-public class Grossansicht extends Application{
-	private static final Logger log = Logger.getLogger( Grossansicht.class.getName() );
-	private static final String SAVE = "Speichern";
-	private static final String LAST_PIC = "Letztes Bild";
-	private static final String FULL_PIC = "Vollbild";
-	private static final String NEXT_PIC = "Nächstes Bild";
-	private static final String DELETE_PIC = "Löschen";
-	private static final String COMMENTAR = "Kommentar";
+public class Main extends Application {
+	double HEIGHT  = 800.0;
+	double WIDTH = 600.0;
+	private static final Logger log = Logger.getLogger( Main.class.getName() );
+
+@Override
+public void start( final javafx.stage.Stage primaryStage ){
+	log.info( "Start" );
 	
-	private static final String WARNING_DELETE = "Wollen Sie dieses Bild löschen?";
+	primaryStage.setTitle("Bilderverwaltung");
+	primaryStage.setHeight(HOEHE);
+	primaryStage.setWidth(BREITE);
 	
-	private static final String HEIGHT = 800.0;
-	private static final String WIDTH = 600.0;
-	private static final String PAD = 15;
-	Stage stage; 
-	@Override
-	public void start(final Stage stage) throws Exception {
-		log.info( "Grossansicht" );
-		try {
-			//die Spacer Methoden dienen nur der provisorischen Positionierung der Buttons
-			//Sobald die Positionierung stimmt, koennen die dann ausgetauscht/geloescht werden
-				stage.setResizable(true);
-				final Pane leftSpacer = new Pane();
-		        HBox.setHgrow(
-		                leftSpacer,
-		                Priority.SOMETIMES
-		        );
-		
-		        final Pane rightSpacer = new Pane();
-		        HBox.setHgrow(
-		                rightSpacer,
-		                Priority.SOMETIMES
-		        );
-		        Pane midSpacer = new Pane();
-		        HBox.setHgrow(
-		        		midSpacer,
-		        		Priority.SOMETIMES
-		        );
-		        Pane middleSpacer = new Pane();
-		        HBox.setHgrow(
-		        		middleSpacer,
-		        		Priority.SOMETIMES
-		        );
-			
-		        /**
-			 * Die ToolBar toolBarTop soll die Buttons wie zum Schnellzugriff enthalten. Vorerst nur Speichern
-			 */
-			//Statt "Speichern" kann man hier auch Button-Image verwenden.
-				ToolBar toolBarTop = new ToolBar();
-				Button buttonSave = new Button(SAVE);
-				toolBarTop.getItems().addAll(buttonSave);
-			
-				Tooltip tooltipSave = new Tooltip(SAVE);
-			    	buttonSave.setTooltip(tooltipSave);
-			    	tooltipSave.setTextAlignment(TextAlignment.RIGHT);
-			
-			   /**
-			    * Die ToolBar toolBarBottom enthaelt die ueblichen Media-Anzeige-Buttons. (Naechstes, Letztes, Vollbild, Loeschen
-			    */  
-			    ToolBar toolBarBottom = new ToolBar();
-			    Pane tBPane = new Pane();
-				//"<" ist nur ein Platzhalter
-			
-			   /**
-			    * Der Button Back laesst das vorherige Bild in der Grossansicht anzeigen
-			    */  
-			    Button buttonBack = new Button("<");
-			    
-			    buttonBack.setOnAction(new EventHandler<ActionEvent>() {
-		
-		            public void handle(ActionEvent event) {
-		                //letztes Bild anzeigen
-		            }
-		        });
-			    
-			   /**
-			    * Mit Tooltip kann man neben den Buttons eine Erklaerung anzeigen lassen
-			    */ 
-			    Tooltip tooltipBack = new Tooltip(LAST_PIC );
-			    buttonBack.setTooltip(tooltipBack);
-			    tooltipBack.setTextAlignment(TextAlignment.RIGHT);
-			    buttonBack.setOnAction(new EventHandler<ActionEvent>() {
-		
-		            public void handle(ActionEvent event) {
-		            	 //naechstes Bild.
-		                 
-		            }
-		        });
-			   /**
-			    * Der Button FullScreen oeffnet und schliesst den FullScreen.
-			    */  
-			    //"O" ist nur ein Platzhalter
-			    Button buttonFullScreen = new Button ("O");
-			    
-			    Tooltip tooltipFullScreen = new Tooltip(FULL_PIC);
-			    buttonFullScreen.setTooltip(tooltipFullScreen);
-			    tooltipFullScreen.setTextAlignment(TextAlignment.RIGHT);
-			    buttonFullScreen.setOnAction(new EventHandler<ActionEvent>() {
-		
-		            public void handle(ActionEvent event) {
-		            	if (stage.isFullScreen()==false) {
-		            		stage.setFullScreen(true);
-		            	}else {
-		            		stage.setFullScreen(false);
-		            	}
-		                 
-		            }
-		        });
-			    
-			    /**
-			    * Der Button Next laesst das nachste Bild in der Grossansicht anzeigen
-			    */ 
-			    //">" ist nur ein Platzhalter
-			    Button buttonNext = new Button (">");
-			    Tooltip tooltipNext = new Tooltip(NEXT_PIC);
-			    buttonNext.setTooltip(tooltipNext);
-			    tooltipNext.setTextAlignment(TextAlignment.RIGHT);
-			    
-			   /**
-			    * Der Button Comment soll ein Kommentar zu einem Bild speichern und bei druecken erscheinen bzw. ausblenden
-			    */ 
-			    // Wusste jetzt nicht, ob wir Kommentare schon zulassen, als Attribute?
-			    //"C" ist nur ein Platzhalter
-			    Button buttonComment = new Button ("C");
-			    Tooltip tooltipComment = new Tooltip(COMMENTAR);
-			    buttonComment.setTooltip(tooltipComment);
-			    tooltipComment.setTextAlignment(TextAlignment.RIGHT);
-			    buttonDelete.setOnAction(new EventHandler<ActionEvent>() {
-		        	public void handle(ActionEvent event) {	
-					
-				}
-			    /**
-			    * Der Button Delete loescht das angezeigte Bild mit Warnung-Dialog. Bei erfolgreichem Loeschen wird das naechste Bild angezeigt, oder die Grossansicht beendet.
-			    */ 	
-			    //"X" ist nur ein Platzhalter
-			    Button buttonDelete = new Button ("X");
-		
-			    Tooltip tooltipDelete = new Tooltip(DELETE);
-			    buttonDelete.setTooltip(tooltipDelete);
-			    tooltipDelete.setTextAlignment(TextAlignment.RIGHT);
-			    
-			     buttonDelete.setOnAction(new EventHandler<ActionEvent>() {
-		        	public void handle(ActionEvent event) {		            	
-					Alert alert = new Alert(AlertType.CONFIRMATION);
-		            		alert.setTitle(DELETE);
-		            		alert.setHeaderText(WARNING_DELETE);
+	Group root = new Group();
 
-		            		Optional<ButtonType> result = alert.showAndWait();
-		            		if (result.get() == ButtonType.OK){
-		            			//Bild loeschen
-		            		} else {
-		            			// bei Abbrechen und Meldung schliessen: neachstes verfuegbare Bild anzeigen, oder Grossansicht beenden
-		            		}
-		                 
-		            	}
-		       	 });
-		            }
-		        });
-			    
-			    //toolBarBottom.getItems().addAll(buttonBack,buttonFullScreen,buttonNext,buttonComment,buttonDelete);
-			    
-				//Wie funktioniert das Positionieren der Buttons??
-			    toolBarBottom.getItems().addAll(leftSpacer,midSpacer,buttonBack,buttonFullScreen,buttonNext,middleSpacer, buttonComment, rightSpacer, buttonDelete);
-				TilePane view = new TilePane(); 
-			    view.setPadding(new Insets(PAD, PAD, PAD, PAD)); 
-			    view.setHgap(PAD); 
-		
-					BorderPane borderPane = new BorderPane();
-			 	borderPane.setTop(toolBarTop);
-			 	borderPane.setBottom(toolBarBottom);
-			 	Scene scene = new Scene(borderPane, WIDTH, HEIGHT);
-			 	
-				stage.setScene(scene);
-			    stage.show();
-		}
-		catch(Exception e){
-			 log.log( Level.SEVERE, "Fehler ist in der Grossansicht aufgetreten", e );
-		    }
-	}
+	primaryStage.setResizable(true);
 	
+	HBox menu = new HBox();
+	
+	 /*
+	  * Menu Verwaltung werden hier angelegt
+	  */
+	 Menu menuOrganize   		= new Menu("Verwalten");
+	 Menu organizeFiles 		= new Menu("Alben Verwalten");
+	 MenuItem openFile 			= new MenuItem("Album Öffnen");
+	 MenuItem newFile   		= new MenuItem("Album Anlegen");
+	 MenuItem fileLocation 		= new MenuItem("Album Verschieben");
+	 MenuItem deleteFile 		= new MenuItem("Album Löschen");
+	 
+	 try{
+		 	organizeFiles.getItems().addAll(openFile, newFile, fileLocation,deleteFile);
+	 
+		 	Menu organizeImages 		= new Menu("Bilder Verwalten");
+		 	MenuItem showImage  		= new MenuItem("Bild Anzeigen");
+		 	MenuItem saveAsImage		= new MenuItem("Bild Zufügen zu einem Album");
+		 	MenuItem imageLocation		= new MenuItem("Bild Verschieben");
+		 	MenuItem deleteImage 		= new MenuItem("Bild Löschen");
+		 	organizeImages.getItems().addAll(showImage, saveAsImage, imageLocation,deleteImage);
+	
+		 	Menu menuImport 	= new Menu("Importieren");
+		 	MenuItem importFile 	= new MenuItem("Album Importieren");
+		 	MenuItem importImage 	= new MenuItem("Bild Importieren");
+		 	menuImport.getItems().addAll(importFile, importImage);
+	 
+		 	menuOrganize.getItems().addAll(organizeFiles,organizeImages,menuImport);
+	 
+		 	Menu menuHelp   = new Menu("Hilfe");
+		 	MenuItem getHelpOnline   = new MenuItem("Hilfe Online erhalten");
+		 	MenuItem checkForUpdates = new MenuItem("Auf Updates überprüfen");
+		 	menuHelp.getItems().addAll(getHelpOnline, checkForUpdates);
+		 	//Create MenuItems
+	 
+		 	MenuBar menuBar = new MenuBar();
+		 	menuBar.getMenus().addAll(menuOrganize, menuHelp);
+		 	menu.getChildren().add(menuBar);
+	 
+    	 	//Buttons werden erstellt
+    	 	ToolBar toolBar     = new ToolBar();
+    	 	Button buttonImport = new Button("Import");
+    	 	Button buttonSearch = new Button("Suchen");
+    	 	toolBar.getItems().addAll(buttonImport, buttonSearch);
+    
+    	 
+     	//Es werden Bilder/Graphiken anstelle der Buttons hinzugefügt
+     	buttonImport.setGraphic(new ImageView("https://bit.ly/2DG1GtN"));
+     	
+      	//Bennenungen der Buttons anzeigen
+    	 	Tooltip tooltipImport = new Tooltip("Import");
+    	 	buttonImport.setTooltip(tooltipImport);
+    	 	tooltipImport.setTextAlignment(TextAlignment.RIGHT);
+     
+    	 	Tooltip tooltipSearch = new Tooltip("Suchen");
+    	 	buttonSearch.setTooltip(tooltipSearch);
+    	 	tooltipSearch.setTextAlignment(TextAlignment.RIGHT);
+          
+    	 	SplitPane splitPaneTop = new SplitPane();
+    	 	splitPaneTop.setOrientation(Orientation.VERTICAL);
+    	 	splitPaneTop.getItems().addAll(menuBar, toolBar);
+     
+    
+		     TitledPane firstTitledPane = new TitledPane();
+		     firstTitledPane.setText("Alben");
+		     VBox alben = new VBox(); //Hier Datei Baum
+		     alben.getChildren().add(new TextField());
+		     firstTitledPane.setContent(alben);
+		      
+		     TitledPane secondTitledPane = new TitledPane();
+		     secondTitledPane.setText("Suchen/Filtern");
+		     VBox suchen = new VBox();
+		  
+		        // create a textfield 
+		        TextField b1 = new TextField("Suche"); 
+		        TextField b2 = new TextField(" "); 
+		        TextField b3 = new TextField(" "); 
+		        TextField b4 = new TextField(" "); 
+		        TextField b5 = new TextField(" "); 
+		        TextField b6 = new TextField(" "); 
+		        TextField b7 = new TextField(" "); 
+		        
+		  
+		        // create a tile pane 
+		        TilePane r = new TilePane(); 
+		  
+		        // create a label 
+		        Label l1 = new Label(""); 
+		  
+		        // action event 
+		        EventHandler<ActionEvent> event = new EventHandler<ActionEvent>() { 
+		            public void handle(ActionEvent e) 
+		            { 
+		            	 String input1 = b1.getText().trim();
+		            	 String input2 = b2.getText().trim();
+		            	 String input3 = b3.getText().trim();
+		            	 String input4 = b4.getText().trim();
+		            	 String input5 = b5.getText().trim();
+		            	 String input6 = b6.getText().trim();
+		            	 String input7 = b7.getText().trim();
+		            	 
+		            	 String suchWerte  = input1 + " " +input2 + " " +input3 + " " +input4 + " " +input5 + " " +input6 + " " +input7;
+		                l1.setText(suchWerte); 
+		            } 
+		        }; 
+		  
+		        //Nachdem Enter betätigt wurden ist 
+		        
+		        b1.setOnAction(event); 
+		        b2.setOnAction(event); 
+		        b3.setOnAction(event); 
+		        b4.setOnAction(event); 
+		        b5.setOnAction(event); 
+		        b6.setOnAction(event); 
+		        b7.setOnAction(event); 
+		        
+		     suchen.getChildren().addAll(b1, b2, b3, b4,b5, b6, b7,r,l1);
+		     secondTitledPane.setContent(suchen);
+		     
+		     TitledPane thirdTitledPane = new TitledPane();
+		     thirdTitledPane.setText("Informationen");
+		     VBox infos = new VBox();
+		     infos.getChildren().add(new TextField());
 
-
-	 public static void main(String[] args) {
-	        Application.launch(args);
+		     thirdTitledPane.setContent(infos);
+		     
+		     VBox borderPaneLeft = new VBox();
+		     borderPaneLeft.getChildren().addAll(firstTitledPane, secondTitledPane, thirdTitledPane);
+		     
+		    
+		     
+		     
+		     FlowPane flow = new FlowPane();
+		     flow.setVgap(8);
+		     flow.setHgap(4);
+		     flow.setPrefWrapLength(400); 
+		
+		     
+		     ImageView[] imageView ;
+		     Image [] image = new Image[10];
+		     List<Image> AllImages = new LinkedList();
+		     for (int i =0;i<image.length;i++){
+		    	 image[i]=new Image("https://bit.ly/1GvKLBX");
+		    	  AllImages.add(image[i]);
+		     }
+		     
+		     imageView = new ImageView[AllImages.size()];
+		     for (int j = 0; j < imageView.length; j++) {
+		         imageView[j] = new ImageView(AllImages.get(j));
+		         imageView[j].setFitHeight(150);
+		         imageView[j].setFitWidth(150);
+		         imageView[j].setSmooth(true);
+		         imageView[j].setPreserveRatio(true);
+		     }
+		     
+		    
+		
+		     Menu menuSave = new Menu("Speichern");
+		     MenuItem saveAs = new MenuItem("Speichern Unter");
+		     MenuItem movePic= new MenuItem("In Album Verschieben");
+		     menuSave.getItems().addAll(saveAs, movePic);
+		     //menuSave.getItems().add(new CheckMenuItem("Speichern Unter"));
+		     //menuSave.getItems().add(new CheckMenuItem("In Album Verschieben"));
+		     saveAs.setOnAction(new EventHandler<ActionEvent>() {
+		     
+		     	
+		         @Override
+		         public void handle(ActionEvent event) {
+		             //zuaetzliches speichern in anderem Ordner);
+		        	 
+		         }
+		     });
+		     
+		     movePic.setOnAction(new EventHandler<ActionEvent>() {
+		     
+		     	
+		         @Override
+		         public void handle(ActionEvent event) {
+		             //Verschieben des Bildes in anderen Ordner
+		         }
+		     });
+		     
+		    
+		     flow.getChildren().addAll(imageView);
+		      
+		      
+			BorderPane borderPane = new BorderPane();
+		 	borderPane.setTop(splitPaneTop);
+		 	borderPane.setLeft(borderPaneLeft);
+		 	borderPane.setCenter(flow);
+		 	
+		 	Scene scene = new Scene(borderPane);
+		 	
+		 	primaryStage.setScene(scene);
+		    primaryStage.show();
+	 }
+	 catch(Exception e){
+		 log.log( Level.SEVERE, "Fehler ist in der GUI-Main aufgetreten", e );
 	    }
+	 }
+
+	public static void main(String[] args) {
+    	Application.launch(args);
+    }
 }
