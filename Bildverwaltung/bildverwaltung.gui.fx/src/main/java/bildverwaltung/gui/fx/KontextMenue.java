@@ -42,8 +42,8 @@ import javafx.stage.Stage;
 		private static final String WARNING_ALL = "Wollen Sie alle Bilder hier löschen?";
 		private static final String WARNING_TITLE = "SICHERHEITSFRAGE: LÖSCHEN";	
 	
-		private static final String HEIGHT = 200.0;
-		private static final String WIDTH = 400.0;
+		private static final double HEIGHT = 200.0;
+		private static final double WIDTH = 400.0;
 
 	    @Override
 	    public void start(Stage stage) {
