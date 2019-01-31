@@ -6,7 +6,7 @@ import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ExceptionType;
 import bildverwaltung.dao.exception.ServiceException;
-import bildverwaltung.factory.impl.FactoryPictureDao;
+//import bildverwaltung.factory.impl.FactoryPictureDao;
 import bildverwaltung.service.pictureimport.PictureImportService;
 
 
@@ -22,12 +22,31 @@ import java.util.List;
 
 import static java.nio.file.Files.copy;
 
+
+
+
+
+/****************************************************************************************************
+ *                                                                                                  *
+ *                                                                                                  *
+ *                                                                                                  *
+ *  TODO: We need to change our way how we actually get the PictureDao before this will work again! *
+ *                                                                                                  *
+ *                                                                                                  *
+ *                                                                                                  *
+ ****************************************************************************************************
+ */
+
+
+
+
+
 public class PictureImportServiceImpl implements PictureImportService {
     private PictureDao dao;
 
     public PictureImportServiceImpl() {
 
-        dao = new FactoryPictureDao().generate(null, null, null);
+ //       dao = new FactoryPictureDao().generate(null, null, null);
 
     }
 

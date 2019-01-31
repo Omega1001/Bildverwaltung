@@ -13,7 +13,7 @@ public class Album extends UUIDBase {
 
 	private String name;
 	private List<Picture> pictures;
-	private Date creationDate;
+	private Date creationDate = new Date();
 	private String comment;
 	
 	public Album(String name, List<Picture> pictures, Date creationDate,
@@ -79,6 +79,12 @@ public class Album extends UUIDBase {
 	 */
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Album [getId()=").append(getId()).append(", name=").append(name).append("]");
+		return builder.toString();
 	}
 	
 	

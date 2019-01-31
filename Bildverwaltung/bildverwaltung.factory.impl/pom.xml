@@ -1,41 +1,104 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-    <groupId>prog3.torvald</groupId>
-    <artifactId>bildverwaltung</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-  </parent>
-  <artifactId>bildverwaltung.factory.impl</artifactId>
-  <name>Factory implementations</name>
-  <dependencies>
-  	<dependency>
-  		<groupId>prog3.torvald</groupId>
-  		<artifactId>bildverwaltung.domainmodell</artifactId>
-  		<version>${project.version}</version>
-  	</dependency>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+	<artifactId>bildverwaltung.factory.impl</artifactId>
+	<name>Factory implementations</name>
+	<dependencies>
+		<dependency>
+			<groupId>prog3.torvald</groupId>
+			<artifactId>bildverwaltung.domainmodell</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 
+		<dependency>
+			<groupId>prog3.torvald</groupId>
+			<artifactId>bildverwaltung.container.api</artifactId>
+			<version>${project.version}</version>
+		</dependency>
 	<dependency>
 		<groupId>prog3.torvald</groupId>
-		<artifactId>bildverwaltung.container.api</artifactId>
+		<artifactId>bildverwaltung.dao.api</artifactId>
 		<version>${project.version}</version>
 	</dependency>
-      <dependency>
-          <groupId>prog3.torvald</groupId>
-          <artifactId>bildverwaltung.dao.api</artifactId>
-          <version>0.0.1-SNAPSHOT</version>
-          <scope>compile</scope>
-      </dependency>
-      <dependency>
-          <groupId>prog3.torvald</groupId>
-          <artifactId>bildverwaltung.dao.api</artifactId>
-          <version>0.0.1-SNAPSHOT</version>
-          <scope>compile</scope>
-      </dependency>
-      <dependency>
-          <groupId>prog3.torvald</groupId>
-          <artifactId>bildverwaltung.dao.impl</artifactId>
-          <version>0.0.1-SNAPSHOT</version>
-          <scope>compile</scope>
-      </dependency>
-  </dependencies>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.dao.impl</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.service.api</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.service.impl</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.facade.api</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	<dependency>
+		<groupId>prog3.torvald</groupId>
+		<artifactId>bildverwaltung.facade.impl</artifactId>
+		<version>${project.version}</version>
+	</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>1.2.1</version>
+				<executions>
+					<execution>
+						<id>Add Factory List ini</id>
+						<goals>
+							<goal>java</goal>
+						</goals>
+						<phase>test</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<skip>${maven.test.skip}</skip>
+					<mainClass>bildverwaltung.factories.inigenerator.ContainerFactoryIniGenerator</mainClass>
+					<classpathScope>test</classpathScope>
+					<arguments>
+						<argument>${project.build.directory}/generated-sources/factories/META-INF/factories.ini</argument>
+						<argument>${project.build.outputDirectory}</argument>
+					</arguments>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Add Factory List ini</id>
+						<phase>test</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<resources>
+								<resource>
+									<directory>${project.build.directory}/generated-sources/factories</directory>
+									<filtering>false</filtering>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 </project>

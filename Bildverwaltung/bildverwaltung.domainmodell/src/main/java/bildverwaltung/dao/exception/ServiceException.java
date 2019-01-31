@@ -15,4 +15,14 @@ public class ServiceException extends FacadeException {
 		super(type);
 	}
 
+	public ServiceException(ExceptionType type, boolean rollback, Throwable cause) {
+		super(type, rollback, cause);
+	}
+
+	public ServiceException(ExceptionType type, boolean rollback) {
+		super(type, rollback);
+	}
+	
+	
+
 }

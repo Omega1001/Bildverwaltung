@@ -22,6 +22,7 @@
 	</build>
 	<modules>
 		<module>bildverwaltung.domainmodell</module>
+		<module>bildverwaltung.db-data</module>
 		<module>bildverwaltung.dao.api</module>
 		<module>bildverwaltung.dao.impl</module>
 		<module>bildverwaltung.service.api</module>

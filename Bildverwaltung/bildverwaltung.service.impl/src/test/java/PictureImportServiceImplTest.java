@@ -1,5 +1,4 @@
 import bildverwaltung.dao.PictureDao;
-import bildverwaltung.dao.PictureDaoImpl;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ExceptionType;

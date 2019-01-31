@@ -22,7 +22,7 @@ public class Picture extends UUIDBase {
 	private String extension;
 	private int heigth;
 	private int width;
-	private Date creationDate;
+	private Date creationDate = new Date();
 	private String comment;
 	
 	public Picture(String name, URI uri, List<Album> alben,
@@ -168,6 +168,16 @@ public class Picture extends UUIDBase {
 	 */
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+
+
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Picture [getId()=").append(getId()).append(", name=").append(name).append(", alben=")
+				.append(alben).append(", uri=").append(uri).append("]");
+		return builder.toString();
 	}
 	
 	
