@@ -377,8 +377,6 @@ public class AlbumDaoImplTest {
 		
 		fillEM();
 		
-		exception.expect(DaoException.class);
-		
 		em.getTransaction().begin();
 		albumDao.delete(uUID5);
 		em.getTransaction().commit();
