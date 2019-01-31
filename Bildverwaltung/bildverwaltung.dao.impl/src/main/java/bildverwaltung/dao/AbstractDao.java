@@ -57,12 +57,15 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 	 */
 	@Override
 	public E save(E toSave) throws DaoException {
+		LOG.trace("Enter save toSave={}", toSave);
 		if (toSave == null) {
 			LOG.error("Entity : {} :Unable to save null ", entityClass.getSimpleName());
 			throw new DaoException(ExceptionType.ABS_DAO_0001);
 		}
 		try {
-			return em.merge(toSave);
+			E res = em.merge(toSave);
+			LOG.trace("Exit save res={}", res);
+			return res;
 		} catch (Exception e) {
 			LOG.error("Entity : {} :Error during saving Entity {} : ", entityClass.getSimpleName(), toSave, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0004, e);
@@ -76,12 +79,15 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 	 */
 	@Override
 	public E get(UUID key) throws DaoException {
+		LOG.trace("Enter get key={}", key);
 		if (key == null) {
 			LOG.error("Entity : {} :Unable to retrieve null ", entityClass.getSimpleName());
 			throw new DaoException(ExceptionType.ABS_DAO_0003);
 		}
 		try {
-			return em.find(entityClass, key);
+			E res = em.find(entityClass, key);
+			LOG.trace("Exit get res={}", res);
+			return res;
 		} catch (Exception e) {
 			LOG.error("Entity : {} :Error during fetching Entity with key {} : ", entityClass.getSimpleName(), key, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0005, e);
@@ -95,12 +101,15 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 	 */
 	@Override
 	public List<E> getAll() throws DaoException {
+		LOG.trace("Enter getAll");
 		try {
 			CriteriaQuery<E> q = em.getCriteriaBuilder().createQuery(entityClass);
 			Root<E> c = q.from(entityClass);
 			q.select(c);
 			TypedQuery<E> query = em.createQuery(q);
-			return query.getResultList();
+			List<E> res = query.getResultList();
+			LOG.trace("Exit getAll res={}", res);
+			return res;
 		} catch (Exception e) {
 			LOG.error("Entity : {} :Error during fetching all Entities : ", entityClass.getSimpleName(), e);
 			throw new DaoException(ExceptionType.ABS_DAO_0007, e);
@@ -114,6 +123,7 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 	 */
 	@Override
 	public void delete(UUID key) throws DaoException {
+		LOG.trace("Enter delete key={}", key);
 		if (key == null) {
 			LOG.error("Entity : {} :Unable to save null ", entityClass.getSimpleName());
 			throw new DaoException(ExceptionType.ABS_DAO_0002);
@@ -128,11 +138,14 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 			LOG.error("Entity : {} :Error during removing Entity with key{} : ", entityClass.getSimpleName(), key, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0006, e);
 		}
+		LOG.trace("Exit delete");
 	}
 	
 	@Override
 	public void close() throws Exception {
+		LOG.trace("Enter close");
 		em.close();
+		LOG.trace("Exit close");
 	}
 
 }

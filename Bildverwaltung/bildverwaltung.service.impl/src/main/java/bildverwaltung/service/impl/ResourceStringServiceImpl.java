@@ -8,13 +8,16 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bildverwaltung.dao.ResourceStringDao;
 import bildverwaltung.dao.entity.ResourceString;
 import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.service.ResourceStringService;
 
 public class ResourceStringServiceImpl implements ResourceStringService {
-
+	private static final Logger LOG = LoggerFactory.getLogger(ResourceStringServiceImpl.class);
 	private ResourceStringDao rsDao;
 	private Locale standardLocale;
 
@@ -26,6 +29,7 @@ public class ResourceStringServiceImpl implements ResourceStringService {
 
 	@Override
 	public ResourceBundle fetchBundleForLocale(Locale locale) throws ServiceException {
+		LOG.trace("Enter fetchBundleForLocale locale={}", locale);
 		ResourceBundle result = null;
 		if (standardLocale.equals(locale)) {
 			result = new DBResourceBundel(rsDao.getResourceStringsForLocale(locale), new FallbackResourceBundel());
@@ -36,6 +40,7 @@ public class ResourceStringServiceImpl implements ResourceStringService {
 			result = new DBResourceBundel(rsDao.getResourceStringsForLocale(locale),
 					fetchBundleForLocale(new Locale(locale.getLanguage(), "")));
 		}
+		LOG.trace("Exit fetchBundleForLocale result={}", result);
 		return result;
 	}
 

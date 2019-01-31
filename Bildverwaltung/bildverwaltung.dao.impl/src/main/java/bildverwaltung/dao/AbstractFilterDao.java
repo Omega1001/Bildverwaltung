@@ -105,6 +105,8 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 	 */
 	private void generateFilterAndJoins(DataFilter<E> filters, List<Join<E, ?>> joins, List<Predicate> filterPredicates,
 			Root<E> root, CriteriaBuilder cb) {
+		LOG.trace("Enter generateFilterAndJoins filters={}, joins={}, filterPredicates={}, root={}, cb={}", filters, joins,
+				filterPredicates, root, cb);
 		if (filters != null) {
 			for (FilterDiscriptor<E, ?> filter : filters.getEntityOwnedFilters()) {
 				addFilter(filter, root, cb, filterPredicates);
@@ -125,7 +127,7 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 				}
 			}
 		}
-
+		LOG.trace("Exit generateFilterAndJoins");
 	}
 
 	/**
@@ -142,6 +144,7 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 	 */
 	private void addFilter(FilterDiscriptor<?, ?> filter, From<?, ?> root, CriteriaBuilder cb,
 			List<Predicate> filterPredicates) {
+		LOG.trace("Enter addFilter filter={}, root={}, cb={}, filterPredicates={}", filter, root, cb, filterPredicates);
 		if (root.getJavaType().equals(filter.getAttribute().getDeclaringType().getJavaType())) {
 			boolean negate = false;
 			Predicate work = null;
@@ -165,7 +168,7 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 				filterPredicates.add(negate ? work.not() : work);
 			}
 		}
-
+		LOG.trace("Exit addFilter");
 	}
 
 	/**
@@ -180,6 +183,7 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 	 * @return A {@link List} of JPA understandable order instructions
 	 */
 	private List<Order> generateOrderList(List<SortCriteria<E>> orderInstructions, Root<E> root, CriteriaBuilder cb) {
+		LOG.trace("Enter generateOrderList orderInstructions={}, root={}, cb={}", orderInstructions, root, cb);
 		List<Order> res = new LinkedList<>();
 		if (orderInstructions != null) {
 			for (SortCriteria<E> sortCreteria : orderInstructions) {
@@ -194,6 +198,7 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 				}
 			}
 		}
+		LOG.trace("Exit generateOrderList res={}", res);
 		return res;
 	}
 
