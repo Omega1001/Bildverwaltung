@@ -1,50 +1,48 @@
-import java.awt.Panel;
-import java.util.List;
+package bildverwaltung.gui.fx;
+
 import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler; 
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.TilePane;
-import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
-import javafx.stage.Stage; 
+import javafx.stage.Stage;
 
-public class Grossansicht extends Application{
-	private static final Logger log = Logger.getLogger( Grossansicht.class.getName() );
+public class Grossansicht extends Application {
+	private static final Logger LOG = LoggerFactory.getLogger(Grossansicht.class);
 	private static final String SAVE = "Speichern";
 	private static final String LAST_PIC = "Letztes Bild";
 	private static final String FULL_PIC = "Vollbild";
 	private static final String NEXT_PIC = "Nächstes Bild";
 	private static final String DELETE_PIC = "Löschen";
 	private static final String COMMENTAR = "Kommentar";
-	
+
 	private static final String WARNING_DELETE = "Wollen Sie dieses Bild löschen?";
-	
+
 	private static final double HEIGHT = 800.0;
 	private static final double WIDTH = 600.0;
 	private static final int PAD = 15;
-	Stage stage; 
+	Stage stage;
+
 	@Override
 	public void start(final Stage stage) throws Exception {
-		log.info( "Grossansicht" );
+		LOG.info( "Grossansicht" );
 		try {
 			//die Spacer Methoden dienen nur der provisorischen Positionierung der Buttons
 			//Sobald die Positionierung stimmt, koennen die dann ausgetauscht/geloescht werden
@@ -154,24 +152,25 @@ public class Grossansicht extends Application{
 			    Tooltip tooltipComment = new Tooltip(COMMENTAR);
 			    buttonComment.setTooltip(tooltipComment);
 			    tooltipComment.setTextAlignment(TextAlignment.RIGHT);
+			    Button buttonDelete = new Button();
 			    buttonDelete.setOnAction(new EventHandler<ActionEvent>() {
-		        	public void handle(ActionEvent event) {	
-					
-				}
+		        	public void handle(ActionEvent event) {
+		        		
+		        	
 			    /**
 			    * Der Button Delete loescht das angezeigte Bild mit Warnung-Dialog. Bei erfolgreichem Loeschen wird das naechste Bild angezeigt, oder die Grossansicht beendet.
 			    */ 	
 			    //"X" ist nur ein Platzhalter
 			    Button buttonDelete = new Button ("X");
 		
-			    Tooltip tooltipDelete = new Tooltip(DELETE);
+			    Tooltip tooltipDelete = new Tooltip(DELETE_PIC);
 			    buttonDelete.setTooltip(tooltipDelete);
 			    tooltipDelete.setTextAlignment(TextAlignment.RIGHT);
 			    
 			     buttonDelete.setOnAction(new EventHandler<ActionEvent>() {
 		        	public void handle(ActionEvent event) {		            	
 					Alert alert = new Alert(AlertType.CONFIRMATION);
-		            		alert.setTitle(DELETE);
+		            		alert.setTitle(DELETE_PIC);
 		            		alert.setHeaderText(WARNING_DELETE);
 
 		            		Optional<ButtonType> result = alert.showAndWait();
@@ -203,13 +202,11 @@ public class Grossansicht extends Application{
 			    stage.show();
 		}
 		catch(Exception e){
-			 log.log( Level.SEVERE, "Fehler ist in der Grossansicht aufgetreten", e );
+			LOG.error("Fehler ist in der Grossansicht aufgetreten", e );
 		    }
 	}
-	
 
-
-	 public static void main(String[] args) {
-	        Application.launch(args);
-	    }
+	public static void main(String[] args) {
+		Application.launch(args);
+	}
 }

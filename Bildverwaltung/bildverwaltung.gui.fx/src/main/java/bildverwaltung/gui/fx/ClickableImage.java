@@ -1,3 +1,5 @@
+package bildverwaltung.gui.fx;
+
 import java.util.ArrayList;
 
 import javafx.application.Application;

@@ -1,23 +1,18 @@
-import java.util.Collection;
+package bildverwaltung.gui.fx;
+
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Optional;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ContextMenu;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.ToolBar;
@@ -30,16 +25,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
-import javafx.scene.input.ContextMenuEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
-import javafx.stage.Stage;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 
 public class Main extends Application {
@@ -48,11 +37,11 @@ public class Main extends Application {
 	
 	private static final double HEIGHT  = 800.0;
 	private static final double WIDTH = 600.0;
-	private static final Logger log = Logger.getLogger( Main.class.getName() );
+	private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
 @Override
 public void start( final javafx.stage.Stage primaryStage ){
-	log.info( "Start" );
+	LOG.info( "Start" );
 	
 	primaryStage.setTitle("Bilderverwaltung");
 	primaryStage.setHeight(HEIGHT);
@@ -259,7 +248,7 @@ public void start( final javafx.stage.Stage primaryStage ){
 		    primaryStage.show();
 	 }
 	 catch(Exception e){
-		 log.log( Level.SEVERE, "Fehler ist in der GUI-Main aufgetreten", e );
+		 LOG.error("Fehler ist in der GUI-Main aufgetreten", e );
 	    }
 	 }
 
