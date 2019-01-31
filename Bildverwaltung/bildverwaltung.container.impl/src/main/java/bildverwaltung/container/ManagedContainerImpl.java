@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
+import java.io.IOException;
 import java.util.*;
 
 public class ManagedContainerImpl implements ManagedContainer {
@@ -195,7 +196,7 @@ public class ManagedContainerImpl implements ManagedContainer {
 
         if (desiredFactory == null) {
             LOG.error("given class does not have a factory");
-            throw new ContainerException("given class does not have a factory");
+            throw new ContainerException("given interface" + interfaceClass.getName() +"does not have a factory");
         } else {
             desiredFactory.forEach(singleFactory-> {
                 resList.add(getImplementation(singleFactory, scope, scopeId));
@@ -266,12 +267,29 @@ public class ManagedContainerImpl implements ManagedContainer {
 
             factories.forEach((k,v) ->{
                for(Factory<?> factory:v) {
-                   try {
-                       factory.close();
-                   } catch (Exception e) {
-                        LOG.error("error while trying to close factory {}",factory);
+                   if(factory instanceof Closeable) {
+                       try {
+                           factory.close();
+                       } catch (Exception e) {
+                           LOG.error("error while trying to close factory {}", factory);
+                       }
                    }
+
+                   factory = null;
                }
+            });
+
+            scopeContainer.forEach((k, v) -> {
+                Closeable toClose = (Closeable) v;
+                if(v instanceof Closeable) {
+                    try {
+                        toClose.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        LOG.debug("Error while trying to close Scope {}", v.toString());
+                    }
+                }
+                v = null;
             });
     }
 }
