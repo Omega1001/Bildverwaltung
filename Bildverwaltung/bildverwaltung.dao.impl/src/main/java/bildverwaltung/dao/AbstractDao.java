@@ -132,8 +132,9 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 			E obj = get(key);
 			if(obj == null) {
 				LOG.debug("Entity : {} : Key {} delete is not persistent, doing nothing",entityClass.getSimpleName(),key);
+			}else {
+				em.remove(obj);
 			}
-			em.remove(obj);
 		} catch (Exception e) {
 			LOG.error("Entity : {} :Error during removing Entity with key{} : ", entityClass.getSimpleName(), key, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0006, e);
