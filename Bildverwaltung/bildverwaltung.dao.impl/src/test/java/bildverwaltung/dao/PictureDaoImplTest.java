@@ -391,8 +391,6 @@ public class PictureDaoImplTest {
 
 		fillEM();
 		
-		exception.expect(DaoException.class);
-		
 		em.getTransaction().begin();
 		picDao.delete(uUID5);
 		em.getTransaction().commit();
@@ -420,8 +418,6 @@ public class PictureDaoImplTest {
 	public void deleteTest2_2() throws DaoException {
 		
 		// delete non-existent entity from empty DB
-		
-		exception.expect(DaoException.class);
 		
 		em.getTransaction().begin();
 		picDao.delete(uUID1);
