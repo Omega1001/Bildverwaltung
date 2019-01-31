@@ -137,6 +137,23 @@ public class ScopeContainerImpl implements ScopeContainer, Closeable {
 
 	@Override
 	public void close() throws IOException {
+		subScopes.forEach((k,v) -> {
+			try {
+				((Closeable) v).close();
+			} catch (IOException e) {
+				e.printStackTrace();
+				LOG.error("Error while trying to close subScope {} from Primary Scope {}",v.toString(),getManagedScope().toString());
+			}
+		});
 
+		factories.forEach((k,v) -> {
+			if(v instanceof Closeable) {
+				try {
+					((Closeable) v).close();
+				} catch (IOException e) {
+					LOG.error("Error while trying to close factory {} in scope {}",v.toString(),getManagedScope().toString());
+				}
+			}
+		});
 	}
 }
