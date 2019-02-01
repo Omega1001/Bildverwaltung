@@ -2,11 +2,15 @@ package bildverwaltung.gui.fx.util;
 
 import java.util.concurrent.locks.ReadWriteLock;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bildverwaltung.localisation.Messenger;
 import javafx.scene.Node;
 
 public abstract class RebuildebleSubComponent {
-
+	private static final Logger LOG = LoggerFactory.getLogger(RebuildebleSubComponent.class);
 	private final Messenger msg;
 
 	private Node graphic = null;
@@ -42,12 +46,15 @@ public abstract class RebuildebleSubComponent {
 	}
 
 	public final void rebuild() {
+		LOG.trace("Enter rebuild");
 		try {
 			lock.writeLock().lock();
+			LOG.debug("{} : gui component is being rebuild",this.getClass().getSimpleName());
 			rebuildSubComponents();
 			graphic = build();
 		} finally {
 			lock.writeLock().unlock();
 		}
+		LOG.trace("Exit rebuild");
 	}
 }

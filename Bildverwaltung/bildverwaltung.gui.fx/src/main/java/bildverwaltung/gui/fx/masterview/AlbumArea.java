@@ -2,9 +2,11 @@ package bildverwaltung.gui.fx.masterview;
 
 import java.util.function.Supplier;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
-import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
@@ -16,7 +18,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
 
 public class AlbumArea extends RebuildebleSubComponent {
-
 	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class,Scope.APPLICATION);
 	private Supplier<PictureArea> viewArea;
 
@@ -30,16 +31,16 @@ public class AlbumArea extends RebuildebleSubComponent {
 
 	@Override
 	protected Node build() {
-		albums.clear();
-		try {
-			albums.addAll(albumFacade.getAllAlbumNameReferences());
-		} catch (FacadeException e) {
-			msg().showExceptionMessage(e);
-		}
 		TitledPane title = new TitledPane();
 		title.setText(msg().translate("headerTextMasterViewInfoAreaAlbumArea"));
 		title.setContent(albumList);
 		return title;
 	}
+
+	public ObservableList<DBDataRefference<String>> getAlbums() {
+		return albums;
+	}
+	
+	
 
 }

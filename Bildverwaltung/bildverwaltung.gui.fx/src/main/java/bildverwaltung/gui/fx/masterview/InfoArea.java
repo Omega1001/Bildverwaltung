@@ -42,4 +42,18 @@ public class InfoArea extends RebuildebleSubComponent {
 		return b;
 	}
 
+	public AlbumArea getAlbumArea() {
+		return albumArea;
+	}
+
+	public SearchArea getSearchArea() {
+		return searchArea;
+	}
+
+	public AttributeArea getAttributeArea() {
+		return attributeArea;
+	}
+	
+	
+
 }
