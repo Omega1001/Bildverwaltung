@@ -1,7 +1,43 @@
 <Translations defaultLanguage="en">
 	<Language languageCode="en" countryCode="">
+		<!-- Generic Search -->
 		<ResourceString id="itemLabelGenericSearchDISABLED">Disabled</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">is equal to</ResourceString>
 		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">is not equal to</ResourceString>
+		<!-- Messenger -->
+		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
+		<ResourceString id="aleartHeaderWarningMessage">Warning</ResourceString>
+		<ResourceString id="aleartHeaderErrorMessage">An error occurred</ResourceString>
+		<ResourceString id="msgExceptionUnknown">An unexpected error occurred\r\nIf this error is persistent, please contact your administrator</ResourceString>
+		<!-- Toolbar Area -->
+		<ResourceString id="labelMasterViewToolbarFile">File</ResourceString>
+		<ResourceString id="labelMasterViewToolbarFileQuit">Quit</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganise">Manage</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbum">Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePicture">Picture</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDisplay">Show Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumCreate">Create Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Delete Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Show Picture</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Add to Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Delete Picture</ResourceString>
+		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarImport">Import Pictures</ResourceString>
+		<!-- Info Area -->
+		<!-- Album Area -->
+		<ResourceString id="headerTextMasterViewInfoAreaAlbumArea">Albums</ResourceString>
+		<!-- Search Area -->
+		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaHeader">Search</ResourceString>
+		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaPicture">Picture</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaSearchAreaPictureName">Name</ResourceString>
+		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaAlbum">Picture</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaSearchAreaAlbumName">Name</ResourceString>
+		<ResourceString id="btnMasterViewInfoAreaSearchAreaSearch">Search</ResourceString>
+		<ResourceString id="btnMasterViewInfoAreaSearchAreaReset">Reset</ResourceString>
+		<!-- Attribute Area -->
+		<ResourceString id="headerTextMasterViewInfoAreaAttributeAreaHeader">Attributes</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Height</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Width</ResourceString>
 	</Language>
 </Translations>

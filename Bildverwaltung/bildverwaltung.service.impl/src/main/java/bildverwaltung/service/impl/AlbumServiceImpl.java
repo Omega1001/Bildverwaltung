@@ -9,6 +9,7 @@ import bildverwaltung.dao.AlbumDao;
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.service.AlbumService;
+import bildverwaltung.utils.DBDataRefference;
 
 public class AlbumServiceImpl implements AlbumService {
 	private static final Logger LOG = LoggerFactory.getLogger(AlbumServiceImpl.class);
@@ -26,6 +27,22 @@ public class AlbumServiceImpl implements AlbumService {
 		LOG.trace("Enter getAllAlbums");
 		List<Album> res = aDao.getAll();
 		LOG.trace("Exit getAllAlbums res={}", res);
+		return res;
+	}
+
+	@Override
+	public List<DBDataRefference<String>> getAllAlbumNameReferences() throws ServiceException {
+		LOG.trace("Enter getAllAlbumNameReferences");
+		List<DBDataRefference<String>> refs = aDao.getAllAlbumNameReferences();
+		LOG.trace("Exit getAllAlbumNameReferences refs={}", refs);
+		return refs;
+	}
+
+	@Override
+	public Album save(Album toSave) throws ServiceException{
+		LOG.trace("Enter save toSave={}", toSave);
+		Album res = aDao.save(toSave);
+		LOG.trace("Exit save res={}", res);
 		return res;
 	}
 
