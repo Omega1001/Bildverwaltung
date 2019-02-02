@@ -18,5 +18,22 @@
   		<artifactId>bildverwaltung.facade.api</artifactId>
   		<version>${project.version}</version>
   	</dependency>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.container.api</artifactId>
+  		<version>${project.version}</version>
+  	</dependency>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.container.impl</artifactId>
+  		<version>${project.version}</version>
+  		<scope>runtime</scope>
+  	</dependency>
+  	<dependency>
+  		<groupId>prog3.torvald</groupId>
+  		<artifactId>bildverwaltung.factory.impl</artifactId>
+  		<version>${project.version}</version>
+  		<scope>runtime</scope>
+  	</dependency>
   </dependencies>
 </project>
