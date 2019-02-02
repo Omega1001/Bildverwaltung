@@ -1,5 +1,8 @@
 package bildverwaltung.service.pictureimport.impl;
 
+import bildverwaltung.container.Container;
+import bildverwaltung.container.ManagedContainer;
+import bildverwaltung.container.Scope;
 import bildverwaltung.dao.PictureDao;
 import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
@@ -47,6 +50,8 @@ public class PictureImportServiceImpl implements PictureImportService {
     public PictureImportServiceImpl() {
 
  //       dao = new FactoryPictureDao().generate(null, null, null);
+        ManagedContainer container = Container.getActiveContainer();
+        dao = container.materialize(PictureDao.class, Scope.APPLICATION);
 
     }
 
