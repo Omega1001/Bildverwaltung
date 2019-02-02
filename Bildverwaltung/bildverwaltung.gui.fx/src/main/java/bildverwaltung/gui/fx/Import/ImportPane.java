@@ -39,23 +39,10 @@ public class ImportPane{
     private ImageView minusImgView;
     private ImageView plusImgView;
 
-    //I18N  constants
-    private final static String STAGE_TITLE = "Import";
-    private final static String CHOOSE_BUTTON_TXT = "choose Files";
-    private final static String CONFIRM_BUTTON_TXT = "confirm";
-    private final static String CANCLE_BUTTON_TXT = "cancel";
-    private final static String REMOVE_BUTTON_TXT = "remove";
-    private final static String LABEL_TXT = "choose or drag files to import";
-    private final static String ALL_FILTER_TEXT = "Pictures";
-    private final static String ANY_FILTER_TXT = "ANY";
-    private final static String CHOOSE_BUTTON_TOOLTIP = "choose file in file Tree";
-    private final static String CONFIRM_BUTTON_TOOLTIP = "import choosen Files";
-    private final static String REMOVE_BUTTON_TOOLTIP = "remove selected Files";
-    private final static String CANCLE_BUTTON_TOOLTIP = "close this Window";
-
     /**
      *  constructor to build and insert the ImportPane
      * @param importWindow @NotNull Stage to put the ImportPane in
+     * @param msg @NotNull Messenger to take resourceStrings from
      */
     public  ImportPane(Stage importWindow, Messenger msg){
         this.importWindow = importWindow;
@@ -71,18 +58,18 @@ public class ImportPane{
      * Method to create every Node and subStructures
      */
     private void initializeNodes(){
-        //this.plusImgView = new ImageView(new Image("plus.png"));
-        //this.minusImgView = new ImageView(new Image("minus.png"));
+        this.plusImgView = new ImageView(new Image("plus.png"));
+        this.minusImgView = new ImageView(new Image("minus.png"));
         this.bp = new BorderPane();
         this.sc = new Scene(bp);
         this.lv = new ListView<>();
-        this.chooseBt = new Button(CHOOSE_BUTTON_TXT);
-        this.confirmBt = new Button(CONFIRM_BUTTON_TXT);
-        this.cancelBt = new Button(CANCLE_BUTTON_TXT);
-        this.removeBt = new Button(REMOVE_BUTTON_TXT);
+        this.chooseBt = new Button();
+        this.confirmBt = new Button(msg.translate("confirmBtnImportConfirm"));
+        this.cancelBt = new Button(msg.translate("cancelBtnImportCancel"));
+        this.removeBt = new Button();
         this.buttonPane = new AnchorPane();
         this.centerBx = new VBox();
-        this.lb = new Label(LABEL_TXT);
+        this.lb = new Label(msg.translate("headerTextImportChooseOrDrag"));
         this.lbPane = new AnchorPane();
         this.ol = FXCollections.observableArrayList();
     }
@@ -101,9 +88,8 @@ public class ImportPane{
 
         confirmBt.setOnAction((e)->{
             List li = Arrays.asList(ol.toArray());
-            //PictureImportService pi = Container.getActiveContainer().materialize(PictureImportService.class, Scope.APPLICATION,null);
-            //pi.importAll(li);
-            //todo "PictureImportScrviceImpl" durch api ersetzen und kommentare entfernen
+            PictureImportService pi = Container.getActiveContainer().materialize(PictureImportService.class, Scope.APPLICATION,null);
+            pi.importAll(li);
         });
 
         cancelBt.setOnAction((e)->{
@@ -175,14 +161,15 @@ public class ImportPane{
         extensions.add(JPEG_EXT);
         extensions.add(BPM_EXT);
 
-        FileChooser.ExtensionFilter allFilter = new FileChooser.ExtensionFilter(ALL_FILTER_TEXT,extensions);
+        FileChooser.ExtensionFilter allFilter = new FileChooser.ExtensionFilter
+                (msg.translate("descriptorImportFileChooserExtensionFilterPictures"),extensions);
         fc.getExtensionFilters().add(allFilter);
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPG",JPG_EXT));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("PNG",PNG_EXT));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("GIF",GIF_EXT ));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("JPEG",JPEG_EXT ));
         fc.getExtensionFilters().add(new FileChooser.ExtensionFilter("BPM",BPM_EXT ));
-        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(ANY_FILTER_TXT,"*.*"));
+        fc.getExtensionFilters().add(new FileChooser.ExtensionFilter(msg.translate("descriptorImportFileChooserExtensionFilterAny"),"*.*"));
         fc.setSelectedExtensionFilter(allFilter);
 
         fc.setInitialDirectory(new File(System.getProperty("user.home")));
@@ -208,18 +195,18 @@ public class ImportPane{
         AnchorPane.setTopAnchor(chooseBt,30.0);
         AnchorPane.setRightAnchor(chooseBt,5.0);
         AnchorPane.setLeftAnchor(chooseBt,5.0);
-        //chooseBt.setGraphic(plusImgView);
+        chooseBt.setGraphic(plusImgView);
 
         AnchorPane.setTopAnchor(removeBt,75.0);
         AnchorPane.setRightAnchor(removeBt,5.0);
         AnchorPane.setLeftAnchor(removeBt,5.0);
-        //removeBt.setGraphic(minusImgView);
+        removeBt.setGraphic(minusImgView);
 
         //Button Tooltips
-        chooseBt.setTooltip(new Tooltip(CHOOSE_BUTTON_TOOLTIP));
-        removeBt.setTooltip(new Tooltip(REMOVE_BUTTON_TOOLTIP));
-        confirmBt.setTooltip(new Tooltip(CONFIRM_BUTTON_TOOLTIP));
-        cancelBt.setTooltip(new Tooltip(CANCLE_BUTTON_TOOLTIP));
+        chooseBt.setTooltip(new Tooltip(msg.translate("tooltipImportChooseButtonChooseFiles")));
+        removeBt.setTooltip(new Tooltip(msg.translate("tooltipImportRemoveButtonRemoveFiles")));
+        confirmBt.setTooltip(new Tooltip(msg.translate("tooltipImportConfirmButtonImportChosenFiles")));
+        cancelBt.setTooltip(new Tooltip(msg.translate("tooltipImportCancelButtonCloseWindow")));
 
         //Label
         AnchorPane.setLeftAnchor(lb,5.0);
@@ -245,7 +232,7 @@ public class ImportPane{
 
         //Border pane and Stage
         bp.setPadding(new Insets(5.0,5.0,5.0,5.0));
-        importWindow.setTitle(STAGE_TITLE);
+        importWindow.setTitle(msg.translate("stageTitleImport"));
         importWindow.setMinHeight(290.0);
         importWindow.setMinWidth(380.0);
     }

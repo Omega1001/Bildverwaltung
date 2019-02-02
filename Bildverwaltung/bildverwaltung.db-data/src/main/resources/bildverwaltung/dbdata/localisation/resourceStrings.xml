@@ -39,5 +39,16 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Height</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Width</ResourceString>
+		<!-- Import Area -->
+		<ResourceString id="stageTitleImport">Import</ResourceString>
+		<ResourceString id="headerTextImportChooseOrDrag">choose or drag files to import</ResourceString>
+		<ResourceString id="descriptorImportFileChooserExtensionFilterPictures">Pictures</ResourceString>
+		<ResourceString id="descriptorImportFileChooserExtensionFilterAny">Any</ResourceString>
+		<ResourceString id="tooltipImportChooseButtonChooseFiles">choose file in file Tree</ResourceString>
+		<ResourceString id="tooltipImportRemoveButtonRemoveFiles">remove selected Files</ResourceString>
+		<ResourceString id="tooltipImportCancelButtonCloseWindow">close this Window</ResourceString>
+		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">import chosen Files</ResourceString>
+		<ResourceString id="cancelBtnImportCancel">cancel</ResourceString>
+		<ResourceString id="confirmBtnImportConfirm">confirm</ResourceString>
 	</Language>
 </Translations>
