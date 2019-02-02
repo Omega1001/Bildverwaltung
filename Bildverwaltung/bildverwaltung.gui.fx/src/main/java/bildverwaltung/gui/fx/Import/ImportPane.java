@@ -15,6 +15,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 public class ImportPane {
@@ -29,7 +30,7 @@ public class ImportPane {
     private VBox centerBx;
     private Label lb;
     private AnchorPane lbPane;
-    private ObservableList ol;
+    private ObservableList<File> ol;
     private ImageView minusImgView;
     private ImageView plusImgView;
 
@@ -72,7 +73,7 @@ public class ImportPane {
             FileChooser fc = getPreparedFileChooser();
             List<File> fileList = fc.showOpenMultipleDialog(importWindow);
             if (fileList != null) {
-                ol.addAll(fileList);
+                ol.addAll(removeDuplicates(fileList));
             }
         });
 
@@ -102,11 +103,33 @@ public class ImportPane {
 
         lv.setOnDragDropped((e)->{
             Dragboard db = e.getDragboard();
-            List<File> fileList = db.getFiles();
+            List<File> fileList = removeDuplicates(db.getFiles());
             ol.addAll(fileList);
             e.setDropCompleted(true);
             e.consume();
         });
+    }
+
+    /**
+     * Method to check for duplicates in the inputFiles and the ObservableList
+     * duplicates were compared by FileName
+     *
+     * @param inputFiles List which gets checked for duplicates in the ObservableList
+     * @return List without any duplicates in the ObservableList
+     *      or the unchanged inputList if there are no duplicates
+     */
+    private List<File> removeDuplicates(List<File> inputFiles){
+        Iterator<File> fi = inputFiles.iterator();
+        while(fi.hasNext()){
+            File f = fi.next();
+            for(File insertedFile: ol){
+                if(f.getAbsolutePath().equals(insertedFile.getAbsolutePath())){
+                    fi.remove();
+                }
+            }
+        }
+
+        return inputFiles;
     }
 
     /**
