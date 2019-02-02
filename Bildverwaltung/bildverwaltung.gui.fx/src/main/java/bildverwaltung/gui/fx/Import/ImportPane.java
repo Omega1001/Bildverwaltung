@@ -1,5 +1,8 @@
 package bildverwaltung.gui.fx.Import;
 
+import bildverwaltung.container.Container;
+import bildverwaltung.container.Scope;
+import bildverwaltung.localisation.Messenger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -18,7 +21,9 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
-public class ImportPane {
+public class ImportPane{
+    private final Messenger msg;
+    private Stage importWindow;
     private BorderPane bp;
     private Scene sc;
     private ListView<File> lv;
@@ -43,6 +48,24 @@ public class ImportPane {
     private final static String LABEL_TXT = "choose or drag files to import";
     private final static String ALL_FILTER_TEXT = "Pictures";
     private final static String ANY_FILTER_TXT = "ANY";
+    private final static String CHOOSE_BUTTON_TOOLTIP = "choose file in file Tree";
+    private final static String CONFIRM_BUTTON_TOOLTIP = "import choosen Files";
+    private final static String REMOVE_BUTTON_TOOLTIP = "remove selected Files";
+    private final static String CANCLE_BUTTON_TOOLTIP = "close this Window";
+
+    /**
+     *  constructor to build and insert the ImportPane
+     * @param importWindow @NotNull Stage to put the ImportPane in
+     */
+    public  ImportPane(Stage importWindow, Messenger msg){
+        this.importWindow = importWindow;
+        this.msg = msg;
+
+        initializeNodes();
+        setEventHandlers();
+        setAppearance();
+        putNodesTogether();
+    }
 
     /**
      * Method to create every Node and subStructures
@@ -66,9 +89,8 @@ public class ImportPane {
 
     /**
      * Method to set EventHandlers for every Button and for Drag and Drop
-     * @param importWindow @NotNull Stage to close in the closeButton-eventHandler
      */
-    private void setEventHandlers(Stage importWindow){
+    private void setEventHandlers(){
         chooseBt.setOnAction((e)->{
             FileChooser fc = getPreparedFileChooser();
             List<File> fileList = fc.showOpenMultipleDialog(importWindow);
@@ -79,7 +101,7 @@ public class ImportPane {
 
         confirmBt.setOnAction((e)->{
             List li = Arrays.asList(ol.toArray());
-            //PictureImportServiceImpl pi = Container.getActiveContainer().materialize(PictureImportServiceImpl.class,Scope.Application,null);
+            //PictureImportService pi = Container.getActiveContainer().materialize(PictureImportService.class, Scope.APPLICATION,null);
             //pi.importAll(li);
             //todo "PictureImportScrviceImpl" durch api ersetzen und kommentare entfernen
         });
@@ -170,9 +192,8 @@ public class ImportPane {
 
     /**
      * This Method sets values for appearance and behavior
-     * @param importWindow @NotNull Stage to set values to
      */
-    private void setAppearance(Stage importWindow){
+    private void setAppearance(){
         //buttons
         buttonPane.setPadding(new Insets(4,4,4,4));
 
@@ -193,6 +214,12 @@ public class ImportPane {
         AnchorPane.setRightAnchor(removeBt,5.0);
         AnchorPane.setLeftAnchor(removeBt,5.0);
         //removeBt.setGraphic(minusImgView);
+
+        //Button Tooltips
+        chooseBt.setTooltip(new Tooltip(CHOOSE_BUTTON_TOOLTIP));
+        removeBt.setTooltip(new Tooltip(REMOVE_BUTTON_TOOLTIP));
+        confirmBt.setTooltip(new Tooltip(CONFIRM_BUTTON_TOOLTIP));
+        cancelBt.setTooltip(new Tooltip(CANCLE_BUTTON_TOOLTIP));
 
         //Label
         AnchorPane.setLeftAnchor(lb,5.0);
@@ -225,9 +252,8 @@ public class ImportPane {
 
     /**
      * Method to put every Element of the import Dialog logical together
-     * @param importWindow @NotNull Stage to set The Import Scene to
      */
-    private void putNodesTogether(Stage importWindow){
+    private void putNodesTogether(){
         lbPane.getChildren().add(lb);
         lv.setItems(ol);
         centerBx.getChildren().addAll(lbPane, lv);
@@ -235,16 +261,5 @@ public class ImportPane {
         bp.setCenter(centerBx);
         bp.setRight(buttonPane);
         importWindow.setScene(sc);
-    }
-
-    /**
-     *  constructor to build and insert the ImportPane
-     * @param importWindow @NotNull Stage to put the ImportPane in
-     */
-    public  ImportPane(Stage importWindow){
-        initializeNodes();
-        setEventHandlers(importWindow);
-        setAppearance(importWindow);
-        putNodesTogether(importWindow);
     }
 }

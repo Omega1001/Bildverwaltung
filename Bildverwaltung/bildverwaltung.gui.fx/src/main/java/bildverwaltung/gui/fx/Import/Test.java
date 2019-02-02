@@ -5,8 +5,8 @@ import javafx.stage.Stage;
 
 public class Test extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        new ImportPane(primaryStage);
+    public void start(Stage primaryStage){
+        new ImportPane(primaryStage,null);
         primaryStage.show();
     }
 
