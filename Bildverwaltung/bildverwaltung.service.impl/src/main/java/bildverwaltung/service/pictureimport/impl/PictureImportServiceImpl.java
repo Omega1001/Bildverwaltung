@@ -8,8 +8,11 @@ import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ExceptionType;
+import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.dao.exception.ServiceException;
 //import bildverwaltung.factory.impl.FactoryPictureDao;
+import bildverwaltung.facade.PictureFacade;
+import bildverwaltung.facade.impl.PictureFacadeImpl;
 import bildverwaltung.service.pictureimport.PictureImportService;
 
 
@@ -26,36 +29,10 @@ import java.util.List;
 import static java.nio.file.Files.copy;
 
 
-
-
-
-/****************************************************************************************************
- *                                                                                                  *
- *                                                                                                  *
- *                                                                                                  *
- *  TODO: We need to change our way how we actually get the PictureDao before this will work again! *
- *                                                                                                  *
- *                                                                                                  *
- *                                                                                                  *
- ****************************************************************************************************
- */
-
-
-
-
-
 public class PictureImportServiceImpl implements PictureImportService {
-    private PictureDao dao;
+    private PictureFacade dao;
 
-    public PictureImportServiceImpl() {
-
- //       dao = new FactoryPictureDao().generate(null, null, null);
-        ManagedContainer container = Container.getActiveContainer();
-        dao = container.materialize(PictureDao.class, Scope.APPLICATION);
-
-    }
-
-    public PictureImportServiceImpl(PictureDao dao) {
+    public PictureImportServiceImpl(PictureFacade dao) {
         this.dao = dao;
     }
 
@@ -66,37 +43,6 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @throws ServiceException if given file is not actually a picture
      * @throws ServiceException if there is a exception thrown while reading the file
      */
-    private Picture convertToEntity(File picture) throws ServiceException{
-        if(!isPicture(picture) || picture == null) {
-
-           throw new ServiceException(ExceptionType.NOT_A_PICTURE);
-
-        } else {
-
-            String name = picture.getName(); // Does this give the file name with the extension?
-            URI uri = picture.toURI();
-            String extension = getFileExtension(picture);
-            Date date = new Date(); // TODO maybe we should change this to the "added" day that the file manager of the OS shows?
-
-            // extract attributes from the picture itself
-            int width;
-            int height;
-            try {
-
-                BufferedImage pictureStream = ImageIO.read(picture);
-                height = pictureStream.getHeight();
-                width = pictureStream.getWidth();
-
-            } catch (IOException e) {
-
-                e.printStackTrace();
-                throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED);
-
-            }
-
-            return new Picture(name, uri, new ArrayList<Album>(), extension, height, width, date, "");
-        }
-    }
 
     /**
      * convert a List of Files to Picture (if they are actually a picture) into the DB
@@ -159,7 +105,7 @@ public class PictureImportServiceImpl implements PictureImportService {
 
             dao.save(newPicture);
 
-        } catch (DaoException e) {
+        } catch (FacadeException e) {
 
             e.printStackTrace();
             throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
@@ -196,6 +142,37 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @return
      */
 
+    private Picture convertToEntity(File picture) throws ServiceException{
+        if(!isPicture(picture) || picture == null) {
+
+           throw new ServiceException(ExceptionType.NOT_A_PICTURE);
+
+        } else {
+
+            String name = picture.getName(); // Does this give the file name with the extension?
+            URI uri = picture.toURI();
+            String extension = getFileExtension(picture);
+            Date date = new Date(); // TODO maybe we should change this to the "added" day that the file manager of the OS shows?
+
+            // extract attributes from the picture itself
+            int width;
+            int height;
+            try {
+
+                BufferedImage pictureStream = ImageIO.read(picture);
+                height = pictureStream.getHeight();
+                width = pictureStream.getWidth();
+
+            } catch (IOException e) {
+
+                e.printStackTrace();
+                throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED);
+
+            }
+
+            return new Picture(name, uri, new ArrayList<Album>(), extension, height, width, date, "");
+        }
+    }
 
     /**
      * get the file extension of a given file.
