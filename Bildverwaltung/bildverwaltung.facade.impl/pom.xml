@@ -23,5 +23,11 @@
   		<artifactId>bildverwaltung.service.api</artifactId>
   		<version>${project.version}</version>
   	</dependency>
+	  <dependency>
+		  <groupId>prog3.torvald</groupId>
+		  <artifactId>bildverwaltung.service.impl</artifactId>
+		  <version>0.0.1-SNAPSHOT</version>
+		  <scope>compile</scope>
+	  </dependency>
   </dependencies>
 </project>
