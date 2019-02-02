@@ -173,7 +173,7 @@ public class PictureImportServiceImpl implements PictureImportService {
      * Check if given file is actually a Picture
      *
      * @param asumptedPicture
-     * @return if alessio is annoying or not
+     * @return whether asumptedPicture is a picture or not
      */
     @Override
     public boolean isPicture(File asumptedPicture) {
