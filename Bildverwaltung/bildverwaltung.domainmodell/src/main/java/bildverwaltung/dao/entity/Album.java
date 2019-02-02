@@ -1,6 +1,7 @@
 package bildverwaltung.dao.entity;
 
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,7 +20,7 @@ import javax.persistence.NamedQuery;
 public class Album extends UUIDBase {
 
 	private String name;
-	private List<Picture> pictures;
+	private List<Picture> pictures = new LinkedList<>();
 	private Date creationDate = new Date();
 	private String comment;
 

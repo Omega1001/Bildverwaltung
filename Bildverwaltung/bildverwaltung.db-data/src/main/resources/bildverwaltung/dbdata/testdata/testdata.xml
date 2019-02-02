@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TestData xmlns="http://www.example.org/testData"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.example.org/testData testData.xsd ">
+	<pictures>
+		<picture id="00000000-0000-0000-0000-000000000000">
+			<name>Bearbeiten</name>
+			<uri>file:/${fxprojectLocale}/src/main/resources/Bearbeiten.png</uri>
+			<extension>png</extension>
+			<height>588</height>
+			<width>1287</width>
+			<comment>This is a comment</comment>
+		</picture>
+		<picture id="00000000-0000-0000-0000-000000000001">
+			<name>Bearbeiten</name>
+			<uri>file:/${fxprojectLocale}/src/main/resources/Datei.png</uri>
+			<extension>png</extension>
+			<height>588</height>
+			<width>1287</width>
+			<comment>This is a comment</comment>
+		</picture>
+		<picture id="00000000-0000-0000-0000-000000000002">
+			<name>Bearbeiten</name>
+			<uri>file:/${fxprojectLocale}/src/main/resources/Diashow.png</uri>
+			<extension>png</extension>
+			<height>588</height>
+			<width>1287</width>
+			<comment>This is a comment</comment>
+		</picture>
+		<picture id="00000000-0000-0000-0000-000000000003">
+			<name>Bearbeiten</name>
+			<uri>file:/${fxprojectLocale}/src/main/resources/Großansicht.png</uri>
+			<extension>png</extension>
+			<height>588</height>
+			<width>1287</width>
+			<comment>This is a comment</comment>
+		</picture>
+		<picture id="00000000-0000-0000-0000-000000000004">
+			<name>Bearbeiten</name>
+			<uri>file:/${fxprojectLocale}/src/main/resources/Import.png</uri>
+			<extension>png</extension>
+			<height>588</height>
+			<width>1287</width>
+			<comment>This is a comment</comment>
+		</picture>
+	</pictures>
+	<albums>
+		<album id="10000000-0000-0000-0000-000000000000">
+			<name>name</name>
+			<comment>comment</comment>
+			<pictures>
+				<id>00000000-0000-0000-0000-000000000000</id>
+				<id>00000000-0000-0000-0000-000000000001</id>
+			</pictures>
+		</album>
+		<album id="10000000-0000-0000-0000-000000000001">
+			<name>name</name>
+			<comment>comment</comment>
+			<pictures>
+				<id>00000000-0000-0000-0000-000000000002</id>
+				<id>00000000-0000-0000-0000-000000000003</id>
+			</pictures>
+		</album>
+		<album id="10000000-0000-0000-0000-000000000002">
+			<name>name</name>
+			<comment>comment</comment>
+			<pictures>
+				<id>00000000-0000-0000-0000-000000000001/id>
+				<id>00000000-0000-0000-0000-000000000002</id>
+			</pictures>
+		</album>
+	</albums>
+</TestData>

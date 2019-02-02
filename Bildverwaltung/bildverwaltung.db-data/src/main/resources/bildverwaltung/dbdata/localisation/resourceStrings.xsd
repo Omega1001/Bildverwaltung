@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.example.org/resourceStrings" elementFormDefault="unqualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:rs="http://www.example.org/resourceStrings" attributeFormDefault="unqualified">
+
+    <xsd:complexType name="Translations">
+    	<xsd:sequence>
+    		<xsd:element name="Language" type="rs:Language" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    </xsd:complexType>
+
+    <xsd:complexType name="Language">
+    	<xsd:sequence>
+    		<xsd:element name="ResourceString" type="rs:ResourceString" minOccurs="1" maxOccurs="unbounded"></xsd:element>
+    	</xsd:sequence>
+    	<xsd:attribute name="languageCode" use="required">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:length value="2"></xsd:length>
+    				<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    	<xsd:attribute name="countryCode" use="optional">
+    		<xsd:simpleType>
+    			<xsd:restriction base="xsd:string">
+    				<xsd:minLength value="2"></xsd:minLength>
+    				<xsd:whiteSpace value="collapse"></xsd:whiteSpace>
+    			</xsd:restriction>
+    		</xsd:simpleType>
+    	</xsd:attribute>
+    </xsd:complexType>
+
+
+
+    <xsd:complexType name="ResourceString">
+    	<xsd:simpleContent>
+    		<xsd:extension base="xsd:string">
+    			<xsd:attribute name="id" use="required">
+    				<xsd:simpleType>
+    					<xsd:restriction base="xsd:string">
+    						<xsd:minLength value="1"></xsd:minLength>
+    					</xsd:restriction>
+    				</xsd:simpleType>
+    			</xsd:attribute>
+    		</xsd:extension>
+    	</xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:element name="Translations" type="rs:Translations"></xsd:element>
+</xsd:schema>
