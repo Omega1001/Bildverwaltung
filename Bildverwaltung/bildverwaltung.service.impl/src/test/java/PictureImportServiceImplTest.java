@@ -4,7 +4,6 @@ import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ExceptionType;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.dao.exception.ServiceException;
-import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.service.pictureimport.PictureImportService;
 import bildverwaltung.service.pictureimport.impl.PictureImportServiceImpl;
 import static org.junit.Assert.*;
@@ -26,7 +25,7 @@ import java.nio.file.Files;
 public class PictureImportServiceImplTest {
 
 
-    PictureFacade daoMock = mock(PictureFacade.class);
+    PictureDao daoMock = mock(PictureDao.class);
     PictureImportServiceImpl sut = new PictureImportServiceImpl(daoMock);
 
     // Delete the tmp file created by some tests
@@ -116,7 +115,7 @@ public class PictureImportServiceImplTest {
                 .class.getResource("/ex_pics/Art-gordon-greybg.jpg").toURI());
 
         when(daoMock.save(any(Picture.class)))
-                .thenThrow(new FacadeException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED));
+                .thenThrow(new DaoException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED));
 
         try {
             sut.importPicture(testFile);

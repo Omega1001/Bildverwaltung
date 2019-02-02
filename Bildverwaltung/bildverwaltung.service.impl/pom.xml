@@ -28,10 +28,5 @@
 		  <artifactId>bildverwaltung.container.impl</artifactId>
 		  <version>${project.version}</version>
 	  </dependency>
-	  <dependency>
-		  <groupId>prog3.torvald</groupId>
-		  <artifactId>bildverwaltung.facade.impl</artifactId>
-		  <version>0.0.1-SNAPSHOT</version>
-	  </dependency>
   </dependencies>
 </project>

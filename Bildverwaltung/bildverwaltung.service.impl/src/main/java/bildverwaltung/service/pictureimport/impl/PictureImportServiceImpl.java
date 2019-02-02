@@ -11,8 +11,6 @@ import bildverwaltung.dao.exception.ExceptionType;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.dao.exception.ServiceException;
 //import bildverwaltung.factory.impl.FactoryPictureDao;
-import bildverwaltung.facade.PictureFacade;
-import bildverwaltung.facade.impl.PictureFacadeImpl;
 import bildverwaltung.service.pictureimport.PictureImportService;
 
 
@@ -30,9 +28,9 @@ import static java.nio.file.Files.copy;
 
 
 public class PictureImportServiceImpl implements PictureImportService {
-    private PictureFacade dao;
+    private PictureDao dao;
 
-    public PictureImportServiceImpl(PictureFacade dao) {
+    public PictureImportServiceImpl(PictureDao dao) {
         this.dao = dao;
     }
 
