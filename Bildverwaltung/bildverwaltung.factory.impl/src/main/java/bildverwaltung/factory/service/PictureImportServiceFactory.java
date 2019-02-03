@@ -22,7 +22,7 @@ public class PictureImportServiceFactory implements Factory<PictureImportService
 
         EntityManager em = container.materialize(EntityManager.class, scope);
 
-        PictureFacade facade = container.materialize(PictureFacade.class, scope);
+        PictureDao facade = container.materialize(PictureDao.class, scope);
         PictureImportService importService = new PictureImportServiceImpl(facade);
 
         /*
