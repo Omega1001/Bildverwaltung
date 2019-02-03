@@ -1,8 +1,6 @@
 package bildverwaltung.facade.impl;
 
 import bildverwaltung.dao.entity.Picture;
-import bildverwaltung.dao.exception.ExceptionType;
-import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.facade.PictureImportFacade;
 import bildverwaltung.service.pictureimport.PictureImportService;
