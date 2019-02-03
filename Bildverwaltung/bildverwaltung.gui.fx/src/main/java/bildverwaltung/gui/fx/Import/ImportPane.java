@@ -2,6 +2,7 @@ package bildverwaltung.gui.fx.Import;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
+import bildverwaltung.facade.PictureImportFacade;
 import bildverwaltung.localisation.Messenger;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import bildverwaltung.service.*;
 
 public class ImportPane{
     private final Messenger msg;
@@ -88,7 +90,7 @@ public class ImportPane{
 
         confirmBt.setOnAction((e)->{
             List li = Arrays.asList(ol.toArray());
-            PictureImportService pi = Container.getActiveContainer().materialize(PictureImportService.class, Scope.APPLICATION,null);
+            PictureImportFacade pi = Container.getActiveContainer().materialize(PictureImportFacade.class, Scope.APPLICATION,null);
             pi.importAll(li);
         });
 
