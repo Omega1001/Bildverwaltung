@@ -32,9 +32,8 @@ public class BildverwaltungRunner extends Application {
 
 	private PictureFacade pictureFacade = Container.getActiveContainer().materialize(PictureFacade.class,
 			Scope.APPLICATION);
-	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class,
-			Scope.APPLICATION);
-	private Messenger msg;
+	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class, Scope.APPLICATION);
+	private Messenger msg = Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION);
 
 	private ToolbarArea toolbar;
 	private InfoArea infoArea;
@@ -45,7 +44,6 @@ public class BildverwaltungRunner extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// Init components
 		LOG.debug("Begin building application gui");
-		this.msg = Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION);
 		this.masterStage = primaryStage;
 		this.toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea);
 		this.infoArea = new InfoArea(msg, () -> viewArea);
