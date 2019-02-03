@@ -1,18 +1,13 @@
 package bildverwaltung.service.pictureimport.impl;
 
-import bildverwaltung.container.Container;
-import bildverwaltung.container.ManagedContainer;
-import bildverwaltung.container.Scope;
 import bildverwaltung.dao.PictureDao;
-import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ExceptionType;
-import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.dao.exception.ServiceException;
-//import bildverwaltung.factory.impl.FactoryPictureDao;
 import bildverwaltung.service.pictureimport.PictureImportService;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -24,23 +19,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static java.nio.file.Files.copy;
-
-
 public class PictureImportServiceImpl implements PictureImportService {
     private PictureDao dao;
+    private static final Logger LOG = LoggerFactory.getLogger(PictureImportServiceImpl.class);
 
     public PictureImportServiceImpl(PictureDao dao) {
         this.dao = dao;
     }
 
-    /**
-     * convert a given File to a picture entity that can be added to the DB
-     * @param picture
-     * @return Picture Entity
-     * @throws ServiceException if given file is not actually a picture
-     * @throws ServiceException if there is a exception thrown while reading the file
-     */
 
     /**
      * convert a List of Files to Picture (if they are actually a picture) into the DB
@@ -51,14 +37,13 @@ public class PictureImportServiceImpl implements PictureImportService {
     public void importAll(List<File> pictures) {
 
         for(File picture: pictures) {
+            LOG.debug("Import Number {} of {}, File: {}",
+                    pictures.indexOf(picture), pictures.size(), picture.getAbsolutePath());
             try {
-
                 importPicture(picture);
-
             } catch (ServiceException e) {
-
                 e.printStackTrace();
-
+                LOG.warn("Import of picture {} failed", picture.getName());
             }
         }
 
@@ -78,12 +63,10 @@ public class PictureImportServiceImpl implements PictureImportService {
         File newFile = new File("PictureManager/tmp" );
 
         directory.mkdirs();
+        LOG.debug("created Directory {} in absolute path {}",directory.getName(),directory.getAbsolutePath());
 
         try {
-
             Files.copy(picture.toPath(), newFile.toPath());
-
-
         } catch(IOException e) {
             //e.printStackTrace();
             throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
@@ -96,18 +79,12 @@ public class PictureImportServiceImpl implements PictureImportService {
 
         newFile.renameTo(newName);
         newPicture.setUri(newName.toURI());
-
-
+        LOG.debug("Saved new picture as {}",newFile.getAbsolutePath());
 
         try {
-
             dao.save(newPicture);
-
-        } catch (FacadeException e) {
-
-            e.printStackTrace();
+        } catch (DaoException e) {
             throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
-
         }
 
         return newPicture;
@@ -116,37 +93,35 @@ public class PictureImportServiceImpl implements PictureImportService {
     /**
      * Check if given file is actually a Picture
      *
-     * @param asumptedPicture
-     * @return whether asumptedPicture is a picture or not
+     * @param assumptedPicture
+     * @return whether assumptedPicture is a picture or not
      */
     @Override
-    public boolean isPicture(File asumptedPicture) {
+    public boolean isPicture(File assumptedPicture) {
         try {
-
             //ImageIO can only read a real picture file, if it is something else, it returns null
-            return (ImageIO.read(asumptedPicture) != null);
-
+            return (ImageIO.read(assumptedPicture) != null);
         } catch(IOException e) {
-
             e.printStackTrace();
-
         }
 
         return false;
     }
 
     /**
-     * Create the copy directory where the new pictures will be copied in
-     * @return
+     * convert a given File to a picture entity that can be added to the DB
+     * @param picture
+     * @return Picture Entity
+     * @throws ServiceException if given file is not actually a picture
+     * @throws ServiceException if there is a exception thrown while reading the file
      */
-
     private Picture convertToEntity(File picture) throws ServiceException{
         if(!isPicture(picture) || picture == null) {
-
+            LOG.error("Picture {} is not actually a picture", picture.getAbsolutePath());
            throw new ServiceException(ExceptionType.NOT_A_PICTURE);
-
         } else {
 
+            LOG.debug("trying to get attributes needed from {}", picture.getAbsolutePath());
             String name = picture.getName(); // Does this give the file name with the extension?
             URI uri = picture.toURI();
             String extension = getFileExtension(picture);
@@ -156,19 +131,15 @@ public class PictureImportServiceImpl implements PictureImportService {
             int width;
             int height;
             try {
-
                 BufferedImage pictureStream = ImageIO.read(picture);
                 height = pictureStream.getHeight();
                 width = pictureStream.getWidth();
-
             } catch (IOException e) {
-
-                e.printStackTrace();
-                throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED);
-
+                LOG.error("Error while trying to get the size of picture {}",picture.getAbsolutePath());
+                throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
             }
 
-            return new Picture(name, uri, new ArrayList<Album>(), extension, height, width, date, "");
+            return new Picture(name, uri, new ArrayList<>(), extension, height, width, date, "");
         }
     }
 
@@ -182,11 +153,9 @@ public class PictureImportServiceImpl implements PictureImportService {
         int lastIndexOf = name.lastIndexOf(".");
 
         if (lastIndexOf == -1) {
-
+            LOG.warn("given file {} does not have a extension, give back a empty string", file.getAbsolutePath());
             return ""; // empty extension
-
         }
-
         return name.substring(lastIndexOf);
     }
 }
