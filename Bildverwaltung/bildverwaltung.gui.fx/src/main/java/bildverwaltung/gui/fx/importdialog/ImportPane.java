@@ -204,13 +204,19 @@ public class ImportPane{
         AnchorPane.setLeftAnchor(confirmBt,5.0);
 
         AnchorPane.setTopAnchor(chooseBt,30.0);
-        AnchorPane.setRightAnchor(chooseBt,5.0);
+        //AnchorPane.setRightAnchor(chooseBt,5.0);
         AnchorPane.setLeftAnchor(chooseBt,5.0);
+        plusImgView.setFitHeight(50d);
+        plusImgView.setFitWidth(50d);
+        plusImgView.setPreserveRatio(true);
         chooseBt.setGraphic(plusImgView);
 
-        AnchorPane.setTopAnchor(removeBt,75.0);
-        AnchorPane.setRightAnchor(removeBt,5.0);
+        AnchorPane.setTopAnchor(removeBt,100.0);
+        //AnchorPane.setRightAnchor(removeBt,5.0);
         AnchorPane.setLeftAnchor(removeBt,5.0);
+        minusImgView.setFitHeight(50d);
+        minusImgView.setFitWidth(50d);
+        minusImgView.setPreserveRatio(true);
         removeBt.setGraphic(minusImgView);
 
         //Button Tooltips
