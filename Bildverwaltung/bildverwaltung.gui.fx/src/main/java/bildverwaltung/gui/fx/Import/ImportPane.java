@@ -2,6 +2,7 @@ package bildverwaltung.gui.fx.Import;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
+import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.facade.PictureImportFacade;
 import bildverwaltung.localisation.Messenger;
 import javafx.collections.FXCollections;
@@ -21,7 +22,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
-
 
 public class ImportPane{
     private final Messenger msg;
@@ -91,7 +91,16 @@ public class ImportPane{
         confirmBt.setOnAction((e)->{
             List li = Arrays.asList(ol.toArray());
             PictureImportFacade pi = Container.getActiveContainer().materialize(PictureImportFacade.class, Scope.APPLICATION,null);
-            pi.importAll(li);
+            try {
+                pi.importAll(li);
+            } catch (ServiceException ex) {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Fehler");
+                alert.setHeaderText("Fehler beim Importieren");
+                alert.setContentText("Deine Bilder konnten Nicht Importiert werden");
+                alert.showAndWait();
+            }
+            importWindow.close();
         });
 
         cancelBt.setOnAction((e)->{
