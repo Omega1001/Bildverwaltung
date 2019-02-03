@@ -1,4 +1,4 @@
-package bildverwaltung.gui.fx.Import;
+package bildverwaltung.gui.fx.importdialog;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
