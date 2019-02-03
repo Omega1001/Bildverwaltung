@@ -20,7 +20,7 @@
     	<sequence>
     		<element name="name" type="string"></element>
     		<element name="comment" type="string"></element>
-    		<element name="pictures" type="tns:pictureIds" minOccurs="0" maxOccurs="unbounded"/>
+    		<element name="pictures" type="tns:pictureIds" minOccurs="1" maxOccurs="1"/>
     	</sequence>
     	<attribute name="id" type="string"></attribute>
     </complexType>
@@ -35,7 +35,7 @@
 
     <complexType name="pictureIds">
     	<sequence>
-    		<element name="id" type="string"></element>
+    		<element name="id" type="string" minOccurs="1" maxOccurs="unbounded"></element>
     	</sequence>
     </complexType>
 

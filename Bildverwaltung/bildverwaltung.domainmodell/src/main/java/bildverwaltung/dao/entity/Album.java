@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
@@ -55,7 +57,8 @@ public class Album extends UUIDBase {
 	/**
 	 * @return the pictures
 	 */
-	@ManyToMany(mappedBy = "alben")
+	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@JoinTable
 	public List<Picture> getPictures() {
 		return pictures;
 	}

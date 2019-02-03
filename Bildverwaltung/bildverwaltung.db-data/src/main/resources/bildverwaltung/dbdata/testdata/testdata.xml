@@ -46,7 +46,7 @@
 	</pictures>
 	<albums>
 		<album id="10000000-0000-0000-0000-000000000000">
-			<name>name</name>
+			<name>Alb01</name>
 			<comment>comment</comment>
 			<pictures>
 				<id>00000000-0000-0000-0000-000000000000</id>
@@ -54,7 +54,7 @@
 			</pictures>
 		</album>
 		<album id="10000000-0000-0000-0000-000000000001">
-			<name>name</name>
+			<name>Alb02</name>
 			<comment>comment</comment>
 			<pictures>
 				<id>00000000-0000-0000-0000-000000000002</id>
@@ -62,10 +62,10 @@
 			</pictures>
 		</album>
 		<album id="10000000-0000-0000-0000-000000000002">
-			<name>name</name>
+			<name>Alb03</name>
 			<comment>comment</comment>
 			<pictures>
-				<id>00000000-0000-0000-0000-000000000001/id>
+				<id>00000000-0000-0000-0000-000000000001</id>
 				<id>00000000-0000-0000-0000-000000000002</id>
 			</pictures>
 		</album>
