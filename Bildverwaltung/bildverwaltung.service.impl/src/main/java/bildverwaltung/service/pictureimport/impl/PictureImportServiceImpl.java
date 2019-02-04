@@ -60,7 +60,7 @@ public class PictureImportServiceImpl implements PictureImportService {
         //TODO implement that the method returns a boolean wether the import into the DB did succeed or not
 
         File directory = new File("PictureManager");
-        File newFile = new File("PictureManager/tmp" );
+        File newFile = new File("PictureManager/" + picture.getName() );
 
         directory.mkdirs();
         LOG.debug("created Directory {} in absolute path {}",directory.getName(),directory.getAbsolutePath());
@@ -122,9 +122,14 @@ public class PictureImportServiceImpl implements PictureImportService {
         } else {
 
             LOG.debug("trying to get attributes needed from {}", picture.getAbsolutePath());
-            String name = picture.getName(); // Does this give the file name with the extension?
-            URI uri = picture.toURI();
             String extension = getFileExtension(picture);
+            String name = picture.getName(); // Does this give the file name with the extension?
+
+            if(name.contains(extension)) {
+                name = name.substring(0, name.lastIndexOf("."));
+            }
+
+            URI uri = picture.toURI();
             Date date = new Date(); // TODO maybe we should change this to the "added" day that the file manager of the OS shows?
 
             // extract attributes from the picture itself
