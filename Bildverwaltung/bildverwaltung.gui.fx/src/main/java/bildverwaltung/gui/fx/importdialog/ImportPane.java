@@ -16,6 +16,7 @@ import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
 import javafx.scene.layout.*;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
@@ -26,6 +27,7 @@ import java.util.List;
 public class ImportPane{
     private final Messenger msg;
     private Stage importWindow;
+    private Stage parentStage;
     private BorderPane bp;
     private Scene sc;
     private ListView<File> lv;
@@ -43,12 +45,12 @@ public class ImportPane{
 
     /**
      *  constructor to build and insert the ImportPane
-     * @param importWindow @NotNull Stage to put the ImportPane in
+     * @param parentStage @NotNull ParentStage
      * @param msg @NotNull Messenger to take resourceStrings from
      */
-    public  ImportPane(Stage importWindow, Messenger msg){
-        this.importWindow = importWindow;
+    public  ImportPane(Stage parentStage, Messenger msg){
         this.msg = msg;
+        this.parentStage = parentStage;
 
         initializeNodes();
         setEventHandlers();
@@ -56,10 +58,15 @@ public class ImportPane{
         putNodesTogether();
     }
 
+    public void show(){
+        importWindow.showAndWait();
+    }
+
     /**
      * Method to create every Node and subStructures
      */
     private void initializeNodes(){
+        this.importWindow = new Stage();
         this.plusImgView = new ImageView(new Image("plus.png"));
         this.minusImgView = new ImageView(new Image("minus.png"));
         this.bp = new BorderPane();
@@ -95,9 +102,9 @@ public class ImportPane{
                 pi.importAll(li);
             } catch (ServiceException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Fehler");
-                alert.setHeaderText("Fehler beim Importieren");
-                alert.setContentText("Deine Bilder konnten Nicht Importiert werden");
+                alert.setTitle(msg.translate("titleImportAlertError"));
+                alert.setHeaderText(msg.translate("headerImportAlertErrorInImport"));
+                alert.setContentText(msg.translate("infoTextImportAlertFilesCouldNotGetImported"));
                 alert.showAndWait();
             }
             importWindow.close();
@@ -252,6 +259,9 @@ public class ImportPane{
         importWindow.setTitle(msg.translate("stageTitleImport"));
         importWindow.setMinHeight(290.0);
         importWindow.setMinWidth(380.0);
+        importWindow.initModality(Modality.APPLICATION_MODAL);
+        importWindow.setX(parentStage.getX()+50.0);
+        importWindow.setY(parentStage.getY()+50.0);
     }
 
     /**
@@ -265,5 +275,6 @@ public class ImportPane{
         bp.setCenter(centerBx);
         bp.setRight(buttonPane);
         importWindow.setScene(sc);
+        importWindow.initOwner(parentStage);
     }
 }

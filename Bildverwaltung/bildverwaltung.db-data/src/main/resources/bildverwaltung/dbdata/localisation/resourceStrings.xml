@@ -50,5 +50,8 @@
 		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">import chosen Files</ResourceString>
 		<ResourceString id="cancelBtnImportCancel">cancel</ResourceString>
 		<ResourceString id="confirmBtnImportConfirm">confirm</ResourceString>
+		<ResourceString id="titleImportAlertError">Error</ResourceString>
+		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">your Files could not get Imported</ResourceString>
 	</Language>
 </Translations>
