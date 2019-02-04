@@ -30,7 +30,7 @@
 		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaHeader">Search</ResourceString>
 		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaPicture">Picture</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaSearchAreaPictureName">Name</ResourceString>
-		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaAlbum">Picture</ResourceString>
+		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaAlbum">Album</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaSearchAreaAlbumName">Name</ResourceString>
 		<ResourceString id="btnMasterViewInfoAreaSearchAreaSearch">Search</ResourceString>
 		<ResourceString id="btnMasterViewInfoAreaSearchAreaReset">Reset</ResourceString>
