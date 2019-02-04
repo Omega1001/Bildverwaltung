@@ -21,7 +21,7 @@ public abstract class RebuildebleSubComponent {
 		this.msg = msg;
 	}
 
-	public final Messenger msg() {
+	protected final Messenger msg() {
 		return msg;
 	}
 
