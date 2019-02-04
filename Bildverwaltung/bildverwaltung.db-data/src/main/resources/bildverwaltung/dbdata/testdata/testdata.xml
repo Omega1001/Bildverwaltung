@@ -12,7 +12,7 @@
 			<comment>This is a comment</comment>
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000001">
-			<name>Bearbeiten</name>
+			<name>Datei</name>
 			<uri>file:/${fxprojectLocale}/src/main/resources/Datei.png</uri>
 			<extension>png</extension>
 			<height>588</height>
@@ -20,7 +20,7 @@
 			<comment>This is a comment</comment>
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000002">
-			<name>Bearbeiten</name>
+			<name>Diashow</name>
 			<uri>file:/${fxprojectLocale}/src/main/resources/Diashow.png</uri>
 			<extension>png</extension>
 			<height>588</height>
@@ -28,7 +28,7 @@
 			<comment>This is a comment</comment>
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000003">
-			<name>Bearbeiten</name>
+			<name>Großansicht</name>
 			<uri>file:/${fxprojectLocale}/src/main/resources/Großansicht.png</uri>
 			<extension>png</extension>
 			<height>588</height>
@@ -36,7 +36,7 @@
 			<comment>This is a comment</comment>
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000004">
-			<name>Bearbeiten</name>
+			<name>Import</name>
 			<uri>file:/${fxprojectLocale}/src/main/resources/Import.png</uri>
 			<extension>png</extension>
 			<height>588</height>
