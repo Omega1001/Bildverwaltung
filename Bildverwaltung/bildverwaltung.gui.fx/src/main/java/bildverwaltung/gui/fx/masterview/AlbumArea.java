@@ -18,6 +18,8 @@ public class AlbumArea extends RebuildebleSubComponent {
 
 	private ObservableList<DBDataRefference<String>> albums = FXCollections.observableArrayList();
 	private ListView<DBDataRefference<String>> albumList = null;
+	
+	private boolean ignoreSelectionUpdate = false;
 
 	public AlbumArea(Messenger msg, Supplier<PictureArea> viewArea) {
 		super(msg);
@@ -35,6 +37,10 @@ public class AlbumArea extends RebuildebleSubComponent {
 					@Override
 					public void changed(ObservableValue<? extends DBDataRefference<String>> observable,
 							DBDataRefference<String> oldValue, DBDataRefference<String> newValue) {
+						if(ignoreSelectionUpdate) {
+							ignoreSelectionUpdate = false;
+							return;
+						}
 						if (newValue == null) {
 							if (!viewArea.get().loadAllPictures()) {
 								albumList.getSelectionModel().select(oldValue);
@@ -52,6 +58,11 @@ public class AlbumArea extends RebuildebleSubComponent {
 
 	public ObservableList<DBDataRefference<String>> getAlbums() {
 		return albums;
+	}
+
+	public void resetSelection() {
+		ignoreSelectionUpdate = true;
+		albumList.getSelectionModel().clearSelection();
 	}
 
 }
