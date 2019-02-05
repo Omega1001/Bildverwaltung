@@ -1,5 +1,9 @@
 <Translations xsi:schemaLocation="./resourceStrings.xsd" defaultLanguage="en">
 	<Language languageCode="en" countryCode="">
+		<!-- App commons -->
+		<ResourceString id="btnAppOk">OK</ResourceString>
+		<ResourceString id="btnAppCancel">Cancel</ResourceString>
+		<ResourceString id="headlineAppConfirmationDlg">Are your sure?</ResourceString>
 		<!-- Generic Search -->
 		<ResourceString id="itemLabelGenericSearchDISABLED">Disabled</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">is equal to</ResourceString>
@@ -39,5 +43,13 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Height</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Width</ResourceString>
+		<!-- Album Selection Dialog -->
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Select an Album to display</ResourceString>
+		<!-- Album Deletion -->
+		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Are you sure you want to delete this album?</ResourceString>
+		<!-- Album Creation -->
+		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
+		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Comment</ResourceString>
+		
 	</Language>
 </Translations>

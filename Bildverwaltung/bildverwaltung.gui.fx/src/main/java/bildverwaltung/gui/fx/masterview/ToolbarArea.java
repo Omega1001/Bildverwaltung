@@ -1,9 +1,18 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.util.List;
 import java.util.function.Supplier;
 
+import bildverwaltung.container.Container;
+import bildverwaltung.dao.entity.Album;
+import bildverwaltung.dao.exception.FacadeException;
+import bildverwaltung.facade.AlbumFacade;
+import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
+import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
+import bildverwaltung.gui.fx.util.ConfirmationDialog;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
+import bildverwaltung.utils.DBDataRefference;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -14,13 +23,17 @@ import javafx.stage.Stage;
 
 public class ToolbarArea extends RebuildebleSubComponent {
 
+	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class);
 	private Supplier<Stage> masterStage;
 	private Supplier<PictureArea> viewArea;
-	
-	public ToolbarArea(Messenger msg, Supplier<Stage> masterStage, Supplier<PictureArea> viewArea) {
+	private Supplier<AlbumArea> albumArea;
+
+	public ToolbarArea(Messenger msg, Supplier<Stage> masterStage, Supplier<PictureArea> viewArea,
+			Supplier<AlbumArea> albumArea) {
 		super(msg);
 		this.masterStage = masterStage;
 		this.viewArea = viewArea;
+		this.albumArea = albumArea;
 	}
 
 	@Override
@@ -52,9 +65,63 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganiseAlbumMenu() {
 		Menu album = new Menu(msg().translate("menuItemMasterViewToolbarOrganiseAlbum"));
+
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganiseAlbumDisplay"));
+		show.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					List<Album> albums = albumFacade.getAllAlbums();
+					Album a = AlbumSelectionDialog.selectAlbum(msg(),
+							"msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay", albums, masterStage.get());
+					if (a != null) {
+						albumArea.get().selectAlbum(a);
+					}
+				} catch (FacadeException e) {
+					msg().showExceptionMessage(e);
+				}
+			}
+		});
+
 		MenuItem add = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganiseAlbumCreate"));
+		add.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					Album album = AlbumCreationDialog.createAlbum(msg(), masterStage.get());
+					if (album != null) {
+						albumFacade.save(album);
+						albumArea.get().getAlbums().add(new DBDataRefference<String>(album.getName(), album.getId()));
+					}
+				} catch (FacadeException e) {
+					msg().showExceptionMessage(e);
+				}
+			}
+		});
+
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganiseAlbumDelete"));
+		del.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					List<Album> albums = albumFacade.getAllAlbums();
+					Album a = AlbumSelectionDialog.selectAlbum(msg(),
+							"msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay", albums, masterStage.get());
+					if (a != null) {
+						if (ConfirmationDialog.requestConfirmation(msg(),
+								"msgMasterViewToolbarViewDeleteAlbumConfirm")) {
+							albumArea.get().removeAlbumWithId(a.getId());
+							albumFacade.delete(a.getId());
+						}
+					}
+				} catch (FacadeException e) {
+					msg().showExceptionMessage(e);
+				}
+			}
+		});
 		album.getItems().addAll(show, add, del);
 		return album;
 	}

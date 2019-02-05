@@ -87,4 +87,16 @@ public class AlbumFacadeImpl implements AlbumFacade {
 		}
 	}
 
+	@Override
+	public void delete(UUID albumId) throws FacadeException {
+		try {
+			aService.delete(albumId);
+		} catch (FacadeException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			LOG.error("Unexpected error during deleting album with id {} : ",albumId,ex);
+			throw new FacadeException(ExceptionType.UNKNOWN, ex);
+		}
+	}
+
 }

@@ -16,5 +16,7 @@ public interface AlbumFacade {
 	public Album save(Album album) throws FacadeException;
 
 	public Album getAlbumById(UUID albumId) throws FacadeException;
+
+	public void delete(UUID id) throws FacadeException;
 	
 }

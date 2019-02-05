@@ -56,4 +56,11 @@ public class AlbumServiceImpl implements AlbumService {
 		return res;
 	}
 
+	@Override
+	public void delete(UUID albumId) throws ServiceException {
+		LOG.trace("Enter delete albumId={}", albumId);
+		aDao.delete(albumId);
+		LOG.trace("Exit delete");
+	}
+
 }

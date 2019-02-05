@@ -45,7 +45,7 @@ public class BildverwaltungRunner extends Application {
 		// Init components
 		LOG.debug("Begin building application gui");
 		this.masterStage = primaryStage;
-		this.toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea);
+		this.toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea,()->infoArea.getAlbumArea());
 		this.infoArea = new InfoArea(msg, () -> viewArea);
 		this.viewArea = new PictureArea(msg);
 		LOG.debug("Sub-component initialisation complete");
