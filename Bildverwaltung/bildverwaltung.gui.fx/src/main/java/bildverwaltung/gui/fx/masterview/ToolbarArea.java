@@ -1,5 +1,6 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.io.InputStream;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -10,6 +11,7 @@ import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
+import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
@@ -19,6 +21,8 @@ import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class ToolbarArea extends RebuildebleSubComponent {
@@ -44,6 +48,8 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildFileMenu() {
 		Menu file = new Menu(msg().translate("labelMasterViewToolbarFile"));
+		file.setGraphic(IconLoader.loadIcon("Datei.png"));
+		
 		MenuItem quit = new MenuItem(msg().translate("labelMasterViewToolbarFileQuit"));
 		quit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
