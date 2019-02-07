@@ -11,6 +11,7 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,6 +22,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PictureImportServiceImplTest {
 
@@ -28,18 +31,10 @@ public class PictureImportServiceImplTest {
     PictureDao daoMock = mock(PictureDao.class);
     PictureImportServiceImpl sut = new PictureImportServiceImpl(daoMock);
 
-    // Delete the tmp file created by some tests
-    @Before
-    public void cleanFileTmp() throws URISyntaxException, IOException {
-        File file = new File("PictureManager/tmp");
-        if(file.exists()) {
-            Files.delete(file.toPath());
-      }
-    }
-
     // Delete the "PictureManager" folder created by the tests with the content in it
-    @AfterClass
-    public static void cleanFolder() throws URISyntaxException, IOException {
+
+    @After
+    public void cleanFolder() throws URISyntaxException, IOException {
         File folder = new File("PictureManager");
         if(folder.exists()) {
             String [] children = folder.list();
@@ -122,6 +117,20 @@ public class PictureImportServiceImplTest {
         } catch (ServiceException e) {
             assertEquals(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED,e.getType());
         }
+    }
+
+    @Test
+    public void testImportMultipleFilesWithOneFail() throws  URISyntaxException{
+        List<File> pictures = new ArrayList<>();
+        pictures.add(new File(PictureImportService.class.getResource("/ex_pics/Art-gordon-greybg.jpg").toURI()));
+        pictures.add(new File(PictureImportService.class.getResource("/voll_das_picture_und_so").toURI()));
+        pictures.add(new File(PictureImportService.class.getResource("/ex_pics/wow_gordon_existiert_zweimal.jpg").toURI()));
+
+        sut.importAll(pictures);
+
+        File filesToExpect = new File("PictureManager/");
+        System.out.println(filesToExpect.list().toString());
+        assertEquals(2,filesToExpect.list().length);
     }
 
 }

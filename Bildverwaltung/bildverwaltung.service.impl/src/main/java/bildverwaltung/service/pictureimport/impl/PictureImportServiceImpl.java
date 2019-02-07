@@ -57,17 +57,20 @@ public class PictureImportServiceImpl implements PictureImportService {
     @Override
     public Picture importPicture(File picture) throws ServiceException{
 
+        if (!isPicture(picture)) {
+            throw new ServiceException(ExceptionType.NOT_A_PICTURE);
+        }
         //TODO implement that the method returns a boolean wether the import into the DB did succeed or not
 
         File directory = new File("PictureManager");
-        File newFile = new File("PictureManager/" + picture.getName() );
+        File newFile = new File("PictureManager/" + picture.getName());
 
         directory.mkdirs();
-        LOG.debug("created Directory {} in absolute path {}",directory.getName(),directory.getAbsolutePath());
+        LOG.debug("created Directory {} in absolute path {}", directory.getName(), directory.getAbsolutePath());
 
         try {
             Files.copy(picture.toPath(), newFile.toPath());
-        } catch(IOException e) {
+        } catch (IOException e) {
             //e.printStackTrace();
             throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
         }
@@ -75,11 +78,11 @@ public class PictureImportServiceImpl implements PictureImportService {
         Picture newPicture = convertToEntity(newFile);
 
         //rename the File in copy directory to the corresponding UUID of the Picture entity
-        File newName = new File( directory.getName() + File.separator + newPicture.getId().toString());
+        File newName = new File(directory.getName() + File.separator + newPicture.getId().toString());
 
         newFile.renameTo(newName);
         newPicture.setUri(newName.toURI());
-        LOG.debug("Saved new picture as {}",newFile.getAbsolutePath());
+        LOG.debug("Saved new picture as {}", newFile.getAbsolutePath());
 
         try {
             dao.save(newPicture);
@@ -88,6 +91,7 @@ public class PictureImportServiceImpl implements PictureImportService {
         }
 
         return newPicture;
+
     }
 
     /**
