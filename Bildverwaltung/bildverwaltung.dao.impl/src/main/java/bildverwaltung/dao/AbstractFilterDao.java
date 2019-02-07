@@ -23,6 +23,7 @@ import org.slf4j.LoggerFactory;
 
 import bildverwaltung.dao.entity.UUIDBase;
 import bildverwaltung.dao.exception.DaoException;
+import bildverwaltung.dao.helper.ComparisonMode;
 import bildverwaltung.dao.helper.DataFilter;
 import bildverwaltung.dao.helper.FilterDiscriptor;
 import bildverwaltung.dao.helper.SortCriteria;
@@ -61,9 +62,8 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 		Root<E> root = query.from(getEntityClass());
 
 		List<Predicate> filterPredicates = new LinkedList<>();
-		List<Join<E, ?>> joins = new LinkedList<>();
 		LOG.debug("Generating Filter Criterias");
-		generateFilterAndJoins(filters, joins, filterPredicates, root, cb);
+		generateFilterAndJoins(filters, filterPredicates, root, cb);
 		LOG.debug("Propergating necessary joins");
 		query.select(root);
 		if (!filterPredicates.isEmpty()) {
@@ -103,27 +103,29 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 	 * @param cb
 	 *            {@link CriteriaBuilder} to be used
 	 */
-	private void generateFilterAndJoins(DataFilter<E> filters, List<Join<E, ?>> joins, List<Predicate> filterPredicates,
-			Root<E> root, CriteriaBuilder cb) {
-		LOG.trace("Enter generateFilterAndJoins filters={}, joins={}, filterPredicates={}, root={}, cb={}", filters, joins,
+	private void generateFilterAndJoins(DataFilter<E> filters, List<Predicate> filterPredicates, Root<E> root,
+			CriteriaBuilder cb) {
+		LOG.trace("Enter generateFilterAndJoins filters={}, filterPredicates={}, root={}, cb={}", filters,
 				filterPredicates, root, cb);
 		if (filters != null) {
 			for (FilterDiscriptor<E, ?> filter : filters.getEntityOwnedFilters()) {
 				addFilter(filter, root, cb, filterPredicates);
 			}
 			for (Entry<Attribute<E, ?>, DataFilter<?>> join : filters.getForeignFilters().entrySet()) {
-				
 				Join<E, ?> joinRoot = null;
-				if(join.getKey() instanceof SingularAttribute) {
-					joinRoot = root.join((SingularAttribute<E, ?>)join.getKey());
-				}else  {
-					joinRoot = root.join(join.getKey().getName());
-				}
-				
-				LOG.trace("Adding Join for column {}", join.getKey().getName());
-				joins.add(joinRoot);
 				for (FilterDiscriptor<?, ?> filter : join.getValue().getEntityOwnedFilters()) {
-					addFilter(filter, joinRoot, cb, filterPredicates);
+					if (!ComparisonMode.DISABLED.equals(filter.getComparisonMode())) {
+						//Build Join root if necessary
+						if(joinRoot == null) {
+							if (join.getKey() instanceof SingularAttribute) {
+								joinRoot = root.join((SingularAttribute<E, ?>) join.getKey());
+							} else {
+								joinRoot = root.join(join.getKey().getName());
+							}
+						}
+						//Create and add filter
+						addFilter(filter, joinRoot, cb, filterPredicates);
+					}
 				}
 			}
 		}
@@ -154,8 +156,11 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 			case IS_EQUAL:
 				work = cb.equal(root.get(filter.getAttribute().getName()), filter.getValue());
 				break;
+			case DISABLED:
+				//Do nothing -> Filter is disabled
+				break;
 			default:
-				LOG.warn("Tried to filter with unsupported mode {}, ignoring ...",filter.getComparisonMode().name());
+				LOG.warn("Tried to filter with unsupported mode {}, ignoring ...", filter.getComparisonMode().name());
 				break;
 
 			}

@@ -1,12 +1,14 @@
 package bildverwaltung.service.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bildverwaltung.dao.AlbumDao;
 import bildverwaltung.dao.entity.Album;
+import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.service.AlbumService;
 import bildverwaltung.utils.DBDataRefference;
@@ -43,6 +45,14 @@ public class AlbumServiceImpl implements AlbumService {
 		LOG.trace("Enter save toSave={}", toSave);
 		Album res = aDao.save(toSave);
 		LOG.trace("Exit save res={}", res);
+		return res;
+	}
+
+	@Override
+	public Album getAlbumById(UUID albumId) throws ServiceException {
+		LOG.trace("Enter getAlbumById albumId={}", albumId);
+		Album res = aDao.get(albumId);
+		LOG.trace("Exit getAlbumById res={}", res);
 		return res;
 	}
 

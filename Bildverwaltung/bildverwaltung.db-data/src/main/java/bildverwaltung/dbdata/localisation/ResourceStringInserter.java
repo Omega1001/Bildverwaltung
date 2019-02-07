@@ -34,6 +34,13 @@ public class ResourceStringInserter extends DefaultHandler {
 	}
 
 	@Override
+	public void startDocument() throws SAXException {
+		em.getTransaction().begin();
+		em.createQuery("DELETE FROM ResourceString").executeUpdate();
+		em.getTransaction().commit();
+	}
+	
+	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		if ("Language".equals(qName)) {
 			langKey = attributes.getValue("languageCode");

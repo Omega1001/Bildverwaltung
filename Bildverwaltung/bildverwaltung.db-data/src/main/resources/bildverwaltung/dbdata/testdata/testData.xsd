@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://www.example.org/testData"
+	xmlns:tns="http://www.example.org/testData"
+	elementFormDefault="qualified">
+
+    <complexType name="picture">
+    	<sequence>
+    		<element name="name" type="string" minOccurs="1" maxOccurs="1"></element>
+    		<element name="uri" type="string" minOccurs="1" maxOccurs="1"></element>
+    		<element name="extension" type="string" minOccurs="1" maxOccurs="1"></element>
+    		<element name="height" type="int" minOccurs="1" maxOccurs="1"></element>
+    		<element name="width" type="int" minOccurs="1" maxOccurs="1"></element>
+    		<element name="comment" type="string" maxOccurs="1" minOccurs="0"></element>
+    	</sequence>
+    	<attribute name="id" type="string"></attribute>
+    </complexType>
+
+    <complexType name="album">
+    	<sequence>
+    		<element name="name" type="string"></element>
+    		<element name="comment" type="string"></element>
+    		<element name="pictures" type="tns:pictureIds" minOccurs="1" maxOccurs="1"/>
+    	</sequence>
+    	<attribute name="id" type="string"></attribute>
+    </complexType>
+    <complexType name="testdata">
+    	<sequence>
+    		<element name="pictures" type="tns:pictures" minOccurs="0" maxOccurs="1"></element>
+    		<element name="albums" type="tns:albums" minOccurs="0" maxOccurs="1"></element>
+    	</sequence>
+    </complexType>
+
+    <element name="TestData" type="tns:testdata"/>	
+
+    <complexType name="pictureIds">
+    	<sequence>
+    		<element name="id" type="string" minOccurs="1" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+
+    <complexType name="pictures">
+    	<sequence>
+    		<element name="picture" type="tns:picture" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+    
+    <complexType name="albums">
+    	<sequence>
+    		<element name="album" type="tns:album" minOccurs="0" maxOccurs="unbounded"></element>
+    	</sequence>
+    </complexType>
+</schema>

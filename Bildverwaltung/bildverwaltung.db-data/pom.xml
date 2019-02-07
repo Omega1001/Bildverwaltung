@@ -11,6 +11,7 @@
 
 	<properties>
 		<processRs></processRs>
+		<processtestData></processtestData>
 	</properties>
 
 	<dependencies>
@@ -36,6 +37,13 @@
 			<id>BuildRs</id>
 			<properties>
 				<processRs>buildRS</processRs>
+			</properties>
+		</profile>
+		
+		<profile>
+			<id>BuildTestData</id>
+			<properties>
+				<processtestData>testData</processtestData>
 			</properties>
 		</profile>
 
@@ -85,6 +93,9 @@
 								<argument>jdbc.password=${dbPassword}</argument>
 								<argument>rs.source=${project.build.resources[0].directory}/bildverwaltung/dbdata/localisation/resourceStrings.xml</argument>
 								<argument>${processRs}</argument>
+								<argument>${processtestData}</argument>
+								<argument>testdata.source=${project.build.resources[0].directory}/bildverwaltung/dbdata/testdata/testdata.xml</argument>
+								<argument>fxprojectLocale=${basedir}/../bildverwaltung.gui.fx</argument>
 							</arguments>
 						</configuration>
 					</plugin>
