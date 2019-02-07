@@ -93,6 +93,12 @@ public class PictureArea extends RebuildebleSubComponent {
 				// Mouse Clicked
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
 					selectedPicture.set(pictures.get(index));
+					if(event.getClickCount() == 2){
+			            	ShowPicture.main(args);
+			            	}
+				}else if(MouseButton.SECONDARY.equals(event.getButton())){
+					ContextMenu.main(args)
+				}
 				}
 			}
 
