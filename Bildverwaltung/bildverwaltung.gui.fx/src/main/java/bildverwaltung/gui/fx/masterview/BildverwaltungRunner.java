@@ -62,6 +62,8 @@ public class BildverwaltungRunner extends Application {
 		// Put in service
 		Scene s = new Scene(layout);
 		primaryStage.setScene(s);
+		//Give a name for this project
+		primaryStage.setTitle("Bildverwaltung");      
 		// Show
 		LOG.debug("Prepairing to show main window");
 		primaryStage.show();
