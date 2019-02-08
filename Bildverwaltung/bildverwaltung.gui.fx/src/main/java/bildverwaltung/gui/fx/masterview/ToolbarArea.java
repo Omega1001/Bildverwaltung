@@ -45,7 +45,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	@Override
 	protected Node build() {
-		MenuBar mBar = new MenuBar(buildFileMenu(), buildOrganiseMenu(), buildImportMenu(), buildDeleteMenu());
+		MenuBar mBar = new MenuBar(buildFileMenu(), buildOrganiseMenu(), buildImportMenu());
 		return mBar;
 	}
 
@@ -147,7 +147,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildImportMenu() {
 		Menu importM = new Menu(msg().translate("labelMasterViewToolbarImport"));
-		importM.setGraphic(IconLoad.loadIcon("Import.png"));
+		importM.setGraphic(IconLoader.loadIcon("Import.png"));
 		
 		MenuItem importPictures = new MenuItem(msg().translate("menuItemMasterViewToolbarImport"));
 		importPictures.setOnAction(event -> {
