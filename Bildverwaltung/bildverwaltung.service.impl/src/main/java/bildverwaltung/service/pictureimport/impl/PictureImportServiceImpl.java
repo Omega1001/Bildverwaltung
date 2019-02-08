@@ -63,7 +63,6 @@ public class PictureImportServiceImpl implements PictureImportService {
         if (!isPicture(picture)) {
             throw new ServiceException(ExceptionType.NOT_A_PICTURE);
         }
-        //TODO implement that the method returns a boolean wether the import into the DB did succeed or not
 
         File directory = new File("PictureManager");
         File newFile = new File("PictureManager/" + picture.getName());
@@ -144,6 +143,7 @@ public class PictureImportServiceImpl implements PictureImportService {
             int height;
             Date date;
             try {
+                LOG.debug("Trying to get size and creation date of file {}",picture.getName());
                 BasicFileAttributes attributes = Files.readAttributes(picture.toPath(),BasicFileAttributes.class);
                 BufferedImage pictureStream = ImageIO.read(picture);
 
@@ -153,7 +153,8 @@ public class PictureImportServiceImpl implements PictureImportService {
                 date = new Date(attributes.creationTime().to(TimeUnit.DAYS));
 
             } catch (IOException e) {
-                LOG.error("Error while trying to get the size of picture {}",picture.getAbsolutePath());
+                LOG.error("Error while trying to get the size and/or creation date of picture {}"
+                        ,picture.getAbsolutePath());
                 throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
             }
 
