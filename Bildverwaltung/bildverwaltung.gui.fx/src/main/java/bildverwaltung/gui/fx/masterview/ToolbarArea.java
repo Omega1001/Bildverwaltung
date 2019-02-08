@@ -2,6 +2,9 @@ package bildverwaltung.gui.fx.masterview;
 
 import java.util.function.Supplier;
 
+import bildverwaltung.container.Container;
+import bildverwaltung.container.Scope;
+import bildverwaltung.gui.fx.importdialog.ImportPane;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import javafx.event.ActionEvent;
@@ -16,7 +19,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Supplier<Stage> masterStage;
 	private Supplier<PictureArea> viewArea;
-	
+
 	public ToolbarArea(Messenger msg, Supplier<Stage> masterStage, Supplier<PictureArea> viewArea) {
 		super(msg);
 		this.masterStage = masterStage;
@@ -71,6 +74,15 @@ public class ToolbarArea extends RebuildebleSubComponent {
 	private Menu buildImportMenu() {
 		Menu importM = new Menu(msg().translate("labelMasterViewToolbarImport"));
 		MenuItem importPictures = new MenuItem(msg().translate("menuItemMasterViewToolbarImport"));
+		importPictures.setOnAction(event -> {
+			ImportPane importDialog =
+					new ImportPane(masterStage.get(), Container.getActiveContainer()
+							.materialize(Messenger.class, Scope.APPLICATION));
+
+			importDialog.show();
+			// update the picture area
+			viewArea.get().loadAllPictures();
+		});
 		importM.getItems().addAll(importPictures);
 		return importM;
 	}
