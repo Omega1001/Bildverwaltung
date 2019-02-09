@@ -61,6 +61,7 @@ public class BildverwaltungRunner extends Application {
 		LOG.debug("Finished populating data");
 		// Put in service
 		Scene s = new Scene(layout);
+		primaryStage.setTitle("Bilderverwaltung");
 		primaryStage.setScene(s);
 		// Show
 		LOG.debug("Prepairing to show main window");
