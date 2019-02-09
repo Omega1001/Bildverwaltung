@@ -10,7 +10,6 @@ import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
-import bildverwaltung.gui.fx.masterview.dialogs.PictureSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.container.Container;
@@ -139,48 +138,9 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganisePictureMenu() {
 		Menu picture = new Menu(msg().translate("menuItemMasterViewToolbarOrganisePicture"));
-		
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDisplay"));
-		show.setOnAction(new EventHandler<ActionEvent>() {
-			
-			@Override
-			public handle(ActionEvent event){
-				List<Picture> list = pictureFacade.getImages();
-				Picture pic = PictureSelecetionDialog.selectPicture(msg(),
-					             "msgMasterViewPictureSelectionDialogSelectPictureToDisplay", picture);
-				if(a != null){
-					pictureArea.get()selectPicture(pic);
-				} 
-				catch (FacadeException e){
-					msg().showExceptionMessage(e);
-				}
-			}
-		});
-		
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
-		
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
-		del.setOnAction(new EventHandler<ActionEvent>() {
-		
-			@Override
-			public void handle(ActionEvent event) {
-				try {
-					List<Picture> pic = pictureFacade.getImages();
-					Picture pic = PictureSelectionDialog.selectPicture(msg(),
-								"msgMasterViewPictureSelectionDialogPictureToDisplay", picture);
-					if(pic != null){
-						if(ConfirmationDialog.requestConfirmation(msg(),
-								"msgMasterViewToolbarViewDeletePictureConfirm")){
-							pictureArea.get().removePicture(pic.getImage());
-							pictureFacade.delete(pic.getImage());
-						}
-					}
-				} catch(FacadeException e){
-					msg().showexceptionMessage(e);
-				}
-			}
-		});
-
 		picture.getItems().addAll(show, toAlbum, del);
 		return picture;
 	}
