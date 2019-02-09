@@ -8,7 +8,6 @@ import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.service.pictureimport.PictureImportService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -16,7 +15,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.attribute.BasicFileAttributes;
-import java.nio.file.attribute.FileAttributeView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -64,6 +62,8 @@ public class PictureImportServiceImpl implements PictureImportService {
             throw new ServiceException(ExceptionType.NOT_A_PICTURE);
         }
 
+        Picture newPicture = convertToEntity(picture);
+
         File directory = new File("PictureManager");
         File newFile = new File("PictureManager/" + picture.getName());
 
@@ -77,7 +77,6 @@ public class PictureImportServiceImpl implements PictureImportService {
             throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
         }
 
-        Picture newPicture = convertToEntity(newFile);
 
         //rename the File in copy directory to the corresponding UUID of the Picture entity
         File newName = new File(directory.getName() + File.separator + newPicture.getId().toString());
@@ -85,13 +84,11 @@ public class PictureImportServiceImpl implements PictureImportService {
         newFile.renameTo(newName);
         newPicture.setUri(newName.toURI());
         LOG.debug("Saved new picture as {}", newFile.getAbsolutePath());
-
         try {
             dao.save(newPicture);
         } catch (DaoException e) {
             throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
         }
-
         return newPicture;
 
     }
@@ -150,7 +147,7 @@ public class PictureImportServiceImpl implements PictureImportService {
                 height = pictureStream.getHeight();
                 width = pictureStream.getWidth();
                 //date = new Date();
-                date = new Date(attributes.creationTime().to(TimeUnit.DAYS));
+                date = new Date(attributes.creationTime().to(TimeUnit.MILLISECONDS));
 
             } catch (IOException e) {
                 LOG.error("Error while trying to get the size and/or creation date of picture {}"
