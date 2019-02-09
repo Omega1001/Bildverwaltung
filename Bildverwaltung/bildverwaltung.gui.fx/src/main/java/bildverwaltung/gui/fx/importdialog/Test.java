@@ -15,11 +15,8 @@ public class Test extends Application {
         Button bt = new Button("Import");
         bt.setOnAction(e->{
 
-
             ImportPane ip = new ImportPane(primaryStage, Container.getActiveContainer().materialize(Messenger.class,Scope.APPLICATION));
             ip.show();
-
-
         });
 
 

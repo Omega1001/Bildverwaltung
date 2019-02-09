@@ -32,9 +32,8 @@ public class BildverwaltungRunner extends Application {
 
 	private PictureFacade pictureFacade = Container.getActiveContainer().materialize(PictureFacade.class,
 			Scope.APPLICATION);
-	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class,
-			Scope.APPLICATION);
-	private Messenger msg;
+	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class, Scope.APPLICATION);
+	private Messenger msg = Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION);
 
 	private ToolbarArea toolbar;
 	private InfoArea infoArea;
@@ -45,9 +44,8 @@ public class BildverwaltungRunner extends Application {
 	public void start(Stage primaryStage) throws Exception {
 		// Init components
 		LOG.debug("Begin building application gui");
-		this.msg = Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION);
 		this.masterStage = primaryStage;
-		this.toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea);
+		this.toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea,()->infoArea.getAlbumArea());
 		this.infoArea = new InfoArea(msg, () -> viewArea);
 		this.viewArea = new PictureArea(msg);
 		LOG.debug("Sub-component initialisation complete");
@@ -63,7 +61,10 @@ public class BildverwaltungRunner extends Application {
 		LOG.debug("Finished populating data");
 		// Put in service
 		Scene s = new Scene(layout);
+		primaryStage.setTitle("Bilderverwaltung");
 		primaryStage.setScene(s);
+		//Give a name for this project
+		primaryStage.setTitle("Bildverwaltung");      
 		// Show
 		LOG.debug("Prepairing to show main window");
 		primaryStage.show();

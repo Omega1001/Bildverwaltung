@@ -15,9 +15,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.attribute.BasicFileAttributes;
+import java.nio.file.attribute.FileAttributeView;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class PictureImportServiceImpl implements PictureImportService {
     private PictureDao dao;
@@ -52,7 +55,7 @@ public class PictureImportServiceImpl implements PictureImportService {
     /**
      * converts a single file to Picture and imports it into the DB.
      *
-     * @param picture
+     * @param picture file to import
      */
     @Override
     public Picture importPicture(File picture) throws ServiceException{
@@ -60,7 +63,6 @@ public class PictureImportServiceImpl implements PictureImportService {
         if (!isPicture(picture)) {
             throw new ServiceException(ExceptionType.NOT_A_PICTURE);
         }
-        //TODO implement that the method returns a boolean wether the import into the DB did succeed or not
 
         File directory = new File("PictureManager");
         File newFile = new File("PictureManager/" + picture.getName());
@@ -97,7 +99,7 @@ public class PictureImportServiceImpl implements PictureImportService {
     /**
      * Check if given file is actually a Picture
      *
-     * @param assumptedPicture
+     * @param assumptedPicture given file that could be a picture
      * @return whether assumptedPicture is a picture or not
      */
     @Override
@@ -114,8 +116,8 @@ public class PictureImportServiceImpl implements PictureImportService {
 
     /**
      * convert a given File to a picture entity that can be added to the DB
-     * @param picture
-     * @return Picture Entity
+     * @param picture file to convert
+     * @return Picture Entity converted file
      * @throws ServiceException if given file is not actually a picture
      * @throws ServiceException if there is a exception thrown while reading the file
      */
@@ -134,17 +136,25 @@ public class PictureImportServiceImpl implements PictureImportService {
             }
 
             URI uri = picture.toURI();
-            Date date = new Date(); // TODO maybe we should change this to the "added" day that the file manager of the OS shows?
+
 
             // extract attributes from the picture itself
             int width;
             int height;
+            Date date;
             try {
+                LOG.debug("Trying to get size and creation date of file {}",picture.getName());
+                BasicFileAttributes attributes = Files.readAttributes(picture.toPath(),BasicFileAttributes.class);
                 BufferedImage pictureStream = ImageIO.read(picture);
+
                 height = pictureStream.getHeight();
                 width = pictureStream.getWidth();
+                //date = new Date();
+                date = new Date(attributes.creationTime().to(TimeUnit.DAYS));
+
             } catch (IOException e) {
-                LOG.error("Error while trying to get the size of picture {}",picture.getAbsolutePath());
+                LOG.error("Error while trying to get the size and/or creation date of picture {}"
+                        ,picture.getAbsolutePath());
                 throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
             }
 
@@ -154,7 +164,7 @@ public class PictureImportServiceImpl implements PictureImportService {
 
     /**
      * get the file extension of a given file.
-     * @param file
+     * @param file given file
      * @return either the extension or an empty string if there isn't any extension in the filename.
      */
     private String getFileExtension(File file) {

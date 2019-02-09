@@ -53,28 +53,43 @@ public class TransactionProxy implements InvocationHandler {
 		boolean hasStarted = handleBeginTransaction(isBorder);
 		try {
 			Object result = method.invoke(actual, args);
-			handleEndTransaction(isBorder, hasStarted);
+			if (implicitEnd || isBorder) {
+				handleEndTransaction(isBorder, hasStarted);
+			} else {
+				// This might cause an exception other then InvocationTargetException
+				// If so, throw it, so the program can react to it, and set the rollback options
+				handleFlush();
+			}
 			return result;
 		} catch (InvocationTargetException ex) {
 			throw handleRollback(ex.getTargetException());
 		}
 	}
 
+	private void handleFlush() {
+		if (em.getTransaction().isActive()) {
+			em.flush();
+			em.flush();
+		}
+	}
+
 	private Throwable handleRollback(Throwable th) {
-		if (th instanceof FacadeException) {
-			FacadeException fe = (FacadeException) th;
-			if (fe.isRollback()) {
+		if (em.getTransaction().isActive()) {
+			if (th instanceof FacadeException) {
+				FacadeException fe = (FacadeException) th;
+				if (fe.isRollback()) {
+					try {
+						em.getTransaction().rollback();
+					} catch (PersistenceException e) {
+						th.addSuppressed(e);
+					}
+				}
+			} else if (th instanceof RuntimeException) {
 				try {
 					em.getTransaction().rollback();
 				} catch (PersistenceException e) {
 					th.addSuppressed(e);
 				}
-			}
-		} else if (th instanceof RuntimeException) {
-			try {
-				em.getTransaction().rollback();
-			} catch (PersistenceException e) {
-				th.addSuppressed(e);
 			}
 		}
 		return th;

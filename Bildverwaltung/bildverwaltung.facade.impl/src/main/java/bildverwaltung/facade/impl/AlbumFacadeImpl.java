@@ -4,6 +4,7 @@
 package bildverwaltung.facade.impl;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -70,6 +71,30 @@ public class AlbumFacadeImpl implements AlbumFacade {
 			throw ex;
 		} catch (Exception ex) {
 			LOG.error("Unexpected error during saving album {} : ",toSave,ex);
+			throw new FacadeException(ExceptionType.UNKNOWN, ex);
+		}
+	}
+
+	@Override
+	public Album getAlbumById(UUID albumId) throws FacadeException {
+		try {
+			return aService.getAlbumById(albumId);
+		} catch (FacadeException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			LOG.error("Unexpected error during fetching album with id {} : ",albumId,ex);
+			throw new FacadeException(ExceptionType.UNKNOWN, ex);
+		}
+	}
+
+	@Override
+	public void delete(UUID albumId) throws FacadeException {
+		try {
+			aService.delete(albumId);
+		} catch (FacadeException ex) {
+			throw ex;
+		} catch (Exception ex) {
+			LOG.error("Unexpected error during deleting album with id {} : ",albumId,ex);
 			throw new FacadeException(ExceptionType.UNKNOWN, ex);
 		}
 	}

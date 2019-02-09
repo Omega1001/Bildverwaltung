@@ -34,6 +34,16 @@ import javafx.scene.text.TextAlignment;
 public class Main extends Application {
 	
 	private static final String ORGANIZE = "Verwalten";
+	private static final String ORGANIZE_FILES = "Alben Verwalten";
+	private static final String ORGANIZE_PICTURES = "Bilder Verwalten";
+	private static final String DELETE_FILES = "Album Entfernen";
+	private static final String DELETE_PICTURES = "BILD ENTFERNEN";
+	private static final String VIEW_FILE = "Album Anschauen";
+	private static final String ADD_FILE = "Album Anlegen";
+	private static final String MOVE_FILE = "Album Verschieben";
+	private static final String MOVE_PICTURE = "Bild Verschieben";
+	
+	
 	
 	private static final double HEIGHT  = 800.0;
 	private static final double WIDTH = 600.0;

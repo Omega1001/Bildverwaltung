@@ -2,11 +2,14 @@ package bildverwaltung.gui.fx.masterview;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
+import bildverwaltung.dao.entity.Album;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
+import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
@@ -25,7 +28,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 
 public class PictureArea extends RebuildebleSubComponent {
-
+	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class, Scope.APPLICATION);
 	private PictureFacade pictureFacade = Container.getActiveContainer().materialize(PictureFacade.class,
 			Scope.APPLICATION);
 	private ObjectProperty<Picture> selectedPicture = new SimpleObjectProperty<>();
@@ -91,6 +94,15 @@ public class PictureArea extends RebuildebleSubComponent {
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
 					selectedPicture.set(pictures.get(index));
 				}
+				if (event.getClickCount() == 2) {
+					ImageView iView = new ImageView();
+					try {
+						iView.setImage(new Image(pictureFacade.resolvePictureURI(pictures.get(index).getUri())));
+					} catch (FacadeException e) {
+						e.printStackTrace();
+					}
+					EnlargedPictureView.enlargePicture(iView);
+				}
 			}
 
 		}
@@ -106,7 +118,7 @@ public class PictureArea extends RebuildebleSubComponent {
 					List<? extends Picture> added = c.getAddedSubList();
 					pane.getChildren().addAll(c.getFrom(), toView(added));
 				} else if (c.wasRemoved()) {
-					pane.getChildren().remove(c.getFrom(), c.getTo());
+					pane.getChildren().remove(c.getFrom(), c.getRemovedSize()-c.getFrom());
 				} else if (c.wasUpdated()) {
 					for (int i = c.getFrom(); i < c.getTo(); i++) {
 						Picture updated = c.getList().get(i);
@@ -124,6 +136,30 @@ public class PictureArea extends RebuildebleSubComponent {
 			}
 		}
 
+	}
+
+	public boolean loadAllPictures() {
+		try {
+			List<Picture> pics = pictureFacade.getAllPictures();
+			pictures.clear();
+			pictures.addAll(pics);
+			return true;
+		} catch (FacadeException e) {
+			msg().showExceptionMessage(e);
+			return false;
+		}
+	}
+
+	public boolean loadAlbumById(UUID albumId) {
+		try {
+			Album album = albumFacade.getAlbumById(albumId);
+			pictures.clear();
+			pictures.addAll(album.getPictures());
+			return true;
+		} catch (FacadeException e) {
+			msg().showExceptionMessage(e);
+			return false;
+		}
 	}
 
 }

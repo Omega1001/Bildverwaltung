@@ -22,7 +22,7 @@ public class InfoArea extends RebuildebleSubComponent {
 	public InfoArea(Messenger msg, Supplier<PictureArea> viewArea) {
 		super(msg);
 		albumArea = new AlbumArea(msg, viewArea);
-		searchArea = new SearchArea(msg, viewArea);
+		searchArea = new SearchArea(msg, viewArea,()->albumArea);
 		attributeArea = new AttributeArea(msg, viewArea);
 	}
 
