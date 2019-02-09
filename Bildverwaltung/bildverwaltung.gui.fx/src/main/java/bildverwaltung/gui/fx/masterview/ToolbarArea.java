@@ -1,18 +1,18 @@
 package bildverwaltung.gui.fx.masterview;
 
-import java.io.InputStream;
 import java.util.List;
 import java.util.function.Supplier;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.dao.entity.Album;
+import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
+import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
 import bildverwaltung.gui.fx.util.IconLoader;
-import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
 import bildverwaltung.gui.fx.importdialog.ImportPane;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
@@ -24,13 +24,12 @@ import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class ToolbarArea extends RebuildebleSubComponent {
 
 	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class);
+	private PictureFacade pictureFacade = Container.getActiveContainer().materialize(PictureFacade.class);
 	private Supplier<Stage> masterStage;
 	private Supplier<PictureArea> viewArea;
 	private Supplier<AlbumArea> albumArea;
@@ -138,9 +137,37 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganisePictureMenu() {
 		Menu picture = new Menu(msg().translate("menuItemMasterViewToolbarOrganisePicture"));
+
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDisplay"));
+		show.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				Picture pic = viewArea.get().getSelectedPicture().get();
+				// TODO Actually showing the picture
+			}
+		});
+
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
+
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
+		del.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					Picture pic = viewArea.get().getSelectedPicture().get();
+					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
+						viewArea.get().getPictures().remove(pic);
+						pictureFacade.delete(pic);
+					}
+
+				} catch (FacadeException e) {
+					msg().showExceptionMessage(e);
+				}
+			}
+		});
+
 		picture.getItems().addAll(show, toAlbum, del);
 		return picture;
 	}
@@ -148,12 +175,11 @@ public class ToolbarArea extends RebuildebleSubComponent {
 	private Menu buildImportMenu() {
 		Menu importM = new Menu(msg().translate("labelMasterViewToolbarImport"));
 		importM.setGraphic(IconLoader.loadIcon("Import.png"));
-		
+
 		MenuItem importPictures = new MenuItem(msg().translate("menuItemMasterViewToolbarImport"));
 		importPictures.setOnAction(event -> {
-			ImportPane importDialog =
-					new ImportPane(masterStage.get(), Container.getActiveContainer()
-							.materialize(Messenger.class, Scope.APPLICATION));
+			ImportPane importDialog = new ImportPane(masterStage.get(),
+					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 
 			importDialog.show();
 			// update the picture area
