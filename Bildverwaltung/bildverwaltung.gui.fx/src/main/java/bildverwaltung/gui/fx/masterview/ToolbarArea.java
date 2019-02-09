@@ -12,6 +12,9 @@ import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
 import bildverwaltung.gui.fx.util.IconLoader;
+import bildverwaltung.container.Container;
+import bildverwaltung.container.Scope;
+import bildverwaltung.gui.fx.importdialog.ImportPane;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
@@ -49,7 +52,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 	private Menu buildFileMenu() {
 		Menu file = new Menu(msg().translate("labelMasterViewToolbarFile"));
 		file.setGraphic(IconLoader.loadIcon("Datei.png"));
-		
+
 		MenuItem quit = new MenuItem(msg().translate("labelMasterViewToolbarFileQuit"));
 		quit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -71,6 +74,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganiseAlbumMenu() {
 		Menu album = new Menu(msg().translate("menuItemMasterViewToolbarOrganiseAlbum"));
+		album.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
 
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganiseAlbumDisplay"));
 		show.setOnAction(new EventHandler<ActionEvent>() {
@@ -143,9 +147,19 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildImportMenu() {
 		Menu importM = new Menu(msg().translate("labelMasterViewToolbarImport"));
+		importM.setGraphic(IconLoader.loadIcon("Import.png"));
+		
 		MenuItem importPictures = new MenuItem(msg().translate("menuItemMasterViewToolbarImport"));
+		importPictures.setOnAction(event -> {
+			ImportPane importDialog =
+					new ImportPane(masterStage.get(), Container.getActiveContainer()
+							.materialize(Messenger.class, Scope.APPLICATION));
+
+			importDialog.show();
+			// update the picture area
+			viewArea.get().loadAllPictures();
+		});
 		importM.getItems().addAll(importPictures);
 		return importM;
 	}
-
 }

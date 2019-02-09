@@ -50,6 +50,20 @@
 		<!-- Album Creation -->
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Comment</ResourceString>
-		
+
+		<!-- Import Area -->
+		<ResourceString id="stageTitleImport">Import</ResourceString>
+		<ResourceString id="headerTextImportChooseOrDrag">choose or drag files to import</ResourceString>
+		<ResourceString id="descriptorImportFileChooserExtensionFilterPictures">Pictures</ResourceString>
+		<ResourceString id="descriptorImportFileChooserExtensionFilterAny">Any</ResourceString>
+		<ResourceString id="tooltipImportChooseButtonChooseFiles">choose file in file Tree</ResourceString>
+		<ResourceString id="tooltipImportRemoveButtonRemoveFiles">remove selected Files</ResourceString>
+		<ResourceString id="tooltipImportCancelButtonCloseWindow">close this Window</ResourceString>
+		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">import chosen Files</ResourceString>
+		<ResourceString id="cancelBtnImportCancel">cancel</ResourceString>
+		<ResourceString id="confirmBtnImportConfirm">confirm</ResourceString>
+		<ResourceString id="titleImportAlertError">Error</ResourceString>
+		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">your Files could not get Imported</ResourceString>
 	</Language>
 </Translations>
