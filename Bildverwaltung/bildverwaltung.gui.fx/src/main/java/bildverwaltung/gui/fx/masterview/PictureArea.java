@@ -94,6 +94,15 @@ public class PictureArea extends RebuildebleSubComponent {
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
 					selectedPicture.set(pictures.get(index));
 				}
+				if (event.getClickCount() == 2) {
+					ImageView iView = new ImageView();
+					try {
+						iView.setImage(new Image(pictureFacade.resolvePictureURI(pictures.get(index).getUri())));
+					} catch (FacadeException e) {
+						e.printStackTrace();
+					}
+					EnlargedPictureView.enlargePicture(iView);
+				}
 			}
 
 		}
