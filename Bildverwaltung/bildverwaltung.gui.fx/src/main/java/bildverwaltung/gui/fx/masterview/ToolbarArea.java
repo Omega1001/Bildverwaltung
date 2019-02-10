@@ -58,6 +58,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 //		MenuItem quit = new MenuItem(msg().translate("labelMasterViewToolbarFileQuit"));
 		MenuItem quit = new MenuItem(bundle.getString("main-window-toolbar-file-quit"));			//Translation
+		quit.setGraphic(IconLoader.loadIcon("Exit.png"));
 		quit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -71,6 +72,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 	private Menu buildOrganiseMenu() {
 //		Menu organise = new Menu(msg().translate("menuItemMasterViewToolbarOrganise"));
 		Menu organise = new Menu(bundle.getString("main-window-toolbar-manage-menu"));			//Translation
+		organise.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
 		Menu album = buildOrganiseAlbumMenu();
 		Menu picture = buildOrganisePictureMenu();
 		organise.getItems().addAll(album, picture);
@@ -80,7 +82,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 	private Menu buildOrganiseAlbumMenu() {
 //		Menu album = new Menu(msg().translate("menuItemMasterViewToolbarOrganiseAlbum"));
 		Menu album = new Menu(bundle.getString("main-window-toolbar-album-submenu"));			//Translation
-		album.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
+//		album.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
 
 //		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganiseAlbumDisplay"));
 		MenuItem show = new MenuItem(bundle.getString("main-window-toolbar-album-sm-show"));			//Translation
