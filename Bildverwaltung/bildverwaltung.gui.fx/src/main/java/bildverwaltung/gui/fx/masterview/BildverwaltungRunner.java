@@ -1,5 +1,7 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.util.ResourceBundle;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,11 +41,13 @@ public class BildverwaltungRunner extends Application {
 	private InfoArea infoArea;
 	private PictureArea viewArea;
 	private Stage masterStage;
+	private String resourcelocation = "resources/Bildverwaltung";		//Bildverwaltung_en einsetzen für englischen Text.
+	private ResourceBundle bundle = ResourceBundle.getBundle(resourcelocation);
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		// Init components
-		LOG.debug("Begin building application gui");
+		LOG.debug("Begin building application gui");		
 		this.masterStage = primaryStage;
 		this.toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea,()->infoArea.getAlbumArea());
 		this.infoArea = new InfoArea(msg, () -> viewArea);
@@ -61,10 +65,9 @@ public class BildverwaltungRunner extends Application {
 		LOG.debug("Finished populating data");
 		// Put in service
 		Scene s = new Scene(layout);
-		primaryStage.setTitle("Bilderverwaltung");
 		primaryStage.setScene(s);
 		//Give a name for this project
-		primaryStage.setTitle("Bildverwaltung");      
+		primaryStage.setTitle(bundle.getString("main-window-title"));		//Translation
 		// Show
 		LOG.debug("Prepairing to show main window");
 		primaryStage.show();

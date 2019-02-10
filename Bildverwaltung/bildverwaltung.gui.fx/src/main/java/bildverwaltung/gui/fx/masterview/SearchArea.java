@@ -2,6 +2,7 @@ package bildverwaltung.gui.fx.masterview;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
 import bildverwaltung.container.Container;
@@ -33,6 +34,9 @@ public class SearchArea extends RebuildebleSubComponent {
 	private Supplier<PictureArea> viewArea;
 	private SearchManager<Picture> sm;
 	private Supplier<AlbumArea> albumArea;
+	private String resourcelocation = "resources/Bildverwaltung";		//Bildverwaltung_en einsetzen für englischen Text.
+	private ResourceBundle bundle = ResourceBundle.getBundle(resourcelocation);
+	
 
 	public SearchArea(Messenger msg, Supplier<PictureArea> viewArea, Supplier<AlbumArea> albumArea) {
 		super(msg);
@@ -48,20 +52,21 @@ public class SearchArea extends RebuildebleSubComponent {
 
 	private SearchCategory<Picture> buildAlbumCathegory() {
 		return new SearchCategoryBuilder<Album>()
-				.addEntry(msg().translate("labelMasterViewInfoAreaSearchAreaPictureName"), Album_.name)
-				.asForeignOwned(msg().translate("headerTextMasterViewInfoAreaSearchAreaPicture"), Picture_.alben);
+				.addEntry(bundle.getString("search-area-class-submenu-picture-name"), Album_.name)
+				.asForeignOwned(bundle.getString("search-area-class-submenu-picture"), Picture_.alben);			//Translation
 	}
 
 	private SearchCategory<Picture> buildPictureCathegory() {
 		return new SearchCategoryBuilder<Picture>()
-				.addEntry(msg().translate("labelMasterViewInfoAreaSearchAreaAlbumName"), Picture_.name)
-				.asEntityOwned(msg().translate("headerTextMasterViewInfoAreaSearchAreaAlbum"));
+				.addEntry(bundle.getString("search-area-class-submenu-album-name"), Picture_.name)			//Translation
+				.asEntityOwned(bundle.getString("search-area-class-submenu-album"));
 	}
 
 	private Node generateButtons() {
 		Label l = new Label();
 		l.setMaxWidth(Double.MAX_VALUE);
-		Button search = new Button(msg().translate("btnMasterViewInfoAreaSearchAreaSearch"));
+//		Button search = new Button(msg().translate("btnMasterViewInfoAreaSearchAreaSearch"));
+		Button search = new Button(bundle.getString("search-area-class-button-search"));			//Translation
 		search.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -76,7 +81,8 @@ public class SearchArea extends RebuildebleSubComponent {
 				}
 			}
 		});
-		Button reset = new Button(msg().translate("btnMasterViewInfoAreaSearchAreaReset"));
+//		Button reset = new Button(msg().translate("btnMasterViewInfoAreaSearchAreaReset"));
+		Button reset = new Button(bundle.getString("search-area-class-button-reset"));			//Translation
 		reset.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
@@ -103,7 +109,8 @@ public class SearchArea extends RebuildebleSubComponent {
 	@Override
 	protected Node build() {
 		TitledPane body = new TitledPane();
-		body.setText(msg().translate("headerTextMasterViewInfoAreaSearchAreaHeader"));
+//		body.setText(msg().translate("headerTextMasterViewInfoAreaSearchAreaHeader"));
+		body.setText(bundle.getString("search-area-class-mainmenu-search"));			//Translation
 
 		VBox vbox = new VBox(sm.getGuiElement(), generateButtons());
 		body.setContent(vbox);
