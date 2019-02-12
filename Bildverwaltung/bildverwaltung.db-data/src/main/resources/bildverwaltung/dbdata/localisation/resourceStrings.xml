@@ -65,5 +65,11 @@
 		<ResourceString id="titleImportAlertError">Error</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
 		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">your Files could not get Imported</ResourceString>
+
+		<!-- Edit Attributes Area -->
+		<ResourceString id="editAttributesDialogHeader">Edit Attributes</ResourceString>
+		<ResourceString id="editAttributesName">Name</ResourceString>
+		<ResourceString id="editAttributesCreationDate">Creation Date</ResourceString>
+		<ResourceString id="editAttributesComment">Comment</ResourceString>
 	</Language>
 </Translations>
