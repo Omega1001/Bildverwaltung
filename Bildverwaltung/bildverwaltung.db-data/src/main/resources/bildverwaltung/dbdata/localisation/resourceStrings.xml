@@ -71,5 +71,7 @@
 		<ResourceString id="editAttributesName">Name</ResourceString>
 		<ResourceString id="editAttributesCreationDate">Creation Date</ResourceString>
 		<ResourceString id="editAttributesComment">Comment</ResourceString>
+		<ResourceString id="editAttributesAlertTitle">Incompatible Name</ResourceString>
+		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
 	</Language>
 </Translations>

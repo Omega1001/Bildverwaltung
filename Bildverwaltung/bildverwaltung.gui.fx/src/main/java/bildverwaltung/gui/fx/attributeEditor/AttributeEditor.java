@@ -86,20 +86,26 @@ public class AttributeEditor {
         confirmBt.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                nameFld.setText(nameFld.getText().trim());
                 if (!nameFld.getText().equals("")) {
                     picture.setName(nameFld.getText());
+
+                    picture.setCreationDate(Date.from(dp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    picture.setComment(commentField.getText().trim());
+                    try {
+                        facade.save(picture);
+                        st2.close();
+                    } catch (FacadeException e) {
+                        e.printStackTrace();
+                    }
                 } else {
-                    //TODO: Exception Handling for this case
+                    Alert alr = new Alert(Alert.AlertType.WARNING);
+                    alr.setTitle(msg.translate("editAttributesAlertTitle"));
+                    alr.setHeaderText(msg.translate("editAttributesAlertHeaderNameIsEmpty"));
+                    alr.showAndWait();
 
                 }
-                picture.setCreationDate(Date.from(dp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                picture.setComment(commentField.getText());
-                try {
-                    facade.save(picture);
-                    st2.close();
-                } catch (FacadeException e) {
-                    e.printStackTrace();
-                }
+
             }
         });
     }
@@ -130,6 +136,12 @@ public class AttributeEditor {
         AnchorPane.setRightAnchor(confirmBt,5.0);
         AnchorPane.setLeftAnchor(confirmBt,5.0);
 
+        st2.setMaxWidth(900.0);
+        st2.setMaxHeight(600.0);
+        st2.setMinWidth(500.0);
+        st2.setMinHeight(400.0);
+        grid.setHgap(5.0);
+        grid.setVgap(5.0);
     }
 
     private void putNodesTogether() {
