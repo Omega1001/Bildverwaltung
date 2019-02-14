@@ -40,16 +40,26 @@ public class AttributeEditor {
     private PictureFacade facade;
     private AnchorPane buttonPane;
 
-    public AttributeEditor(Stage parentStage, Picture picture,Messenger msg){
-        this.parentStage = parentStage;
+    public AttributeEditor(Stage parentStage, Picture picture,Messenger msg) {
         this.msg = msg;
+        if(picture == null) {
+            Alert alr = new Alert(Alert.AlertType.WARNING);
+                    alr.setTitle(msg.translate("editAttributesAlertTitle"));
+                    alr.setHeaderText(msg.translate("editAttributesAlertPictureSelectionEmpty"));
+                    alr.showAndWait();
+        } else {
+
+        this.parentStage = parentStage;
 
         facade = Container.getActiveContainer().materialize(PictureFacade.class);
+
 
         initializeNodes(picture);
         setEventHandlers(picture);
         setAppearance();
         putNodesTogether();
+
+        }
     }
 
 
@@ -168,6 +178,6 @@ public class AttributeEditor {
     }
 
     public void show(){
-        st2.show();
+        st2.showAndWait();
     }
 }
