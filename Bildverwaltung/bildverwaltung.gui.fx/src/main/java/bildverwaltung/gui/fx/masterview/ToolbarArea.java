@@ -9,6 +9,7 @@ import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
+import bildverwaltung.gui.fx.attributeEditor.AttributeEditor;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
@@ -150,6 +151,14 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
 
+		MenuItem editAttributes = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureEditAttributes"));
+		editAttributes.setOnAction(actionEvent -> {
+			Picture pic = viewArea.get().getSelectedPicture().get();
+			AttributeEditor editor = new AttributeEditor(masterStage.get(),pic,msg());
+			editor.show();
+			viewArea.get().loadAllPictures();
+		});
+
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
 		del.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -168,7 +177,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			}
 		});
 
-		picture.getItems().addAll(show, toAlbum, del);
+		picture.getItems().addAll(show, toAlbum, editAttributes, del);
 		return picture;
 	}
 
