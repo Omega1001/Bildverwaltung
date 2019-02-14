@@ -24,6 +24,7 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Delete Album</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Show Picture</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Add to Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Edit Attributes</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Delete Picture</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarImport">Import Pictures</ResourceString>
@@ -72,6 +73,7 @@
 		<ResourceString id="editAttributesCreationDate">Creation Date</ResourceString>
 		<ResourceString id="editAttributesComment">Comment</ResourceString>
 		<ResourceString id="editAttributesAlertTitle">Incompatible Name</ResourceString>
+		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please first select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
 	</Language>
 </Translations>
