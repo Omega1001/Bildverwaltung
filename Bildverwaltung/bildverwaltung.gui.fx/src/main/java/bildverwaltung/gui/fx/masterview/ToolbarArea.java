@@ -154,9 +154,14 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		MenuItem editAttributes = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureEditAttributes"));
 		editAttributes.setOnAction(actionEvent -> {
 			Picture pic = viewArea.get().getSelectedPicture().get();
-			AttributeEditor editor = new AttributeEditor(masterStage.get(),pic,msg());
-			editor.show();
-			viewArea.get().loadAllPictures();
+
+			if(pic == null) {
+				msg().showWarningMessage(msg().translate("editAttributesAlertPictureSelectionEmpty"), "");
+			} else {
+                AttributeEditor editor = new AttributeEditor(masterStage.get(), pic, msg());
+                editor.show();
+                viewArea.get().loadAllPictures();
+			}
 		});
 
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));

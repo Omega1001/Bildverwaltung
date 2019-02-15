@@ -42,24 +42,13 @@ public class AttributeEditor {
 
     public AttributeEditor(Stage parentStage, Picture picture,Messenger msg) {
         this.msg = msg;
-        if(picture == null) {
-            Alert alr = new Alert(Alert.AlertType.WARNING);
-                    alr.setTitle(msg.translate("editAttributesAlertTitle"));
-                    alr.setHeaderText(msg.translate("editAttributesAlertPictureSelectionEmpty"));
-                    alr.showAndWait();
-        } else {
-
         this.parentStage = parentStage;
-
         facade = Container.getActiveContainer().materialize(PictureFacade.class);
-
 
         initializeNodes(picture);
         setEventHandlers(picture);
         setAppearance();
         putNodesTogether();
-
-        }
     }
 
 
@@ -86,6 +75,8 @@ public class AttributeEditor {
     }
 
     private void setEventHandlers(Picture picture) {
+
+        // Cancel Button
         cancelBt.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
@@ -93,6 +84,7 @@ public class AttributeEditor {
             }
         });
 
+        // Confirming Button
         confirmBt.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
