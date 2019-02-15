@@ -66,4 +66,71 @@
 		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
 		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">your Files could not get Imported</ResourceString>
 	</Language>
+	<Language languageCode="de" countryCode="">
+		<!-- App commons -->
+		<ResourceString id="btnAppOk">OK</ResourceString>
+		<ResourceString id="btnAppCancel">Abbrechen</ResourceString>
+		<ResourceString id="headlineAppConfirmationDlg">Sind sie sich sicher?</ResourceString>
+		<!-- Generic Search -->
+		<ResourceString id="itemLabelGenericSearchDISABLED">Deaktiviert</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_EQUAL">entspricht</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">entspricht nicht</ResourceString>
+		<!-- Messenger -->
+		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
+		<ResourceString id="aleartHeaderWarningMessage">Warnung</ResourceString>
+		<ResourceString id="aleartHeaderErrorMessage">Ein Fehler ist aufgetreten</ResourceString>
+		<ResourceString id="msgExceptionUnknown">Ein unerwarteter Fehler ist aufgetreten\r\nBitte kontaktieren sie ihren Administrator, falls dieser Fehler weiterhin auftritt.</ResourceString>
+		<!-- Toolbar Area -->
+		<ResourceString id="labelMasterViewToolbarFile">Datei</ResourceString>
+		<ResourceString id="labelMasterViewToolbarFileQuit">Beenden</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganise">Verwalten</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbum">Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePicture">Bild</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDisplay">Album anzeigen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumCreate">Album erstellen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Album loeschen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Bild anzeigen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen.</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild loeschen</ResourceString>
+		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarImport">Bilder importieren</ResourceString>
+		<!-- Info Area -->
+		<!-- Album Area -->
+		<ResourceString id="headerTextMasterViewInfoAreaAlbumArea">Alben</ResourceString>
+		<!-- Search Area -->
+		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaHeader">Suchen</ResourceString>
+		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaPicture">Bild</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaSearchAreaPictureName">Name</ResourceString>
+		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaAlbum">Album</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaSearchAreaAlbumName">Name</ResourceString>
+		<ResourceString id="btnMasterViewInfoAreaSearchAreaSearch">Suchen</ResourceString>
+		<ResourceString id="btnMasterViewInfoAreaSearchAreaReset">Zuruecksetzen</ResourceString>
+		<!-- Attribute Area -->
+		<ResourceString id="headerTextMasterViewInfoAreaAttributeAreaHeader">Eigenschaften</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Hoehe</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Breite</ResourceString>
+		<!-- Album Selection Dialog -->
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Waehlen sie das anzuzeigende Album aus</ResourceString>
+		<!-- Album Deletion -->
+		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Sind sie sich sicher, dass sie dieses Album loeschen moechten?</ResourceString>
+		<!-- Album Creation -->
+		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
+		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Kommentar</ResourceString>
+
+		<!-- Import Area -->
+		<ResourceString id="stageTitleImport">Import</ResourceString>
+		<ResourceString id="headerTextImportChooseOrDrag">waehle oder ziehe Alben zum importieren</ResourceString>
+		<ResourceString id="descriptorImportFileChooserExtensionFilterPictures">Bilder</ResourceString>
+		<ResourceString id="descriptorImportFileChooserExtensionFilterAny">Beliebig</ResourceString>
+		<ResourceString id="tooltipImportChooseButtonChooseFiles">Datei im Dateibaum auswaehlen</ResourceString>
+		<ResourceString id="tooltipImportRemoveButtonRemoveFiles">ausgewaehlte Dateien loeschen</ResourceString>
+		<ResourceString id="tooltipImportCancelButtonCloseWindow">dieses Fenster schließen</ResourceString>
+		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">ausgewaehlte Dateien importieren</ResourceString>
+		<ResourceString id="cancelBtnImportCancel">abbrechen</ResourceString>
+		<ResourceString id="confirmBtnImportConfirm">bestaetigen</ResourceString>
+		<ResourceString id="titleImportAlertError">Fehler</ResourceString>
+		<ResourceString id="headerImportAlertErrorInImport">Fehler beim Import</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">ihre Dateien konnten nicht importiert werden</ResourceString>
+	</Language>
 </Translations>
