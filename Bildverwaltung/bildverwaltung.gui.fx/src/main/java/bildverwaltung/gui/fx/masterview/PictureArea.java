@@ -53,15 +53,15 @@ public class PictureArea extends RebuildebleSubComponent {
 	private List<ImageView> toView(List<? extends Picture> pictures) {
 		List<ImageView> res = new ArrayList<>(pictures.size());
 		for (Picture p : pictures) {
+			ImageView view = new ImageView();
+			view.setFitWidth(200d);
+			view.setFitHeight(200d);
+			view.setPreserveRatio(true);
+			view.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
+			res.add(view);
 			try {
-				ImageView view = new ImageView();
 				Image i = new Image(pictureFacade.resolvePictureURI(p.getUri()));
 				view.setImage(i);
-				view.setFitWidth(200d);
-				view.setFitHeight(200d);
-				view.setPreserveRatio(true);
-				view.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
-				res.add(view);
 			} catch (FacadeException e) {
 				msg().showExceptionMessage(e);
 			}
