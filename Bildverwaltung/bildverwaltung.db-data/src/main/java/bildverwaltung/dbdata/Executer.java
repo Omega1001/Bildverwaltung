@@ -43,17 +43,17 @@ public class Executer {
 		List<String> parameters = new LinkedList<>();
 		generateArgumentMap(args, arguments, parameters);
 		try {
-			//Connect to db and generate schema if needed
+			// Connect to db and generate schema if needed
 			EntityManagerFactory emFactory = generateDefaultEMFactory(arguments.get(JDBC_CLASS),
 					arguments.get(JDBC_URL), arguments.get(JDBC_USERNAME), arguments.get(JDBC_PASSWORD));
 			EntityManager em = emFactory.createEntityManager();
 			Executer ex = new Executer(emFactory != null ? em : null);
-			//Process tasks
+			// Process tasks
 			if (parameters.contains(BUILD_RS)) {
 				ex.buildResourceBundles(arguments.get(RS_SOURCE_FILE));
 			}
-			if(parameters.contains(BUILD_TEST_DATA)) {
-				ex.buildTestData(arguments.get(TEST_DATA_SOURCE_FILE),arguments);
+			if (parameters.contains(BUILD_TEST_DATA)) {
+				ex.buildTestData(arguments.get(TEST_DATA_SOURCE_FILE), arguments);
 			}
 		} catch (Exception e) {
 			LOG.error("Error during invocation : ", e);
@@ -63,15 +63,17 @@ public class Executer {
 	private static Map<String, String> generateArgumentMap(String[] args, Map<String, String> arguments,
 			List<String> parameters) {
 		for (String arg : args) {
-			int seperator = arg.indexOf('=');
-			if (seperator > 0) {
-				String key = arg.substring(0, seperator);
-				String val = arg.substring(seperator + 1, arg.length());
-				LOG.debug("Adding argument key = {},value = {}");
-				arguments.put(key, val);
-			} else {
-				LOG.debug("Adding parameter {}", arg);
-				parameters.add(arg);
+			if (arg != null) {
+				int seperator = arg.indexOf('=');
+				if (seperator > 0) {
+					String key = arg.substring(0, seperator);
+					String val = arg.substring(seperator + 1, arg.length());
+					LOG.debug("Adding argument key = {},value = {}");
+					arguments.put(key, val);
+				} else {
+					LOG.debug("Adding parameter {}", arg);
+					parameters.add(arg);
+				}
 			}
 		}
 		return arguments;
@@ -135,7 +137,7 @@ public class Executer {
 			throw new IllegalArgumentException("Invalid source file");
 		}
 		try {
-			TestDataInserter.insertResourceStrings(em, new BufferedInputStream(new FileInputStream(src)),vars);
+			TestDataInserter.insertResourceStrings(em, new BufferedInputStream(new FileInputStream(src)), vars);
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			LOG.error("Error during building resource Strings : ", e);
 		}
