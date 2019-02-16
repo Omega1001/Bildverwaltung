@@ -145,13 +145,50 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 			@Override
 			public void handle(ActionEvent event) {
+				//final String id;
 				Picture pic = viewArea.get().getSelectedPicture().get();
-				// TODO Actually showing the picture
+				if(pic == null) {
+					id = null;
+				} else {
+					id = pic.getSelectedPicture();
+				}
+				return new List<ImageView>() {
+					@Override
+					protected Image pic() throws FacadeException{
+						if (id == null) {
+							pictureArea.get().selectPicture(a);
+						} catch(FacadeException e) {
+							msg().showExceptionMessage(e);
+						}
+						return null;
+					}
+				};
 			}
 		});
 		
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
-
+                toAlbum.setOnActin(new EventHandler<ActionEvent>() {
+			
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					Picture pic = viewArea.get().getSelectedPicture().get();
+					Album album = albumFacade.getAlbumById(albumId);
+					if(pic == null) {
+						if(!albumArea.get().pictures.addAll(album.getPictures()) {
+							albumList.getSelectionModel().select(pic);
+						} else {
+							if(!albumArea.get().loadPictureById(picId)){
+								albumList.getSelectionmodel().select(pic);
+							} catch(FacadeException e) {
+								msg().showExceptionMeassage(e);
+							}
+						}
+					}
+				}
+			}
+		});
+		
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
 		del.setOnAction(new EventHandler<ActionEvent>() {
 
