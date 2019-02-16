@@ -1,6 +1,5 @@
 package bildverwaltung.gui.fx.masterview;
 
-import java.util.ResourceBundle;
 import java.util.function.Supplier;
 
 import bildverwaltung.dao.entity.Picture;
@@ -22,25 +21,21 @@ public class AttributeArea extends RebuildebleSubComponent {
 		super(msg);
 		this.viewArea = viewArea;
 	}
-	
-	private String resourcelocation = "resources/Bildverwaltung";		//Bildverwaltung_en einsetzen für englischen Text.
-	private ResourceBundle bundle = ResourceBundle.getBundle(resourcelocation);
-
 
 	@Override
 	protected Node build() {
 		TitledPane title = new TitledPane();
-		title.setText(bundle.getString("attribute-area-class-mainmenu"));
+		title.setText(msg().translate("headerTextMasterViewInfoAreaAttributeAreaHeader"));
 		GridPane grid = new GridPane();
 		Label name = new Label();
 		Label height = new Label();
 		Label width = new Label();
 		
-		grid.add(new Label(bundle.getString("attribute-area-class-name")), 0, 0);
+		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureName")), 0, 0);
 		grid.add(name, 1, 0);
-		grid.add(new Label(bundle.getString("attribute-area-class-height")), 0, 1);
+		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureHeight")), 0, 1);
 		grid.add(height, 1, 1);
-		grid.add(new Label(bundle.getString("attribute-area-class-width")), 0, 2);
+		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureWidth")), 0, 2);
 		grid.add(width, 1, 2);
 		
 		ChangeListener<Picture> changeHandler = new ChangeListener<Picture>() {

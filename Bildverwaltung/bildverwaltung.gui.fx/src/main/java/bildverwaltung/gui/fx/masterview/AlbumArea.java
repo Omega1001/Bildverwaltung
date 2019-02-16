@@ -1,7 +1,6 @@
 package bildverwaltung.gui.fx.masterview;
 
 import java.util.Iterator;
-import java.util.ResourceBundle;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -33,15 +32,11 @@ public class AlbumArea extends RebuildebleSubComponent {
 		super(msg);
 		this.viewArea = viewArea;
 	}
-	
-	private String resourcelocation = "resources/Bildverwaltung";		//Bildverwaltung_en einsetzen für englischen Text.
-	private ResourceBundle bundle = ResourceBundle.getBundle(resourcelocation);
 
 	@Override
 	protected Node build() {
 		TitledPane title = new TitledPane();
-//		title.setText(msg().translate("headerTextMasterViewInfoAreaAlbumArea"));
-		title.setText(bundle.getString("album-area-class-menu-album"));			//Translation
+		title.setText(msg().translate("headerTextMasterViewInfoAreaAlbumArea"));
 		albumList = new ListView<>(albums);
 		albumList.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<DBDataRefference<String>>() {

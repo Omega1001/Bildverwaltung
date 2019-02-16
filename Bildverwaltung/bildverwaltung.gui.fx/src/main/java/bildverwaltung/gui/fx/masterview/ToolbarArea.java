@@ -75,7 +75,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganiseAlbumMenu() {
 		Menu album = new Menu(msg().translate("menuItemMasterViewToolbarOrganiseAlbum"));
-//		album.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
+		// album.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
 
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganiseAlbumDisplay"));
 		show.setOnAction(new EventHandler<ActionEvent>() {
@@ -139,27 +139,28 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganisePictureMenu() {
 		Menu picture = new Menu(msg().translate("menuItemMasterViewToolbarOrganisePicture"));
-		
+
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDisplay"));
 		show.setOnAction(new EventHandler<ActionEvent>() {
 
 			@Override
 			public void handle(ActionEvent event) {
 				Picture pic = viewArea.get().getSelectedPicture().get();
-				//TODO
+				// TODO
 			}
 		});
-		
+
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
-                toAlbum.setOnActin(new EventHandler<ActionEvent>() {
-			
+		toAlbum.setOnAction(new EventHandler<ActionEvent>() {
+
 			@Override
 			public void handle(ActionEvent event) {
-					Picture pic = viewArea.get().getSelectedPicture().get();
-					//TODO
+				Picture pic = viewArea.get().getSelectedPicture().get();
+				// TODO
 			}
+
 		});
-		
+
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
 		del.setOnAction(new EventHandler<ActionEvent>() {
 
