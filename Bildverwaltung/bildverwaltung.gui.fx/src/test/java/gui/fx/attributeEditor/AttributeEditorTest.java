@@ -1,10 +1,11 @@
-package bildverwaltung.gui.fx.attributeEditor;
+package gui.fx.attributeEditor;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.PictureFacade;
+import bildverwaltung.gui.fx.attributeEditor.AttributeEditor;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.localisation.MessengerImpl;
 import bildverwaltung.localisation.TranslatorImpl;
