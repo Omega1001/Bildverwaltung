@@ -101,7 +101,8 @@ public class PictureArea extends RebuildebleSubComponent {
 					} catch (FacadeException e) {
 						e.printStackTrace();
 					}
-					EnlargedPictureView.enlargePicture(iView);
+					EnlargedPictureView epv = new EnlargedPictureView();
+					epv.enlargePicture(iView);
 				}
 			}
 
@@ -137,7 +138,15 @@ public class PictureArea extends RebuildebleSubComponent {
 		}
 
 	}
+	public List<ImageView> getList(){
+		return toView(pictures);
+	}
 
+
+	public int getIndex() {
+		int index;
+		return index = pane.getChildren().indexOf(selectedPicture);	
+	}
 	public boolean loadAllPictures() {
 		try {
 			List<Picture> pics = pictureFacade.getAllPictures();
