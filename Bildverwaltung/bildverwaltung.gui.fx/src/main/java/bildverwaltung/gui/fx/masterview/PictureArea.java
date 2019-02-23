@@ -11,6 +11,7 @@ import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
+import bildverwaltung.gui.fx.enlargepicture.EnlargedPictureView;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import javafx.beans.property.ObjectProperty;
