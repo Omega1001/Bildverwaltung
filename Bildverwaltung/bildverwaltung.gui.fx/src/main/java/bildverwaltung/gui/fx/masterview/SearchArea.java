@@ -49,13 +49,13 @@ public class SearchArea extends RebuildebleSubComponent {
 	private SearchCategory<Picture> buildAlbumCathegory() {
 		return new SearchCategoryBuilder<Album>()
 				.addEntry(msg().translate("labelMasterViewInfoAreaSearchAreaAlbumName"), Album_.name)
-				.asForeignOwned(msg().translate("headerTextMasterViewInfoAreaSearchAreaPicture"), Picture_.alben);
+				.asForeignOwned(msg().translate("headerTextMasterViewInfoAreaSearchAreaAlbum"), Picture_.alben);
 	}
 
 	private SearchCategory<Picture> buildPictureCathegory() {
 		return new SearchCategoryBuilder<Picture>()
 				.addEntry(msg().translate("labelMasterViewInfoAreaSearchAreaPictureName"), Picture_.name)
-				.asEntityOwned(msg().translate("headerTextMasterViewInfoAreaSearchAreaAlbum"));
+				.asEntityOwned(msg().translate("headerTextMasterViewInfoAreaSearchAreaPicture"));
 	}
 
 	private Node generateButtons() {
