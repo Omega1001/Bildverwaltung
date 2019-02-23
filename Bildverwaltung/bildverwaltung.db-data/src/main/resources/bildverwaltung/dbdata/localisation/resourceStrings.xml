@@ -142,5 +142,14 @@
 		<ResourceString id="titleImportAlertError">Fehler</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Fehler beim Import</ResourceString>
 		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">ihre Dateien konnten nicht importiert werden</ResourceString>
+
+		<!-- Edit Attributes Area -->
+		<ResourceString id="editAttributesDialogHeader">Attribute ändern</ResourceString>
+		<ResourceString id="editAttributesName">Name</ResourceString>
+		<ResourceString id="editAttributesCreationDate">Erstellungsdatum</ResourceString>
+		<ResourceString id="editAttributesComment">Kommentar</ResourceString>
+		<ResourceString id="editAttributesAlertTitle">nicht kompatibler Name</ResourceString>
+		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
+		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
 	</Language>
 </Translations>
