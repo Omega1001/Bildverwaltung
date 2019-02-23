@@ -113,6 +113,7 @@ public class AttributeEditor {
     	buttonPane.setPadding(new Insets(5,5,5,5));
     	buttonPane.setAlignment(Pos.CENTER_RIGHT);
     	buttonPane.setSpacing(5.0);
+    	confirmBt.setDefaultButton(true);
 
         commentLb.setAlignment(Pos.TOP_CENTER);
 
