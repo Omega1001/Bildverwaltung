@@ -143,6 +143,7 @@ public class PictureArea extends RebuildebleSubComponent {
 			List<Picture> pics = pictureFacade.getAllPictures();
 			pictures.clear();
 			pictures.addAll(pics);
+			selectedPicture.set(null);
 			return true;
 		} catch (FacadeException e) {
 			msg().showExceptionMessage(e);
@@ -155,6 +156,7 @@ public class PictureArea extends RebuildebleSubComponent {
 			Album album = albumFacade.getAlbumById(albumId);
 			pictures.clear();
 			pictures.addAll(album.getPictures());
+			selectedPicture.set(null);
 			return true;
 		} catch (FacadeException e) {
 			msg().showExceptionMessage(e);
