@@ -5,33 +5,35 @@ import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.localisation.Messenger;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.HPos;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.*;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.ColumnConstraints;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.time.ZoneId;
 import java.util.Date;
 
+import static javafx.scene.layout.Priority.ALWAYS;
+
 public class AttributeEditor {
     private BorderPane bp;
     private GridPane grid;
-    private Stage st2;
-    private Scene sc2;
+    private Stage stage2;
+    private Scene scene2;
     private DatePicker dp;
     private TextField nameFld;
     private Label nameLb;
     private Label dateLb;
     private Label commentLb;
     private TextArea commentField;
-    private Label title;
+    private String title;
     private Stage parentStage;
 
     private Button confirmBt;
@@ -39,6 +41,9 @@ public class AttributeEditor {
     private final Messenger msg;
     private PictureFacade facade;
     private HBox buttonPane;
+
+    private static final Double STAGE_MIN_HEIGH = 400.0;
+    private static final Double STAGE_MIN_WIDTH = 600.0;
 
     public AttributeEditor(Stage parentStage, Picture picture,Messenger msg) {
         this.msg = msg;
@@ -54,10 +59,10 @@ public class AttributeEditor {
 
     private void initializeNodes(Picture picture) {
         this.bp = new BorderPane();
-        this.title = new Label(msg.translate("editAttributesDialogHeader"));
+        this.title = msg.translate("editAttributesDialogHeader");
         this.grid = new GridPane();
-        this.st2 = new Stage();
-        this.sc2 = new Scene(bp);
+        this.stage2 = new Stage();
+        this.scene2 = new Scene(bp);
 
         this.nameLb = new Label(msg.translate("editAttributesName"));
         this.nameFld = new TextField(picture.getName());
@@ -77,38 +82,30 @@ public class AttributeEditor {
     private void setEventHandlers(Picture picture) {
 
         // Cancel Button
-        cancelBt.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                st2.close();
-            }
-        });
+        cancelBt.setOnAction(actionEvent -> stage2.close());
 
         // Confirming Button
-        confirmBt.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent actionEvent) {
-                nameFld.setText(nameFld.getText().trim());
-                if (!nameFld.getText().equals("")) {
-                    picture.setName(nameFld.getText());
+        confirmBt.setOnAction(actionEvent -> {
+            nameFld.setText(nameFld.getText().trim());
+            if (!nameFld.getText().equals("")) {
+                picture.setName(nameFld.getText());
 
-                    picture.setCreationDate(Date.from(dp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
-                    picture.setComment(commentField.getText().trim());
-                    try {
-                        facade.save(picture);
-                        st2.close();
-                    } catch (FacadeException e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    Alert alr = new Alert(Alert.AlertType.WARNING);
-                    alr.setTitle(msg.translate("editAttributesAlertTitle"));
-                    alr.setHeaderText(msg.translate("editAttributesAlertHeaderNameIsEmpty"));
-                    alr.showAndWait();
-
+                picture.setCreationDate(Date.from(dp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                picture.setComment(commentField.getText().trim());
+                try {
+                    facade.save(picture);
+                    stage2.close();
+                } catch (FacadeException e) {
+                    e.printStackTrace();
                 }
+            } else {
+                Alert alr = new Alert(Alert.AlertType.WARNING);
+                alr.setTitle(msg.translate("editAttributesAlertTitle"));
+                alr.setHeaderText(msg.translate("editAttributesAlertHeaderNameIsEmpty"));
+                alr.showAndWait();
 
             }
+
         });
     }
 
@@ -119,12 +116,12 @@ public class AttributeEditor {
 
         commentLb.setAlignment(Pos.TOP_CENTER);
 
-        grid.setGridLinesVisible(false);
         ColumnConstraints col1 = new ColumnConstraints(120);
         grid.getColumnConstraints().addAll(col1);
+        grid.setGridLinesVisible(false);
 
-        grid.setHgrow(commentField,Priority.ALWAYS);
-        grid.setVgrow(commentField,Priority.ALWAYS);
+        GridPane.setHgrow(commentField, ALWAYS);
+        GridPane.setVgrow(commentField, ALWAYS);
 
         GridPane.setValignment(commentLb, VPos.TOP);
 
@@ -132,19 +129,18 @@ public class AttributeEditor {
         commentField.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         dp.setMaxWidth(Double.MAX_VALUE);
 
-        st2.setMaxWidth(900.0);
-        st2.setMaxHeight(600.0);
-        st2.setMinWidth(500.0);
-        st2.setMinHeight(400.0);
+        stage2.setMinWidth(STAGE_MIN_WIDTH);
+        stage2.setMinHeight(STAGE_MIN_HEIGH);
         grid.setHgap(5.0);
         grid.setVgap(5.0);
+
+        bp.setPadding(new Insets(5, 5, 5, 5));
     }
 
     private void putNodesTogether() {
         //grid.getChildren().addAll(nameLb,txtFld,dateLb,dp,commentLb,txtAr);
-        bp.setPadding(new Insets(5.0, 5.0, 5.0, 5.0));
         //bp.setTop(title);
-        st2.setTitle(title.getText());
+        stage2.setTitle(title);
         bp.setCenter(grid);
         bp.setBottom(buttonPane);
 
@@ -158,13 +154,13 @@ public class AttributeEditor {
         grid.add(commentLb,0,2);
         grid.add(commentField,1,2);
 
-        st2.setScene(sc2);
-        st2.initOwner(parentStage);
-        st2.initModality(Modality.APPLICATION_MODAL);
+        stage2.setScene(scene2);
+        stage2.initOwner(parentStage);
+        stage2.initModality(Modality.APPLICATION_MODAL);
         buttonPane.getChildren().addAll(confirmBt,cancelBt);
     }
 
     public void show(){
-        st2.showAndWait();
+        stage2.showAndWait();
     }
 }
