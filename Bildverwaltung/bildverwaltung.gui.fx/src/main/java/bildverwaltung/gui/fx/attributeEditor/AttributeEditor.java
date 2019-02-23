@@ -38,7 +38,7 @@ public class AttributeEditor {
     private Button cancelBt;
     private final Messenger msg;
     private PictureFacade facade;
-    private AnchorPane buttonPane;
+    private HBox buttonPane;
 
     public AttributeEditor(Stage parentStage, Picture picture,Messenger msg) {
         this.msg = msg;
@@ -71,7 +71,7 @@ public class AttributeEditor {
         this.confirmBt = new Button(msg.translate("confirmBtnImportConfirm"));
         this.cancelBt = new Button(msg.translate("cancelBtnImportCancel"));
 
-        buttonPane = new AnchorPane();
+        buttonPane = new HBox();
     }
 
     private void setEventHandlers(Picture picture) {
@@ -113,12 +113,14 @@ public class AttributeEditor {
     }
 
     private void setAppearance() {
-    	buttonPane.setPadding(new Insets(4,4,4,4));
+    	buttonPane.setPadding(new Insets(5,5,5,5));
+    	buttonPane.setAlignment(Pos.CENTER_RIGHT);
+    	buttonPane.setSpacing(5.0);
 
         commentLb.setAlignment(Pos.TOP_CENTER);
 
         grid.setGridLinesVisible(false);
-        ColumnConstraints col1 = new ColumnConstraints(80);
+        ColumnConstraints col1 = new ColumnConstraints(120);
         grid.getColumnConstraints().addAll(col1);
 
         grid.setHgrow(commentField,Priority.ALWAYS);
@@ -129,14 +131,6 @@ public class AttributeEditor {
         nameFld.setMaxWidth(Double.MAX_VALUE);
         commentField.setMaxSize(Double.MAX_VALUE,Double.MAX_VALUE);
         dp.setMaxWidth(Double.MAX_VALUE);
-
-        AnchorPane.setBottomAnchor(cancelBt,0.0);
-        AnchorPane.setRightAnchor(cancelBt,5.0);
-        AnchorPane.setLeftAnchor(cancelBt,5.0);
-
-        AnchorPane.setBottomAnchor(confirmBt,45.0);
-        AnchorPane.setRightAnchor(confirmBt,5.0);
-        AnchorPane.setLeftAnchor(confirmBt,5.0);
 
         st2.setMaxWidth(900.0);
         st2.setMaxHeight(600.0);
@@ -149,7 +143,8 @@ public class AttributeEditor {
     private void putNodesTogether() {
         //grid.getChildren().addAll(nameLb,txtFld,dateLb,dp,commentLb,txtAr);
         bp.setPadding(new Insets(5.0, 5.0, 5.0, 5.0));
-        bp.setTop(title);
+        //bp.setTop(title);
+        st2.setTitle(title.getText());
         bp.setCenter(grid);
         bp.setBottom(buttonPane);
 
