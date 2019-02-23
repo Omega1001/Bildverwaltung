@@ -54,6 +54,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		file.setGraphic(IconLoader.loadIcon("Datei.png"));
 
 		MenuItem quit = new MenuItem(msg().translate("labelMasterViewToolbarFileQuit"));
+		quit.setGraphic(IconLoader.loadIcon("Exit.png"));
 		quit.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
@@ -66,6 +67,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganiseMenu() {
 		Menu organise = new Menu(msg().translate("menuItemMasterViewToolbarOrganise"));
+		organise.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
 		Menu album = buildOrganiseAlbumMenu();
 		Menu picture = buildOrganisePictureMenu();
 		organise.getItems().addAll(album, picture);
@@ -74,7 +76,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	private Menu buildOrganiseAlbumMenu() {
 		Menu album = new Menu(msg().translate("menuItemMasterViewToolbarOrganiseAlbum"));
-		album.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
+		// album.setGraphic(IconLoader.loadIcon("Bearbeiten.png"));
 
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganiseAlbumDisplay"));
 		show.setOnAction(new EventHandler<ActionEvent>() {
@@ -145,11 +147,20 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			@Override
 			public void handle(ActionEvent event) {
 				Picture pic = viewArea.get().getSelectedPicture().get();
-				// TODO Actually showing the picture
+				// TODO
 			}
 		});
 
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
+		toAlbum.setOnAction(new EventHandler<ActionEvent>() {
+
+			@Override
+			public void handle(ActionEvent event) {
+				Picture pic = viewArea.get().getSelectedPicture().get();
+				// TODO
+			}
+
+		});
 
 		MenuItem editAttributes = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureEditAttributes"));
 		editAttributes.setOnAction(actionEvent -> {

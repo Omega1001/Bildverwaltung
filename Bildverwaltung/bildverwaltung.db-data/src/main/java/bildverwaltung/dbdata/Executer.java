@@ -8,10 +8,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Scanner;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
@@ -47,6 +49,7 @@ public class Executer {
 			EntityManagerFactory emFactory = generateDefaultEMFactory(arguments.get(JDBC_CLASS),
 					arguments.get(JDBC_URL), arguments.get(JDBC_USERNAME), arguments.get(JDBC_PASSWORD));
 			EntityManager em = emFactory.createEntityManager();
+			rebuildShema(em);
 			Executer ex = new Executer(emFactory != null ? em : null);
 			// Process tasks
 			if (parameters.contains(BUILD_RS)) {
@@ -58,6 +61,30 @@ public class Executer {
 		} catch (Exception e) {
 			LOG.error("Error during invocation : ", e);
 		}
+	}
+
+	private static void rebuildShema(EntityManager em) {
+		em.getTransaction().begin();
+		Query q = em.createNativeQuery(getScript("bildverwaltung/dbdata/ddl/dropDDL.sql"));
+		q = em.createNativeQuery(getScript("bildverwaltung/dbdata/ddl/createDDL.sql"));
+		q.executeUpdate();
+		em.getTransaction().commit();
+	}
+
+	private static String getScript(String resource) {
+		StringBuilder sb = new StringBuilder();
+		Scanner sc = null;
+		try {
+			sc = new Scanner(Executer.class.getClassLoader().getResourceAsStream(resource));
+			while (sc.hasNextLine()) {
+				sb.append(sc.nextLine()).append("\r\n");
+			}
+		} finally {
+			if (sc != null) {
+				sc.close();
+			}
+		}
+		return sb.toString();
 	}
 
 	private static Map<String, String> generateArgumentMap(String[] args, Map<String, String> arguments,
@@ -90,8 +117,8 @@ public class Executer {
 		properties.put("javax.persistence.jdbc.password", password);
 		properties.put("javax.persistence.jdbc.url", jdbcUrl);
 		properties.put("javax.persistence.jdbc.driver", jdbcClassName);
-		// properties.put("eclipselink.ddl-generation", "create-tables");
-		Persistence.generateSchema("Domain Modell", properties);
+		properties.put("eclipselink.ddl-generation", "none");
+		// Persistence.generateSchema("Domain Modell", properties);
 		return Persistence.createEntityManagerFactory("Domain Modell", properties);
 	}
 

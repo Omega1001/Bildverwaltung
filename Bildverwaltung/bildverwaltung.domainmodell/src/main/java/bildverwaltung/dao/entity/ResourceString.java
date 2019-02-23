@@ -1,42 +1,67 @@
 package bildverwaltung.dao.entity;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.Transient;
 
 @Entity
-@NamedQueries(value = { @NamedQuery(name = "resourceString.forLocale", query = "SELECT RS from ResourceString as RS WHERE RS.languageKey = :languageKey AND RS.countryKey = :countryKey") })
+@NamedQueries(value = {
+		@NamedQuery(name = "resourceString.forLocale", query = "SELECT RS from ResourceString as RS WHERE RS.id.languageKey = :languageKey AND RS.id.countryKey = :countryKey") })
 public class ResourceString {
-
-	private String resourceStringId;
+	@EmbeddedId
+	private ResourceStringKey id;
+	@Column(nullable = false)
 	private String translation;
-	private String languageKey;
-	private String countryKey;
 
 	public ResourceString() {
 		super();
+		id = new ResourceStringKey();
 	}
 
 	public ResourceString(String resourceStringId, String translation, String languageKey, String countryKey) {
 		super();
-		this.resourceStringId = resourceStringId;
+		this.id = new ResourceStringKey(resourceStringId, languageKey, countryKey);
 		this.translation = translation;
-		this.languageKey = languageKey;
-		this.countryKey = countryKey;
 	}
 
-	@Id
+	public ResourceStringKey getId() {
+		return id;
+	}
+
+	public void setId(ResourceStringKey id) {
+		this.id = id;
+	}
+
+	@Transient
 	public String getResourceStringId() {
-		return resourceStringId;
+		return id.getResourceStringId();
 	}
 
 	public void setResourceStringId(String resourceStringId) {
-		this.resourceStringId = resourceStringId;
+		id.setResourceStringId(resourceStringId);
 	}
 
-	@Column(nullable = false)
+	@Transient
+	public String getLanguageKey() {
+		return id.getLanguageKey();
+	}
+
+	public void setLanguageKey(String languageKey) {
+		id.setLanguageKey(languageKey);
+	}
+
+	@Transient
+	public String getCountryKey() {
+		return id.getCountryKey();
+	}
+
+	public void setCountryKey(String countryKey) {
+		id.setCountryKey(countryKey);
+	}
+
 	public String getTranslation() {
 		return translation;
 	}
@@ -45,33 +70,13 @@ public class ResourceString {
 		this.translation = translation;
 	}
 
-	@Column(nullable = false, length = 2)
-	public String getLanguageKey() {
-		return languageKey;
-	}
-
-	public void setLanguageKey(String languageKey) {
-		this.languageKey = languageKey;
-	}
-
-	@Column(nullable = false, length = 3)
-	public String getCountryKey() {
-		return countryKey;
-	}
-
-	public void setCountryKey(String countryKey) {
-		this.countryKey = countryKey;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("ResourceString [resourceStringId=").append(resourceStringId).append(", languageKey=")
-				.append(languageKey).append(", countryKey=").append(countryKey).append(", translation=")
+		builder.append("ResourceString [resourceStringId=").append(id.getResourceStringId()).append(", languageKey=")
+				.append(id.getLanguageKey()).append(", countryKey=").append(id.getCountryKey()).append(", translation=")
 				.append(translation).append("]");
 		return builder.toString();
 	}
-	
-	
 
 }

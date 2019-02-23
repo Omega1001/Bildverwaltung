@@ -11,6 +11,7 @@ import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
+import bildverwaltung.gui.fx.enlargepicture.EnlargedPictureView;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import javafx.beans.property.ObjectProperty;
@@ -53,15 +54,15 @@ public class PictureArea extends RebuildebleSubComponent {
 	private List<ImageView> toView(List<? extends Picture> pictures) {
 		List<ImageView> res = new ArrayList<>(pictures.size());
 		for (Picture p : pictures) {
+			ImageView view = new ImageView();
+			view.setFitWidth(200d);
+			view.setFitHeight(200d);
+			view.setPreserveRatio(true);
+			view.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
+			res.add(view);
 			try {
-				ImageView view = new ImageView();
 				Image i = new Image(pictureFacade.resolvePictureURI(p.getUri()));
 				view.setImage(i);
-				view.setFitWidth(200d);
-				view.setFitHeight(200d);
-				view.setPreserveRatio(true);
-				view.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
-				res.add(view);
 			} catch (FacadeException e) {
 				msg().showExceptionMessage(e);
 			}
@@ -101,7 +102,8 @@ public class PictureArea extends RebuildebleSubComponent {
 					} catch (FacadeException e) {
 						e.printStackTrace();
 					}
-					EnlargedPictureView.enlargePicture(iView);
+					EnlargedPictureView epv = new EnlargedPictureView();
+					epv.enlargePicture(iView);
 				}
 			}
 
@@ -137,7 +139,15 @@ public class PictureArea extends RebuildebleSubComponent {
 		}
 
 	}
+	public List<ImageView> getList(){
+		return toView(pictures);
+	}
 
+
+	public int getIndex() {
+		int index;
+		return index = pane.getChildren().indexOf(selectedPicture);	
+	}
 	public boolean loadAllPictures() {
 		try {
 			List<Picture> pics = pictureFacade.getAllPictures();

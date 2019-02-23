@@ -6,6 +6,7 @@ import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ExceptionType;
 import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.service.pictureimport.PictureImportService;
+import bildverwaltung.utils.ApplicationIni;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import javax.imageio.ImageIO;
@@ -23,11 +24,24 @@ import java.util.concurrent.TimeUnit;
 public class PictureImportServiceImpl implements PictureImportService {
     private PictureDao dao;
     private static final Logger LOG = LoggerFactory.getLogger(PictureImportServiceImpl.class);
+    private String picturesDirectory;
 
     public PictureImportServiceImpl(PictureDao dao) {
-        this.dao = dao;
+        this(dao, getImportDirectory());
     }
 
+    public PictureImportServiceImpl(PictureDao dao, String picturesDirectory) {
+        this.dao = dao;
+        this.picturesDirectory = picturesDirectory;
+    }
+
+    /**
+     * get the path to the current directory of the pictures
+     * @return
+     */
+    public static String getImportDirectory() {
+        return ApplicationIni.get().get("directory", "picturesDirectory");
+    }
 
     /**
      * convert a List of Files to Picture (if they are actually a picture) into the DB
@@ -50,6 +64,7 @@ public class PictureImportServiceImpl implements PictureImportService {
 
     }
 
+
     /**
      * converts a single file to Picture and imports it into the DB.
      *
@@ -64,13 +79,16 @@ public class PictureImportServiceImpl implements PictureImportService {
 
         Picture newPicture = convertToEntity(picture);
 
-        File directory = new File("PictureManager");
-        File newFile = new File("PictureManager/" + picture.getName());
+        //File directory = new File("PictureManager");
+        File directory = new File(picturesDirectory);
+        //File newFile = new File("PictureManager/" + picture.getName());
+        File newFile = new File(picturesDirectory + File.separator + picture.getName());
 
         directory.mkdirs();
         LOG.debug("created Directory {} in absolute path {}", directory.getName(), directory.getAbsolutePath());
 
         try {
+            LOG.debug("copy {} to {}",picture.getName(),newFile.getName());
             Files.copy(picture.toPath(), newFile.toPath());
         } catch (IOException e) {
             //e.printStackTrace();
@@ -79,13 +97,14 @@ public class PictureImportServiceImpl implements PictureImportService {
 
 
         //rename the File in copy directory to the corresponding UUID of the Picture entity
-        File newName = new File(directory.getName() + File.separator + newPicture.getId().toString());
+        File newName = new File(directory.getAbsolutePath() + File.separator + newPicture.getId().toString());
 
         newFile.renameTo(newName);
         newPicture.setUri(newName.toURI());
-        LOG.debug("Saved new picture as {}", newFile.getAbsolutePath());
+        LOG.debug("Saved new picture file as {}", newName.getAbsolutePath());
         try {
             dao.save(newPicture);
+            LOG.debug("saved picture in db with following attributes: {}", newPicture.toString());
         } catch (DaoException e) {
             throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
         }

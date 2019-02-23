@@ -11,14 +11,18 @@ import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.Test;
+import bildverwaltung.utils.ApplicationIni;
+import bildverwaltung.utils.IniFile;
+import bildverwaltung.utils.IniFileReader;
+import org.junit.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 
 import javax.persistence.EntityManager;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Files;
@@ -27,15 +31,17 @@ import java.util.List;
 
 public class PictureImportServiceImplTest {
 
+    private final static String PICTURES_PATH = "target/test/resources/PictureManager";
 
     PictureDao daoMock = mock(PictureDao.class);
-    PictureImportServiceImpl sut = new PictureImportServiceImpl(daoMock);
+    PictureImportServiceImpl sut = new PictureImportServiceImpl(daoMock, PICTURES_PATH);
+    private final static Logger LOG = LoggerFactory.getLogger(PictureImportServiceImplTest.class);
+
 
     // Delete the "PictureManager" folder created by the tests with the content in it
-
     @After
     public void cleanFolder() throws URISyntaxException, IOException {
-        File folder = new File("PictureManager");
+        File folder = new File(PICTURES_PATH);
         if(folder.exists()) {
             String [] children = folder.list();
 
@@ -128,7 +134,7 @@ public class PictureImportServiceImplTest {
 
         sut.importAll(pictures);
 
-        File filesToExpect = new File("PictureManager/");
+        File filesToExpect = new File(PICTURES_PATH);
         System.out.println(filesToExpect.list().toString());
         assertEquals(2,filesToExpect.list().length);
     }

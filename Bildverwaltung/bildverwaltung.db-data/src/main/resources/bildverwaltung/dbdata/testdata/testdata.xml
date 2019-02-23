@@ -5,7 +5,7 @@
 	<pictures>
 		<picture id="00000000-0000-0000-0000-000000000000">
 			<name>Bearbeiten</name>
-			<uri>file:/${fxprojectLocale}/src/main/resources/Bearbeiten.png</uri>
+			<uri>file://${fxprojectLocale}/src/main/resources/Bearbeiten.png</uri>
 			<extension>png</extension>
 			<height>588</height>
 			<width>1287</width>
@@ -13,7 +13,7 @@
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000001">
 			<name>Datei</name>
-			<uri>file:/${fxprojectLocale}/src/main/resources/Datei.png</uri>
+			<uri>file://${fxprojectLocale}/src/main/resources/Datei.png</uri>
 			<extension>png</extension>
 			<height>588</height>
 			<width>1287</width>
@@ -21,7 +21,7 @@
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000002">
 			<name>Diashow</name>
-			<uri>file:/${fxprojectLocale}/src/main/resources/Diashow.png</uri>
+			<uri>file://${fxprojectLocale}/src/main/resources/Diashow.png</uri>
 			<extension>png</extension>
 			<height>588</height>
 			<width>1287</width>
@@ -29,7 +29,7 @@
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000003">
 			<name>Großansicht</name>
-			<uri>file:/${fxprojectLocale}/src/main/resources/Großansicht.png</uri>
+			<uri>file://${fxprojectLocale}/src/main/resources/Grossansicht.png</uri>
 			<extension>png</extension>
 			<height>588</height>
 			<width>1287</width>
@@ -37,7 +37,7 @@
 		</picture>
 		<picture id="00000000-0000-0000-0000-000000000004">
 			<name>Import</name>
-			<uri>file:/${fxprojectLocale}/src/main/resources/Import.png</uri>
+			<uri>file://${fxprojectLocale}/src/main/resources/Import.png</uri>
 			<extension>png</extension>
 			<height>588</height>
 			<width>1287</width>
