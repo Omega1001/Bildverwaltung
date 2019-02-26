@@ -10,6 +10,7 @@ import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.attributeEditor.AttributeEditor;
+import bildverwaltung.gui.fx.enlargedpicture.EnlargedPictureView;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
@@ -25,6 +26,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class ToolbarArea extends RebuildebleSubComponent {
@@ -147,7 +149,8 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			@Override
 			public void handle(ActionEvent event) {
 				Picture pic = viewArea.get().getSelectedPicture().get();
-				// TODO
+				EnlargedPictureView enl = new EnlargedPictureView();
+				enl.enlargePicture(new ImageView(viewArea.get().getSelectedPicture().get().getUri().toString()));
 			}
 		});
 
