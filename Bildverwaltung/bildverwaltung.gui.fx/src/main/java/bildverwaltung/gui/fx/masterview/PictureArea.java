@@ -1,5 +1,7 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -61,8 +63,14 @@ public class PictureArea extends RebuildebleSubComponent {
 			view.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
 			res.add(view);
 			try {
-				Image i = new Image(pictureFacade.resolvePictureURI(p.getUri()));
+				InputStream is = pictureFacade.resolvePictureURI(p.getUri());
+				Image i = new Image(is);
 				view.setImage(i);
+				try{
+					is.close();
+				}catch (IOException e){
+					e.printStackTrace();
+				}
 			} catch (FacadeException e) {
 				msg().showExceptionMessage(e);
 			}
@@ -98,7 +106,13 @@ public class PictureArea extends RebuildebleSubComponent {
 				if (event.getClickCount() == 2) {
 					ImageView iView = new ImageView();
 					try {
-						iView.setImage(new Image(pictureFacade.resolvePictureURI(pictures.get(index).getUri())));
+						InputStream is = pictureFacade.resolvePictureURI(pictures.get(index).getUri());
+						iView.setImage(new Image(is));
+						try{
+							is.close();
+						}catch (IOException e){
+							e.printStackTrace();
+						}
 					} catch (FacadeException e) {
 						e.printStackTrace();
 					}
@@ -128,7 +142,13 @@ public class PictureArea extends RebuildebleSubComponent {
 						if (n instanceof ImageView) {
 							ImageView v = (ImageView) n;
 							try {
-								v.setImage(new Image(pictureFacade.resolvePictureURI(updated.getUri())));
+								InputStream is = pictureFacade.resolvePictureURI(updated.getUri());
+								v.setImage(new Image(is));
+								try{
+									is.close();
+								}catch (IOException e){
+									e.printStackTrace();
+								}
 							} catch (FacadeException e) {
 								msg().showExceptionMessage(e);
 							}

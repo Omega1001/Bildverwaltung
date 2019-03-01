@@ -1,5 +1,7 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.io.*;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -129,6 +131,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 								"msgMasterViewToolbarViewDeleteAlbumConfirm")) {
 							albumArea.get().removeAlbumWithId(a.getId());
 							albumFacade.delete(a.getId());
+
 						}
 					}
 				} catch (FacadeException e) {
@@ -188,6 +191,14 @@ public class ToolbarArea extends RebuildebleSubComponent {
 					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
 						viewArea.get().getPictures().remove(pic);
 						pictureFacade.delete(pic);
+						File picFile =new File(pic.getUri());
+						if(picFile.exists()){
+							try {
+								Files.delete(picFile.toPath());
+							} catch (IOException e) {
+								e.printStackTrace();
+							}
+						}
 					}
 
 				} catch (FacadeException e) {
