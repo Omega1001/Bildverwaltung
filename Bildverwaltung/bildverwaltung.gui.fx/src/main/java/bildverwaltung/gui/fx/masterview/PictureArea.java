@@ -2,9 +2,7 @@ package bildverwaltung.gui.fx.masterview;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
@@ -50,6 +48,7 @@ public class PictureArea extends RebuildebleSubComponent {
 		ScrollPane scrollPane = new ScrollPane(pane);
 		scrollPane.setFitToWidth(true);
 		scrollPane.setFitToHeight(true);
+
 		return scrollPane;
 	}
 

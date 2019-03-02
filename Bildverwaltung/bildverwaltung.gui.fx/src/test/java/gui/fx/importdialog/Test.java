@@ -1,7 +1,8 @@
-package bildverwaltung.gui.fx.importdialog;
+package gui.fx.importdialog;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
+import bildverwaltung.gui.fx.importdialog.ImportPane;
 import bildverwaltung.localisation.Messenger;
 import javafx.application.Application;
 import javafx.scene.Scene;

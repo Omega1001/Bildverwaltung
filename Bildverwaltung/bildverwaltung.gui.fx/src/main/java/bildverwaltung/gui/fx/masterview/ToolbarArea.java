@@ -189,8 +189,10 @@ public class ToolbarArea extends RebuildebleSubComponent {
 				try {
 					Picture pic = viewArea.get().getSelectedPicture().get();
 					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
-						viewArea.get().getPictures().remove(pic);
+						//viewArea.get().getPictures().remove(pic);
 						pictureFacade.delete(pic);
+						viewArea.get().loadAllPictures();
+
 						File picFile =new File(pic.getUri());
 						if(picFile.exists()){
 							try {
