@@ -148,7 +148,6 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 		MenuItem show = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDisplay"));
 		show.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
 				Picture pic = viewArea.get().getSelectedPicture().get();
@@ -159,13 +158,20 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
 		toAlbum.setOnAction(new EventHandler<ActionEvent>() {
-
 			@Override
 			public void handle(ActionEvent event) {
-				Picture pic = viewArea.get().getSelectedPicture().get();
-				// TODO
-			}
+                try {
+                    Picture pic = viewArea.get().getSelectedPicture().get();
+                    Album alb= AlbumSelectionDialog.selectAlbum(msg(),"msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",albumFacade.getAllAlbums(),masterStage.get());
+                    List<Picture> li = alb.getPictures();
+                    li.add(pic);
+                    alb.setPictures(li);
+                    albumFacade.save(alb);
 
+                } catch (FacadeException e) {
+                    e.printStackTrace();
+                }
+            }
 		});
 
 		MenuItem editAttributes = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureEditAttributes"));

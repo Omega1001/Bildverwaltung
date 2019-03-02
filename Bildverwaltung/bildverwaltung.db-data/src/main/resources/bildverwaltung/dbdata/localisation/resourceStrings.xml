@@ -46,6 +46,7 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Width</ResourceString>
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Select an Album to display</ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Select an Album to Add</ResourceString>
 		<!-- Album Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Are you sure you want to delete this album?</ResourceString>
 		<!-- Album Creation -->
@@ -122,6 +123,7 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Breite</ResourceString>
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Waehlen sie das anzuzeigende Album aus</ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Waehlen sie das Album zum hinzufuegen aus </ResourceString>
 		<!-- Album Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Sind sie sich sicher, dass sie dieses Album loeschen moechten?</ResourceString>
 		<!-- Album Creation -->
