@@ -20,7 +20,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -96,7 +95,7 @@ public class ImportPane{
         });
 
         confirmBt.setOnAction((e)->{
-            List li = Arrays.asList(ol.toArray());
+            List<File> li = ol;
             PictureImportFacade pi = Container.getActiveContainer().materialize(PictureImportFacade.class, Scope.APPLICATION,null);
             try {
                 pi.importAll(li);
@@ -110,9 +109,7 @@ public class ImportPane{
             importWindow.close();
         });
 
-        cancelBt.setOnAction((e)->{
-            importWindow.close();
-        });
+        cancelBt.setOnAction((e)-> importWindow.close());
 
         removeBt.setOnAction(e->{
             List<File> files= lv.getSelectionModel().getSelectedItems() ;

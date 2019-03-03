@@ -20,7 +20,7 @@ import javafx.stage.Stage;
 public class BildverwaltungRunner extends Application {
 	private static final Logger LOG = LoggerFactory.getLogger(BildverwaltungRunner.class);
 
-	public static void main(String[] args) throws FacadeException {
+	public static void main(String[] args) {
 		LOG.info("Bildverwaltung is starting up ...");
 		Container.startupContainer();
 		addAdditionalFactories(Container.getActiveContainer());
@@ -35,17 +35,18 @@ public class BildverwaltungRunner extends Application {
 	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class, Scope.APPLICATION);
 	private Messenger msg = Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION);
 
-	private ToolbarArea toolbar;
 	private InfoArea infoArea;
 	private PictureArea viewArea;
 	private Stage masterStage;
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+		primaryStage.setMinWidth(800);
+		primaryStage.setMinHeight(600);
 		// Init components
 		LOG.debug("Begin building application gui");
 		this.masterStage = primaryStage;
-		this.toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea,()->infoArea.getAlbumArea());
+		ToolbarArea toolbar = new ToolbarArea(msg, () -> masterStage, () -> viewArea, () -> infoArea.getAlbumArea());
 		this.infoArea = new InfoArea(msg, () -> viewArea);
 		this.viewArea = new PictureArea(msg);
 		LOG.debug("Sub-component initialisation complete");
@@ -64,7 +65,7 @@ public class BildverwaltungRunner extends Application {
 		primaryStage.setTitle("Bilderverwaltung");
 		primaryStage.setScene(s);
 		//Give a name for this project
-		primaryStage.setTitle("Bildverwaltung");      
+		primaryStage.setTitle("Bildverwaltung");
 		// Show
 		LOG.debug("Prepairing to show main window");
 		primaryStage.show();

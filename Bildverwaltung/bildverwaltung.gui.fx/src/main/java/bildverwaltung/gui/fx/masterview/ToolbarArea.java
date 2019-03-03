@@ -19,16 +19,17 @@ import bildverwaltung.gui.fx.util.ConfirmationDialog;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.container.Scope;
 import bildverwaltung.gui.fx.importdialog.ImportPane;
+import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 
 public class ToolbarArea extends RebuildebleSubComponent {
@@ -49,8 +50,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 	@Override
 	protected Node build() {
-		MenuBar mBar = new MenuBar(buildFileMenu(), buildOrganiseMenu(), buildImportMenu());
-		return mBar;
+		return new MenuBar(buildFileMenu(), buildOrganiseMenu(), buildImportMenu());
 	}
 
 	private Menu buildFileMenu() {
@@ -109,7 +109,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 					Album album = AlbumCreationDialog.createAlbum(msg(), masterStage.get());
 					if (album != null) {
 						albumFacade.save(album);
-						albumArea.get().getAlbums().add(new DBDataRefference<String>(album.getName(), album.getId()));
+						albumArea.get().getAlbums().add(new DBDataRefference<>(album.getName(), album.getId()));
 					}
 				} catch (FacadeException e) {
 					msg().showExceptionMessage(e);
@@ -150,9 +150,11 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		show.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				Picture pic = viewArea.get().getSelectedPicture().get();
-				EnlargedPictureView enl = new EnlargedPictureView();
-				enl.enlargePicture(new ImageView(viewArea.get().getSelectedPicture().get().getUri().toString()));
+				EnlargedPictureView enl = new EnlargedPictureView(Container.getActiveContainer().materialize(Messenger.class,Scope.APPLICATION));
+				Picture selected = viewArea.get().getSelectedPicture().get();
+				PictureIterator it =
+						new PictureIterator(viewArea.get().getPictures(), viewArea.get().getPictures().indexOf(selected));
+				enl.showEnlargedPicture(it);
 			}
 		});
 
