@@ -22,7 +22,7 @@ import bildverwaltung.dao.exception.ExceptionType;
  * @author jannik
  *
  */
-public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,AutoCloseable{
+public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>, AutoCloseable {
 
 	private static final Logger LOG = LoggerFactory.getLogger(AbstractDao.class);
 	private EntityManager em;
@@ -86,8 +86,10 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 		}
 		try {
 			E res = em.find(entityClass, key);
+			if (res != null && em.contains(res)) {
+				em.refresh(res);
+			}
 			LOG.trace("Exit get res={}", res);
-			em.refresh(res);
 			return res;
 		} catch (Exception e) {
 			LOG.error("Entity : {} :Error during fetching Entity with key {} : ", entityClass.getSimpleName(), key, e);
@@ -131,9 +133,10 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 		}
 		try {
 			E obj = get(key);
-			if(obj == null) {
-				LOG.debug("Entity : {} : Key {} delete is not persistent, doing nothing",entityClass.getSimpleName(),key);
-			}else {
+			if (obj == null) {
+				LOG.debug("Entity : {} : Key {} delete is not persistent, doing nothing", entityClass.getSimpleName(),
+						key);
+			} else {
 				em.remove(obj);
 			}
 		} catch (Exception e) {
@@ -142,7 +145,7 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 		}
 		LOG.trace("Exit delete");
 	}
-	
+
 	@Override
 	public void close() throws Exception {
 		LOG.trace("Enter close");
