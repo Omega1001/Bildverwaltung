@@ -165,7 +165,7 @@
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
-		<ResourceString id="enlargedPictureFullscreenMsg">Schließen von der Vollbildansicht mittels der Escape Taste oder durch die Vollbildansichttaste in der Toolbar</ResourceString>
+		<ResourceString id="enlargedPictureFullscreenMsg">Verlassen der Vollbildansicht durch ESC oder Taste oben rechts</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarNextPicture">Nächstes Bild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Vorheriges Bild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Vollbild-Ansicht</ResourceString>
