@@ -16,6 +16,7 @@ public enum ExceptionType {
 	ABS_DAO_0007("Error during retrieving all Elements",null,null),
 	
 
+	APP_INI_PICTURES_DIR_MISSING("PicturesDirectory in section [directory] missing","",""),
 	IMPORT_SAVING_PIC_TO_DB_FAILED("Adding picture entity to DB failed", "", ""),
     IMPORT_COPY_PIC_FAILED("Copying picture file to own directory failed","", ""),
 	IMPORT_EXTRACT_ATTRIBS_FAILED("Extracting Attributes from picture file failed", "",""),
