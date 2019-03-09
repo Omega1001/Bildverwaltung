@@ -117,6 +117,7 @@
 		<!-- Info Area -->
 		<!-- Album Area -->
 		<ResourceString id="headerTextMasterViewInfoAreaAlbumArea">Alben</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAlbumAreaAllPictures">Alle Bilder</ResourceString>
 		<!-- Search Area -->
 		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaHeader">Suchen</ResourceString>
 		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaPicture">Bild</ResourceString>
