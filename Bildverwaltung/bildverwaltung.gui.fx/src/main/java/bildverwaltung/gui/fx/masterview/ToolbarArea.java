@@ -165,16 +165,16 @@ public class ToolbarArea extends RebuildebleSubComponent {
                 try {
                     Picture pic = viewArea.get().getSelectedPicture().get();
                     Album alb= AlbumSelectionDialog.selectAlbum(msg(),"msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",albumFacade.getAllAlbums(),masterStage.get());
-                    List<Picture> li = alb.getPictures();
-                    if(pic==null){
-                        msg().showWarningMessage(msg().translate("editAttributesAlertPictureSelectionEmpty"), "");
-                    }else {
-                        if(!li.contains(pic)){
-                            li.add(pic);
-                            alb.setPictures(li);
-                            albumFacade.save(alb);
-                        }
-                    }
+                    if(alb!=null) {
+						List<Picture> li = alb.getPictures();
+						msg().showWarningMessage(msg().translate("editAttributesAlertPictureSelectionEmpty"), "");
+						if (!li.contains(pic)) {
+							li.add(pic);
+							alb.setPictures(li);
+							albumFacade.save(alb);
+						}
+					}
+
 
                 } catch (FacadeException e) {
                     e.printStackTrace();
@@ -186,13 +186,10 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		editAttributes.setOnAction(actionEvent -> {
 			Picture pic = viewArea.get().getSelectedPicture().get();
 
-			if(pic == null) {
-				msg().showWarningMessage(msg().translate("editAttributesAlertPictureSelectionEmpty"), "");
-			} else {
                 AttributeEditor editor = new AttributeEditor(masterStage.get(), pic, msg());
                 editor.show();
                 viewArea.get().loadAllPictures();
-			}
+
 		});
 
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
