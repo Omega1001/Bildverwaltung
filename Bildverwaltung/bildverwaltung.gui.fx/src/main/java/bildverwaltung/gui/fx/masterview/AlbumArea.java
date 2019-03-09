@@ -76,7 +76,8 @@ public class AlbumArea extends RebuildebleSubComponent {
 	public void selectAlbum(Album album) {
 		if (album != null) {
 			for (DBDataRefference<String> dbref : albums) {
-				if (dbref.getRefferencedComponentId().equals(album.getId())) {
+				if (dbref.getRefferencedComponentId() != null
+						&& dbref.getRefferencedComponentId().equals(album.getId())) {
 					albumList.getSelectionModel().select(dbref);
 					return;
 				}
@@ -88,19 +89,20 @@ public class AlbumArea extends RebuildebleSubComponent {
 
 	public void removeAlbumWithId(UUID id) {
 		if (id != null) {
-			
+
 			DBDataRefference<String> item = albumList.getSelectionModel().getSelectedItem();
 			if (item != null && id.equals(item.getRefferencedComponentId())) {
 				albumList.getSelectionModel().clearSelection();
 			}
-			
+
 			Iterator<DBDataRefference<String>> it = albums.iterator();
 			while (it.hasNext()) {
-				if (it.next().getRefferencedComponentId().equals(id)) {
+				DBDataRefference<String> next = it.next();
+				if (next.getRefferencedComponentId() != null && next.getRefferencedComponentId().equals(id)) {
 					it.remove();
 				}
 			}
-			
+
 		}
 	}
 
