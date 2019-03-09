@@ -73,6 +73,10 @@ public class PictureImportServiceImpl implements PictureImportService {
     @Override
     public Picture importPicture(File picture) throws ServiceException{
 
+        if (picturesDirectory == null || picturesDirectory == "") {
+            throw new ServiceException(ExceptionType.APP_INI_PICTURES_DIR_MISSING);
+        }
+
         if (!isPicture(picture)) {
             throw new ServiceException(ExceptionType.NOT_A_PICTURE);
         }

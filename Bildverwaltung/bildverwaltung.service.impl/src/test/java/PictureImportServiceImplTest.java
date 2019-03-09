@@ -34,7 +34,9 @@ public class PictureImportServiceImplTest {
     private final static String PICTURES_PATH = "target/test/resources/PictureManager";
 
     PictureDao daoMock = mock(PictureDao.class);
+
     PictureImportServiceImpl sut = new PictureImportServiceImpl(daoMock, PICTURES_PATH);
+
     private final static Logger LOG = LoggerFactory.getLogger(PictureImportServiceImplTest.class);
 
 
