@@ -98,6 +98,8 @@ public class EnlargedPictureView {
 					toolbar.setVisible(false);
 					toolbar.setManaged(false);
 
+					mainBorderPane.getChildren().remove(toolbar);
+
 					toolBarFullscreen.setBottom(toolbar);
 					bpImg.getChildren().addAll(toolBarFullscreen);
 
@@ -115,6 +117,8 @@ public class EnlargedPictureView {
 				} else {
 					scene.setOnMouseMoved(null);
 
+					bpImg.getChildren().remove(toolBarFullscreen);
+					toolBarFullscreen.getChildren().remove(toolbar);
 					mainBorderPane.setBottom(toolbar);
 					toolbar.setVisible(true);
 					toolbar.setManaged(true);
