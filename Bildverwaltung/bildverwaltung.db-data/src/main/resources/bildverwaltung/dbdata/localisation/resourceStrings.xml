@@ -67,6 +67,7 @@
 		<ResourceString id="titleImportAlertError">Error</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
 		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">your Files could not get Imported</ResourceString>
+		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in Section [directory] is missing</ResourceString>
 
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Edit Attributes</ResourceString>
@@ -76,6 +77,13 @@
 		<ResourceString id="editAttributesAlertTitle">Incompatible Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
+
+		<!-- Enlarged Picture View -->
+		<ResourceString id="enlargedPictureTitle">Enlarged View</ResourceString>
+		<ResourceString id="enlargedPictureFullscreenMsg">Exit Fullscreen by pressing ESC or press Fullscreen again in Toolbar</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarNextPicture">Next Picture</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Previous Picture</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Fullscreen Mode</ResourceString>
 	</Language>
 	<Language languageCode="de" countryCode="">
 		<!-- App commons -->
@@ -144,6 +152,7 @@
 		<ResourceString id="titleImportAlertError">Fehler</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Fehler beim Import</ResourceString>
 		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">ihre Dateien konnten nicht importiert werden</ResourceString>
+		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in Section [directory] fehlt</ResourceString>
 
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Attribute ändern</ResourceString>
@@ -153,5 +162,12 @@
 		<ResourceString id="editAttributesAlertTitle">nicht kompatibler Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
+
+		<!-- Enlarged Picture View -->
+		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
+		<ResourceString id="enlargedPictureFullscreenMsg">Schließen von der Vollbildansicht mittels der Escape Taste oder durch die Vollbildansichttaste in der Toolbar</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarNextPicture">Nächstes Bild</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Vorheriges Bild</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Vollbild-Ansicht</ResourceString>
 	</Language>
 </Translations>
