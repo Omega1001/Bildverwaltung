@@ -54,6 +54,9 @@
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Comment</ResourceString>
 
+		<!-- Picture Deletion -->
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureConfirm">Are you sure you want to delete this picture?</ResourceString>
+
 		<!-- Import Area -->
 		<ResourceString id="stageTitleImport">Import</ResourceString>
 		<ResourceString id="headerTextImportChooseOrDrag">choose or drag files to import</ResourceString>
@@ -140,6 +143,9 @@
 		<!-- Album Creation -->
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Kommentar</ResourceString>
+
+		<!-- Picture Deletion -->
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureConfirm">Sind sie sicher, dass sie dieses Bild löschen möchten?</ResourceString>
 
 		<!-- Import Area -->
 		<ResourceString id="stageTitleImport">Import</ResourceString>
