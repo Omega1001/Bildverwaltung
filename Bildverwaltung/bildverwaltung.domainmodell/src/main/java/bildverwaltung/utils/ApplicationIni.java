@@ -3,6 +3,9 @@ package bildverwaltung.utils;
 public class ApplicationIni {
 
 	public static final String DB_SECTION_NAME = "db config";
+
+	public static final String DIR_SECTION_NAME = "directory";
+	public static final String DIR_SECTION_PICTURESDIRECTORY_KEY = "picturesDirectory";
 	
 	private ApplicationIni() {
 	}
