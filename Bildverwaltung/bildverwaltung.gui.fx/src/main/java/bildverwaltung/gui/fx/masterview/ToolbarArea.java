@@ -164,9 +164,15 @@ public class ToolbarArea extends RebuildebleSubComponent {
                     Picture pic = viewArea.get().getSelectedPicture().get();
                     Album alb= AlbumSelectionDialog.selectAlbum(msg(),"msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",albumFacade.getAllAlbums(),masterStage.get());
                     List<Picture> li = alb.getPictures();
-                    li.add(pic);
-                    alb.setPictures(li);
-                    albumFacade.save(alb);
+                    if(pic==null){
+                        msg().showWarningMessage(msg().translate("editAttributesAlertPictureSelectionEmpty"), "");
+                    }else {
+                        if(!li.contains(pic)){
+                            li.add(pic);
+                            alb.setPictures(li);
+                            albumFacade.save(alb);
+                        }
+                    }
 
                 } catch (FacadeException e) {
                     e.printStackTrace();
