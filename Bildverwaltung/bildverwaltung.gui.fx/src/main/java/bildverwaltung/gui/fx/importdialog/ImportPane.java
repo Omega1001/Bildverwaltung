@@ -5,6 +5,7 @@ import bildverwaltung.container.Scope;
 import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.facade.PictureImportFacade;
 import bildverwaltung.localisation.Messenger;
+import bildverwaltung.utils.ApplicationIni;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -57,9 +58,19 @@ public class ImportPane{
         putNodesTogether();
     }
 
-    public void show(){
-        importWindow.showAndWait();
+    public void show() {
+        if (ApplicationIni.get()
+                .get("directory","picturesDirectory") == null) {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle(msg.translate("titleImportAlertError"));
+            alert.setHeaderText(msg.translate("headerImportAlertErrorInImport"));
+            alert.setContentText(msg.translate("appIniDirectoryPathMissing"));
+            alert.showAndWait();
+        } else {
+            importWindow.showAndWait();
+        }
     }
+
 
     /**
      * Method to create every Node and subStructures
