@@ -156,6 +156,15 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			}
 		});
 
+        MenuItem showAll = new MenuItem("showAll");
+        showAll.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                albumArea.get().resetSelection();
+                viewArea.get().loadAllPictures();
+            }
+        });
+
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
 		toAlbum.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -221,7 +230,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			}
 		});
 
-		picture.getItems().addAll(show, toAlbum, editAttributes, del);
+		picture.getItems().addAll(show, toAlbum, editAttributes, del,showAll);
 		return picture;
 	}
 
