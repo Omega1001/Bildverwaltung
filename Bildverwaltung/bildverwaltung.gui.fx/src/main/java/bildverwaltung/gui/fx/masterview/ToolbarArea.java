@@ -23,6 +23,8 @@ import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -165,10 +167,8 @@ public class ToolbarArea extends RebuildebleSubComponent {
                 try {
                     Picture pic = viewArea.get().getSelectedPicture().get();
                     Album alb= AlbumSelectionDialog.selectAlbum(msg(),"msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",albumFacade.getAllAlbums(),masterStage.get());
-                    List<Picture> li = alb.getPictures();
-                    if(pic==null){
-                        msg().showWarningMessage(msg().translate("editAttributesAlertPictureSelectionEmpty"), "");
-                    }else {
+                    if(alb!=null){
+                    	List<Picture> li = alb.getPictures();
                         if(!li.contains(pic)){
                             li.add(pic);
                             alb.setPictures(li);
@@ -186,13 +186,10 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		editAttributes.setOnAction(actionEvent -> {
 			Picture pic = viewArea.get().getSelectedPicture().get();
 
-			if(pic == null) {
-				msg().showWarningMessage(msg().translate("editAttributesAlertPictureSelectionEmpty"), "");
-			} else {
                 AttributeEditor editor = new AttributeEditor(masterStage.get(), pic, msg());
                 editor.show();
                 viewArea.get().loadAllPictures();
-			}
+
 		});
 
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
@@ -219,6 +216,27 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 				} catch (FacadeException e) {
 					msg().showExceptionMessage(e);
+				}
+			}
+		});
+		editAttributes.setDisable(true);
+		toAlbum.setDisable(true);
+		del.setDisable(true);
+		show.setDisable(true);
+
+		viewArea.get().getSelectedPicture().addListener(new ChangeListener<Picture>() {
+			@Override
+			public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
+				if(newValue==null){
+					editAttributes.setDisable(true);
+					toAlbum.setDisable(true);
+					del.setDisable(true);
+					show.setDisable(true);
+				}else{
+					editAttributes.setDisable(false);
+					toAlbum.setDisable(false);
+					del.setDisable(false);
+					show.setDisable(false);
 				}
 			}
 		});

@@ -110,7 +110,8 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumCreate">Album erstellen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Album loeschen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Bild anzeigen</ResourceString>
-		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen.</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Attribute bearbeiten</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild loeschen</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarImport">Bilder importieren</ResourceString>
