@@ -31,6 +31,7 @@
 		<!-- Info Area -->
 		<!-- Album Area -->
 		<ResourceString id="headerTextMasterViewInfoAreaAlbumArea">Albums</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAlbumAreaAllPictures">All Pictures</ResourceString>
 		<!-- Search Area -->
 		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaHeader">Search</ResourceString>
 		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaPicture">Picture</ResourceString>

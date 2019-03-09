@@ -38,6 +38,7 @@ public class AlbumArea extends RebuildebleSubComponent {
 		TitledPane title = new TitledPane();
 		title.setText(msg().translate("headerTextMasterViewInfoAreaAlbumArea"));
 		albumList = new ListView<>(albums);
+		albums.add(new DBDataRefference<String>(msg().translate("labelMasterViewInfoAreaAlbumAreaAllPictures"), null));
 		albumList.getSelectionModel().selectedItemProperty()
 				.addListener(new ChangeListener<DBDataRefference<String>>() {
 
@@ -48,7 +49,7 @@ public class AlbumArea extends RebuildebleSubComponent {
 							ignoreSelectionUpdate = false;
 							return;
 						}
-						if (newValue == null) {
+						if (newValue == null || newValue.getRefferencedComponentId() == null) {
 							if (!viewArea.get().loadAllPictures()) {
 								albumList.getSelectionModel().select(oldValue);
 							}
