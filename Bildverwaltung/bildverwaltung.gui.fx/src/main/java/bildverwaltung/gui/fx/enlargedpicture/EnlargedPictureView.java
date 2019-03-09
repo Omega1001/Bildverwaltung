@@ -9,6 +9,7 @@ import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.WrappedImageView;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.localisation.Messenger;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -34,7 +35,7 @@ public class EnlargedPictureView {
 	private PictureIterator it;
 
 	private BorderPane mainBorderPane;
-	private BorderPane bpImg;
+	private StackPane bpImg;
 	private Scene scene;
 	private HBox navBtnBox;
 	private BorderPane toolbar;
@@ -60,7 +61,7 @@ public class EnlargedPictureView {
 
 	private void initializeNodes() {
 		mainBorderPane = new BorderPane();
-		bpImg = new BorderPane();
+		bpImg = new StackPane();
 		scene = new Scene(mainBorderPane, 1280,720);
 		navBtnBox = new HBox();
 		toolbar = new BorderPane();
@@ -90,12 +91,15 @@ public class EnlargedPictureView {
 		mainWindow.fullScreenProperty().addListener((v,o,n) -> {
 
 				if(mainWindow.isFullScreen()) {
+					double size = toolbar.getHeight();
 					toolbar.setVisible(false);
 					toolbar.setManaged(false);
 					//bpImg.setStyle("-fx-background-color: Black;");
+					bpImg.getChildren().add(btnFullScreen);
+					StackPane.setAlignment(btnFullScreen,Pos.TOP_RIGHT);
 
 					scene.setOnMouseMoved(mouseEvent -> {
-						if (mouseEvent.getY() > mainBorderPane.getHeight() - 100) {
+						if (mouseEvent.getY() > mainBorderPane.getHeight() - (size * 1.1)) {
 							toolbar.setManaged(true);
 							toolbar.setVisible(true);
 						} else {
@@ -106,6 +110,8 @@ public class EnlargedPictureView {
 					scene.setOnMouseMoved(null);
 					toolbar.setVisible(true);
 					toolbar.setManaged(true);
+					//bpImg.getChildren().remove(btnFullScreen);
+					toolbar.getChildren().add(btnFullScreen);
 					//bpImg.setStyle("-fx-background-color: White;");
 				}
 		});
@@ -115,6 +121,9 @@ public class EnlargedPictureView {
 		mainWindow.setResizable(true);
 		mainWindow.setMinHeight(450.0);
 		mainWindow.setMinWidth(800.0);
+		mainWindow.setTitle(msg.translate("enlargedPictureTitle"));
+
+		mainWindow.setFullScreenExitHint(msg.translate("enlargedPictureFullscreenMsg"));
 
 		btnNext.setGraphic(IconLoader.loadIcon("Weiter.png"));
 		btnNext.setPrefSize(BTN_SIZE,BTN_SIZE);
@@ -127,13 +136,18 @@ public class EnlargedPictureView {
 		navBtnBox.setSpacing(5.0);
 		navBtnBox.setAlignment(Pos.CENTER);
 
+		//btnClose
+
 		btnFullScreen.setGraphic(IconLoader.loadIcon("Grossansicht.png"));
+		btnBack.setPrefSize(BTN_SIZE,BTN_SIZE);
+		btnFullScreen.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarFullscreen")));
 
 		BorderPane.setAlignment(navBtnBox,Pos.CENTER);
 
 		BorderPane.setAlignment(curPictureCount,Pos.CENTER);
 
 		curPictureCount.setFont((Font.font(BTN_SIZE/2.0)));
+
 
 	}
 
@@ -142,6 +156,8 @@ public class EnlargedPictureView {
 		navBtnBox.getChildren().addAll(btnBack,curPictureCount,btnNext);
 		toolbar.setRight(btnFullScreen);
 		toolbar.setCenter(navBtnBox);
+
+
 
 		mainBorderPane.setBottom(toolbar);
 	}
@@ -154,6 +170,8 @@ public class EnlargedPictureView {
 	}
 
 	private void updateCurrentEnlargedPicture(Picture picture) {
+		bpImg.getChildren().clear();
+
 		try {
 			InputStream is = facade.resolvePictureURI(picture.getUri())	;
 			WrappedImageView image = new WrappedImageView();
@@ -161,9 +179,17 @@ public class EnlargedPictureView {
 			image.setPreserveRatio(true);
 			image.setCache(true);
 			image.isSmooth();
-			bpImg.setCenter(image);
+			//bpImg.setCenter(image);
+			bpImg.getChildren().addAll(image);
+
+			if(mainWindow.isFullScreen()) {
+				bpImg.getChildren().add(btnFullScreen);
+				StackPane.setAlignment(btnFullScreen,Pos.TOP_RIGHT);
+			}
 
 			mainBorderPane.setCenter(bpImg);
+			Insets bpImgInsets = new Insets(10);
+			BorderPane.setMargin(bpImg,bpImgInsets);
 
 			try {
 				is.close();
