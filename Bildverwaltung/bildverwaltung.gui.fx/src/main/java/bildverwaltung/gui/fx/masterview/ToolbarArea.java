@@ -22,6 +22,8 @@ import bildverwaltung.gui.fx.importdialog.ImportPane;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -156,15 +158,6 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			}
 		});
 
-        MenuItem showAll = new MenuItem("showAll");
-        showAll.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                albumArea.get().resetSelection();
-                viewArea.get().loadAllPictures();
-            }
-        });
-
 		MenuItem toAlbum = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureToAlbum"));
 		toAlbum.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -229,8 +222,29 @@ public class ToolbarArea extends RebuildebleSubComponent {
 				}
 			}
 		});
+		editAttributes.setDisable(true);
+		toAlbum.setDisable(true);
+		del.setDisable(true);
+		show.setDisable(true);
 
-		picture.getItems().addAll(show, toAlbum, editAttributes, del,showAll);
+		viewArea.get().getSelectedPicture().addListener(new ChangeListener<Picture>() {
+			@Override
+			public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
+				if(newValue==null){
+					editAttributes.setDisable(true);
+					toAlbum.setDisable(true);
+					del.setDisable(true);
+					show.setDisable(true);
+				}else{
+					editAttributes.setDisable(false);
+					toAlbum.setDisable(false);
+					del.setDisable(false);
+					show.setDisable(false);
+				}
+			}
+		});
+
+		picture.getItems().addAll(show, toAlbum, editAttributes, del);
 		return picture;
 	}
 
