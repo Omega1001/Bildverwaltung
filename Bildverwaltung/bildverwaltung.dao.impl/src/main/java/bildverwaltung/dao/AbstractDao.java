@@ -87,6 +87,7 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>,Auto
 		try {
 			E res = em.find(entityClass, key);
 			LOG.trace("Exit get res={}", res);
+			em.refresh(res);
 			return res;
 		} catch (Exception e) {
 			LOG.error("Entity : {} :Error during fetching Entity with key {} : ", entityClass.getSimpleName(), key, e);

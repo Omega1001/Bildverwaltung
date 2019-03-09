@@ -57,7 +57,7 @@ public class Album extends UUIDBase {
 	/**
 	 * @return the pictures
 	 */
-	@ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH})
+	@ManyToMany(cascade = {CascadeType.ALL})
 	@JoinTable
 	public List<Picture> getPictures() {
 		return pictures;
