@@ -9,7 +9,6 @@ import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.WrappedImageView;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.localisation.Messenger;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -19,6 +18,7 @@ import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -44,6 +44,7 @@ public class EnlargedPictureView {
 	private Button btnNext;
 	private Button btnFullScreen;
 	private Label curPictureCount;
+	private BorderPane toolBarFullscreen;
 
 	private static final double BTN_SIZE = 50.0;
 
@@ -58,13 +59,13 @@ public class EnlargedPictureView {
 		putNodesTogether();
 	}
 
-
 	private void initializeNodes() {
 		mainBorderPane = new BorderPane();
 		bpImg = new StackPane();
 		scene = new Scene(mainBorderPane, 1280,720);
 		navBtnBox = new HBox();
 		toolbar = new BorderPane();
+		toolBarFullscreen = new BorderPane();
 
 		btnNext = new Button();
 		btnBack = new Button();
@@ -79,6 +80,7 @@ public class EnlargedPictureView {
 		btnFullScreen.setOnAction(actionEvent -> mainWindow.setFullScreen(!mainWindow.isFullScreen()));
 
 		// Keyboard stuff
+        // Left or Right Key: next / previous picture
 		scene.setOnKeyPressed(keyEvent -> {
 			if(keyEvent.getCode() == KeyCode.RIGHT) {
 				nextPicture();
@@ -92,14 +94,18 @@ public class EnlargedPictureView {
 
 				if(mainWindow.isFullScreen()) {
 					double size = toolbar.getHeight();
+
 					toolbar.setVisible(false);
 					toolbar.setManaged(false);
-					//bpImg.setStyle("-fx-background-color: Black;");
-					bpImg.getChildren().add(btnFullScreen);
-					StackPane.setAlignment(btnFullScreen,Pos.TOP_RIGHT);
+
+					toolBarFullscreen.setBottom(toolbar);
+					bpImg.getChildren().addAll(toolBarFullscreen);
+
+					bpImg.setStyle("-fx-background-color: Black; -fx-border-color: Black; -fx-border-width: 0px;");
+					toolbar.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-padding: 5 5 5 5;");
 
 					scene.setOnMouseMoved(mouseEvent -> {
-						if (mouseEvent.getY() > mainBorderPane.getHeight() - (size * 1.1)) {
+						if (mouseEvent.getY() > mainBorderPane.getHeight() - (size * 1.25)) {
 							toolbar.setManaged(true);
 							toolbar.setVisible(true);
 						} else {
@@ -108,11 +114,13 @@ public class EnlargedPictureView {
 						}});
 				} else {
 					scene.setOnMouseMoved(null);
+
+					mainBorderPane.setBottom(toolbar);
 					toolbar.setVisible(true);
 					toolbar.setManaged(true);
-					//bpImg.getChildren().remove(btnFullScreen);
-					toolbar.getChildren().add(btnFullScreen);
-					//bpImg.setStyle("-fx-background-color: White;");
+
+					bpImg.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-border-width: 10px;");
+					toolbar.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-padding: 0 5 5 5;");
 				}
 		});
 	}
@@ -122,7 +130,6 @@ public class EnlargedPictureView {
 		mainWindow.setMinHeight(450.0);
 		mainWindow.setMinWidth(800.0);
 		mainWindow.setTitle(msg.translate("enlargedPictureTitle"));
-
 		mainWindow.setFullScreenExitHint(msg.translate("enlargedPictureFullscreenMsg"));
 
 		btnNext.setGraphic(IconLoader.loadIcon("Weiter.png"));
@@ -134,21 +141,21 @@ public class EnlargedPictureView {
 		btnBack.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarLastPicture")));
 
 		navBtnBox.setSpacing(5.0);
-		navBtnBox.setAlignment(Pos.CENTER);
-
-		//btnClose
+		navBtnBox.setAlignment(Pos.BOTTOM_CENTER);
 
 		btnFullScreen.setGraphic(IconLoader.loadIcon("Grossansicht.png"));
 		btnBack.setPrefSize(BTN_SIZE,BTN_SIZE);
 		btnFullScreen.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarFullscreen")));
 
-		BorderPane.setAlignment(navBtnBox,Pos.CENTER);
-
-		BorderPane.setAlignment(curPictureCount,Pos.CENTER);
+		BorderPane.setAlignment(curPictureCount,Pos.BOTTOM_CENTER);
+		BorderPane.setAlignment(navBtnBox,Pos.BOTTOM_CENTER);
+		BorderPane.setAlignment(btnFullScreen, Pos.BOTTOM_RIGHT);
 
 		curPictureCount.setFont((Font.font(BTN_SIZE/2.0)));
+		curPictureCount.setTextAlignment(TextAlignment.CENTER);
 
-
+		bpImg.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-border-width: 10px;");
+		toolbar.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-padding: 0 5 5 5;");
 	}
 
 	private void putNodesTogether() {
@@ -156,8 +163,6 @@ public class EnlargedPictureView {
 		navBtnBox.getChildren().addAll(btnBack,curPictureCount,btnNext);
 		toolbar.setRight(btnFullScreen);
 		toolbar.setCenter(navBtnBox);
-
-
 
 		mainBorderPane.setBottom(toolbar);
 	}
@@ -179,24 +184,19 @@ public class EnlargedPictureView {
 			image.setPreserveRatio(true);
 			image.setCache(true);
 			image.isSmooth();
-			//bpImg.setCenter(image);
 			bpImg.getChildren().addAll(image);
 
 			if(mainWindow.isFullScreen()) {
-				bpImg.getChildren().add(btnFullScreen);
-				StackPane.setAlignment(btnFullScreen,Pos.TOP_RIGHT);
+				bpImg.getChildren().add(toolBarFullscreen);
 			}
 
 			mainBorderPane.setCenter(bpImg);
-			Insets bpImgInsets = new Insets(10);
-			BorderPane.setMargin(bpImg,bpImgInsets);
 
 			try {
 				is.close();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-
 		} catch (FacadeException e) {
 			e.printStackTrace();
 		}
