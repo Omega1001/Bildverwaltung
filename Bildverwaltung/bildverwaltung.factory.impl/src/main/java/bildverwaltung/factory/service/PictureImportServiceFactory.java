@@ -4,7 +4,6 @@ import bildverwaltung.container.Factory;
 import bildverwaltung.container.ManagedContainer;
 import bildverwaltung.container.Scope;
 import bildverwaltung.dao.PictureDao;
-import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.factory.utils.transactions.TransactionProxy;
 import bildverwaltung.service.pictureimport.PictureImportService;
 import bildverwaltung.service.pictureimport.impl.PictureImportServiceImpl;
