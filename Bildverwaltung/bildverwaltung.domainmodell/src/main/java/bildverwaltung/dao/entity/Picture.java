@@ -7,7 +7,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
@@ -80,7 +79,7 @@ public class Picture extends UUIDBase {
 	/**
 	 * @return the alben
 	 */
-	@ManyToMany(mappedBy = "pictures", cascade=CascadeType.ALL)
+	@ManyToMany(mappedBy = "pictures", cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
 	public List<Album> getAlben() {
 		return alben;
 	}
