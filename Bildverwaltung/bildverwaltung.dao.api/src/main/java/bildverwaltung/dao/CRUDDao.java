@@ -16,4 +16,6 @@ public interface CRUDDao<E extends UUIDBase> {
 	
 	public void delete (UUID key)throws DaoException;
 	
+	public E refresh(E obj) throws DaoException;
+	
 }

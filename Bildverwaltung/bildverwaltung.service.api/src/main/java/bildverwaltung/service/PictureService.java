@@ -20,4 +20,6 @@ public interface PictureService {
 	public InputStream resolvePictureURI(URI pictureUri) throws ServiceException;
 	
 	public List<Picture> getFiltered(DataFilter<Picture> filter, List<SortCriteria<Picture>> order) throws ServiceException;
+
+	public Picture refresh(Picture picture) throws ServiceException;
 }

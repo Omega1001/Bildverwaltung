@@ -123,8 +123,12 @@ public class PictureArea extends RebuildebleSubComponent {
 				if (c.wasAdded()) {
 					List<? extends Picture> added = c.getAddedSubList();
 					pane.getChildren().addAll(c.getFrom(), toView(added));
-				} else if (c.wasRemoved()) {
-					pane.getChildren().remove(c.getFrom(), c.getRemovedSize() - c.getFrom());
+				} else if (c.wasRemoved() && c.getRemovedSize() > 0) {
+					if (c.getRemovedSize() == 1) {
+						pane.getChildren().remove(c.getFrom());
+					} else if (c.getRemovedSize() > 1) {
+						pane.getChildren().remove(c.getFrom(), c.getRemovedSize() - c.getFrom());
+					}
 				} else if (c.wasUpdated()) {
 					for (int i = c.getFrom(); i < c.getTo(); i++) {
 						Picture updated = c.getList().get(i);

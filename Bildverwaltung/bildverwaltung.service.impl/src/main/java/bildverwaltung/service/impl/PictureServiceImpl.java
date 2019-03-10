@@ -95,5 +95,13 @@ public class PictureServiceImpl implements PictureService {
 		LOG.trace("Exit getFiltered res={}", res);
 		return res;
 	}
+	
+	@Override
+	public Picture refresh(Picture picture) throws ServiceException {
+		LOG.trace("Enter refresh picture={}", picture);
+		Picture res = pDao.refresh(picture);
+		LOG.trace("Exit refresh res={}", res);
+		return res;
+	}
 
 }

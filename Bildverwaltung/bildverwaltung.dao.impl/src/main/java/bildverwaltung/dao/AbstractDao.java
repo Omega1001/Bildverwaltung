@@ -152,5 +152,13 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>, Aut
 		em.close();
 		LOG.trace("Exit close");
 	}
+	
+	@Override
+	public E refresh(E obj) throws DaoException {
+		if (obj != null && em.contains(obj)) {
+			em.refresh(obj);
+		}
+		return obj;
+	}
 
 }

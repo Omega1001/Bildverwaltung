@@ -11,6 +11,7 @@
 		<class>bildverwaltung.dao.entity.Picture</class>
 		<class>bildverwaltung.dao.entity.UUIDBase</class>
 		<class>bildverwaltung.dao.entity.ResourceString</class>
+		<shared-cache-mode>NONE</shared-cache-mode>
 		<properties>
 			<property
 				name="javax.persistence.schema-generation.database.action"

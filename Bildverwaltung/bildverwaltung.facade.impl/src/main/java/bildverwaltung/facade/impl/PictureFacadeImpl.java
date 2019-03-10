@@ -103,5 +103,16 @@ public class PictureFacadeImpl implements PictureFacade {
 			throw new FacadeException(ExceptionType.UNKNOWN, ex);
 		}
 	}
+	
+	@Override
+	public Picture refresh(Picture picture) throws FacadeException {
+		try {
+			return pService.refresh(picture);
+		}catch(FacadeException ex) {
+			throw ex;
+		}catch(Exception ex) {
+			throw new FacadeException(ExceptionType.UNKNOWN, ex);
+		}
+	}
 
 }

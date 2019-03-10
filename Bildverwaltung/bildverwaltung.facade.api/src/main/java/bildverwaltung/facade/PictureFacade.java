@@ -21,5 +21,7 @@ public List<Picture> getAllPictures() throws FacadeException;
 	
 	public List<Picture> getFiltered(DataFilter<Picture> filter, List<SortCriteria<Picture>> order) throws FacadeException;
 
+	public Picture refresh(Picture pic) throws FacadeException;
+
 	
 }

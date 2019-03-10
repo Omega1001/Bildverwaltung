@@ -105,5 +105,10 @@ public class AlbumArea extends RebuildebleSubComponent {
 
 		}
 	}
+	
+	public UUID getSelectedAlbumId() {
+		DBDataRefference<String> res = albumList.getSelectionModel().getSelectedItem();
+		return res != null ? res.getRefferencedComponentId(): null; 
+	}
 
 }

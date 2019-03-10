@@ -3,6 +3,7 @@ package bildverwaltung.gui.fx.masterview;
 import java.io.*;
 import java.nio.file.Files;
 import java.util.List;
+import java.util.UUID;
 import java.util.function.Supplier;
 
 import bildverwaltung.container.Container;
@@ -25,7 +26,6 @@ import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -152,10 +152,11 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		show.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				EnlargedPictureView enl = new EnlargedPictureView(Container.getActiveContainer().materialize(Messenger.class,Scope.APPLICATION));
+				EnlargedPictureView enl = new EnlargedPictureView(
+						Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 				Picture selected = viewArea.get().getSelectedPicture().get();
-				PictureIterator it =
-						new PictureIterator(viewArea.get().getPictures(), viewArea.get().getPictures().indexOf(selected));
+				PictureIterator it = new PictureIterator(viewArea.get().getPictures(),
+						viewArea.get().getPictures().indexOf(selected));
 				enl.showEnlargedPicture(it);
 			}
 		});
@@ -164,32 +165,74 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		toAlbum.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-                try {
-                    Picture pic = viewArea.get().getSelectedPicture().get();
-                    Album alb= AlbumSelectionDialog.selectAlbum(msg(),"msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",albumFacade.getAllAlbums(),masterStage.get());
-                    if(alb!=null){
-                    	if(!alb.getPictures().contains(pic)) {
-                    		alb.getPictures().add(pic);
-                    	}
-                    	albumFacade.save(alb);
-                    }
-
-                } catch (FacadeException e) {
-                    e.printStackTrace();
-                }
-            }
+				try {
+					Picture pic = viewArea.get().getSelectedPicture().get();
+					Album alb = AlbumSelectionDialog.selectAlbum(msg(), "msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",
+							albumFacade.getAllAlbums(), masterStage.get());
+					if (alb != null) {
+						if (!alb.getPictures().contains(pic)) {
+							alb.getPictures().add(pic);
+						}
+						albumFacade.save(alb);
+					}
+					pictureFacade.refresh(pic);
+				} catch (FacadeException e) {
+					e.printStackTrace();
+				}
+			}
 		});
 
-		MenuItem editAttributes = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureEditAttributes"));
+		MenuItem removeFromAlbum = new MenuItem(
+				msg().translate("menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum"));
+		removeFromAlbum.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				try {
+					Picture pic = viewArea.get().getSelectedPicture().get();
+					UUID albId = albumArea.get().getSelectedAlbumId();
+					if (albId != null) {
+						Album alb = albumFacade.getAlbumById(albId);
+						alb.getPictures().remove(pic);
+						albumFacade.save(alb);
+						viewArea.get().getPictures().remove(pic);
+						viewArea.get().getSelectedPicture().set(null);
+					} else if (!pic.getAlben().isEmpty()) {
+						Album alb = AlbumSelectionDialog.selectAlbum(msg(),
+								"msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture", pic.getAlben(),
+								masterStage.get());
+						//need to get persistent album from DB
+						alb = albumFacade.getAlbumById(alb.getId());
+						if (alb != null) {
+							alb.getPictures().remove(pic);
+							albumFacade.save(alb);
+						}
+					} else {
+						msg().showErrorMessage("msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum", null);
+					}
+					pictureFacade.refresh(pic);
+				} catch (FacadeException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+
+		MenuItem editAttributes = new MenuItem(
+				msg().translate("menuItemMasterViewToolbarOrganisePictureEditAttributes"));
 		editAttributes.setOnAction(actionEvent -> {
+			//Collect Data
 			Picture pic = viewArea.get().getSelectedPicture().get();
 			int selectedPictureIndex = viewArea.get().getPictures().indexOf(pic);
-
-                AttributeEditor editor = new AttributeEditor(masterStage.get(), pic, msg());
-                editor.show();
-                //viewArea.get().loadAllPictures();
-				viewArea.get().getSelectedPicture().set(null);
-				viewArea.get().getSelectedPicture().set(viewArea.get().getPictures().get(selectedPictureIndex));
+			//Do edit
+			AttributeEditor editor = new AttributeEditor(masterStage.get(), pic, msg());
+			editor.show();
+			//Write Back
+			try {
+				pic = pictureFacade.save(pic);
+			} catch (FacadeException e) {
+				msg().showExceptionMessage(e);
+			}
+			viewArea.get().getPictures().set(selectedPictureIndex,pic);
+			viewArea.get().getSelectedPicture().set(pic);
 
 		});
 
@@ -201,12 +244,12 @@ public class ToolbarArea extends RebuildebleSubComponent {
 				try {
 					Picture pic = viewArea.get().getSelectedPicture().get();
 					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
-						//viewArea.get().getPictures().remove(pic);
+						// viewArea.get().getPictures().remove(pic);
 						pictureFacade.delete(pic);
 						viewArea.get().loadAllPictures();
 
-						File picFile =new File(pic.getUri());
-						if(picFile.exists()){
+						File picFile = new File(pic.getUri());
+						if (picFile.exists()) {
 							try {
 								Files.delete(picFile.toPath());
 							} catch (IOException e) {
@@ -220,29 +263,24 @@ public class ToolbarArea extends RebuildebleSubComponent {
 				}
 			}
 		});
+		
 		editAttributes.setDisable(true);
 		toAlbum.setDisable(true);
 		del.setDisable(true);
 		show.setDisable(true);
-
+		removeFromAlbum.setDisable(true);
 		viewArea.get().getSelectedPicture().addListener(new ChangeListener<Picture>() {
 			@Override
 			public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
-				if(newValue==null){
-					editAttributes.setDisable(true);
-					toAlbum.setDisable(true);
-					del.setDisable(true);
-					show.setDisable(true);
-				}else{
-					editAttributes.setDisable(false);
-					toAlbum.setDisable(false);
-					del.setDisable(false);
-					show.setDisable(false);
-				}
+				editAttributes.setDisable(newValue == null);
+				toAlbum.setDisable(newValue == null);
+				del.setDisable(newValue == null);
+				show.setDisable(newValue == null);
+				removeFromAlbum.setDisable(newValue == null);
 			}
 		});
 
-		picture.getItems().addAll(show, toAlbum, editAttributes, del);
+		picture.getItems().addAll(show, toAlbum, removeFromAlbum, editAttributes, del);
 		return picture;
 	}
 

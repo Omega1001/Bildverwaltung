@@ -24,6 +24,8 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Delete Album</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Show Picture</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Add to Album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Delete from Album</ResourceString>
+		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">The selected picture is not part of any album</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Edit Attributes</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Delete Picture</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
@@ -48,6 +50,7 @@
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Select an Album to display</ResourceString>
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Select an Album to Add</ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture">Select an Album to Remove the Picture from</ResourceString>
 		<!-- Album Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Are you sure you want to delete this album?</ResourceString>
 		<!-- Album Creation -->

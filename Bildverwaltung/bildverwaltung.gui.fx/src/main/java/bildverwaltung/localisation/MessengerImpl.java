@@ -11,15 +11,15 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextArea;
 
-public class MessengerImpl implements Messenger{
+public class MessengerImpl implements Messenger {
 
 	public static final Factory<Messenger> FACTORY = new Factory<Messenger>() {
-		
+
 		@Override
 		public Class<Messenger> getInterfaceType() {
 			return Messenger.class;
 		}
-		
+
 		@Override
 		public Messenger generate(ManagedContainer container, Scope scope) {
 			Translator t = container.materialize(Translator.class);
@@ -27,10 +27,10 @@ public class MessengerImpl implements Messenger{
 		}
 	};
 	private final Translator translator;
-	
+
 	public MessengerImpl(Translator translator) {
 		super();
-		if(translator == null) {
+		if (translator == null) {
 			throw new IllegalArgumentException("Translator must be set");
 		}
 		this.translator = translator;
@@ -42,7 +42,7 @@ public class MessengerImpl implements Messenger{
 	}
 
 	public String translate(String resourceKey) {
-		return translator.translate(resourceKey);
+		return resourceKey != null ? translator.translate(resourceKey) : null;
 	}
 
 	public void showInfoMessage(String headerText, String details) {
@@ -88,10 +88,10 @@ public class MessengerImpl implements Messenger{
 	public void showExceptionMessage(FacadeException ex) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle(translate(MessageType.ERROR.getTitleBarRs()));
-		
+
 		String headerRs = ex.getType().getErrorRs();
 		alert.setHeaderText(translate(headerRs != null ? headerRs : "msgExceptionUnknown"));
-		
+
 		String detailRs = ex.getType().getErrorDetailRs();
 		if (detailRs != null) {
 			alert.setContentText(translate(detailRs));
