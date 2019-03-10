@@ -117,6 +117,7 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Album loeschen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Bild anzeigen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Aus Album entfernen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Attribute bearbeiten</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild loeschen</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
@@ -141,6 +142,7 @@
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Waehlen sie das anzuzeigende Album aus</ResourceString>
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Waehlen sie das Album zum hinzufuegen aus </ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture">Waehlen sie das Album in dem das Bild entfernt wird</ResourceString>
 		<!-- Album Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Sind sie sich sicher, dass sie dieses Album loeschen moechten?</ResourceString>
 		<!-- Album Creation -->
