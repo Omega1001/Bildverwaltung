@@ -294,8 +294,12 @@ public class ToolbarArea extends RebuildebleSubComponent {
 					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 
 			importDialog.show();
-			// update the picture area
-			viewArea.get().loadAllPictures();
+			if(albumArea.get().getSelectedAlbumId() == null) {
+				viewArea.get().loadAllPictures();
+			} else {
+				albumArea.get().resetSelection();
+				viewArea.get().loadAllPictures();
+			}
 		});
 		importM.getItems().addAll(importPictures);
 		return importM;
