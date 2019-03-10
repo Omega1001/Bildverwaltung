@@ -12,11 +12,12 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OrderBy;
 
 @Entity
 @NamedQueries(value = {
 		/**/
-		@NamedQuery(name = "album.all_id_name", query = "SELECT e.id, e.name FROM Album as e")
+		@NamedQuery(name = "album.all_id_name", query = "SELECT e.id, e.name FROM Album e")
 		/**/
 })
 public class Album extends UUIDBase {
@@ -59,6 +60,7 @@ public class Album extends UUIDBase {
 	 */
 	@ManyToMany(cascade= CascadeType.ALL)
 	@JoinTable
+	@OrderBy("name ASC")
 	public List<Picture> getPictures() {
 		return pictures;
 	}
