@@ -66,9 +66,9 @@ public class PictureArea extends RebuildebleSubComponent {
 				InputStream is = pictureFacade.resolvePictureURI(p.getUri());
 				Image i = new Image(is);
 				view.setImage(i);
-				try{
+				try {
 					is.close();
-				}catch (IOException e){
+				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			} catch (FacadeException e) {
@@ -105,7 +105,8 @@ public class PictureArea extends RebuildebleSubComponent {
 				}
 				if (event.getClickCount() == 2) {
 					PictureIterator it = new PictureIterator(pictures, index);
-					EnlargedPictureView epv = new EnlargedPictureView(Container.getActiveContainer().materialize(Messenger.class,Scope.APPLICATION));
+					EnlargedPictureView epv = new EnlargedPictureView(
+							Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 					epv.showEnlargedPicture(it);
 				}
 			}
@@ -123,7 +124,7 @@ public class PictureArea extends RebuildebleSubComponent {
 					List<? extends Picture> added = c.getAddedSubList();
 					pane.getChildren().addAll(c.getFrom(), toView(added));
 				} else if (c.wasRemoved()) {
-					pane.getChildren().remove(c.getFrom(), c.getRemovedSize()-c.getFrom());
+					pane.getChildren().remove(c.getFrom(), c.getRemovedSize() - c.getFrom());
 				} else if (c.wasUpdated()) {
 					for (int i = c.getFrom(); i < c.getTo(); i++) {
 						Picture updated = c.getList().get(i);
@@ -133,9 +134,9 @@ public class PictureArea extends RebuildebleSubComponent {
 							try {
 								InputStream is = pictureFacade.resolvePictureURI(updated.getUri());
 								v.setImage(new Image(is));
-								try{
+								try {
 									is.close();
-								}catch (IOException e){
+								} catch (IOException e) {
 									e.printStackTrace();
 								}
 							} catch (FacadeException e) {
@@ -148,7 +149,8 @@ public class PictureArea extends RebuildebleSubComponent {
 		}
 
 	}
-	public List<ImageView> getList(){
+
+	public List<ImageView> getList() {
 		return toView(pictures);
 	}
 
@@ -157,7 +159,9 @@ public class PictureArea extends RebuildebleSubComponent {
 			List<Picture> pics = pictureFacade.getAllPictures();
 			pictures.clear();
 			pictures.addAll(pics);
-			selectedPicture.set(null);
+			if (!pictures.contains(selectedPicture.getValue())) {
+				selectedPicture.set(null);
+			}
 			return true;
 		} catch (FacadeException e) {
 			msg().showExceptionMessage(e);
@@ -170,7 +174,9 @@ public class PictureArea extends RebuildebleSubComponent {
 			Album album = albumFacade.getAlbumById(albumId);
 			pictures.clear();
 			pictures.addAll(album.getPictures());
-			selectedPicture.set(null);
+			if (!pictures.contains(selectedPicture.getValue())) {
+				selectedPicture.set(null);
+			}
 			return true;
 		} catch (FacadeException e) {
 			msg().showExceptionMessage(e);
