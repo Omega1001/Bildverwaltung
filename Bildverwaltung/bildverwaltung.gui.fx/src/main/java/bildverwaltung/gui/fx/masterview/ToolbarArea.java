@@ -241,6 +241,8 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 			@Override
 			public void handle(ActionEvent event) {
+
+				// delete picture from db and from the hard drive
 				try {
 					Picture pic = viewArea.get().getSelectedPicture().get();
 					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
@@ -260,6 +262,13 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 				} catch (FacadeException e) {
 					msg().showExceptionMessage(e);
+				}
+
+				viewArea.get().loadAllPictures();
+
+				// Stay in selected album after deletion
+				if(albumArea.get().getSelectedAlbumId() != null) {
+					viewArea.get().loadAlbumById(albumArea.get().getSelectedAlbumId());
 				}
 			}
 		});
