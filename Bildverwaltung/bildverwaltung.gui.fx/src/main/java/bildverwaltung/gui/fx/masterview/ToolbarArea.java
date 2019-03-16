@@ -295,13 +295,13 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		importM.setGraphic(IconLoader.loadIcon("Import.png"));
 
 		MenuItem importPictures = new MenuItem(msg().translate("menuItemMasterViewToolbarImport"));
-		List<Picture> importedPictures = new ArrayList<>();
 
 		importPictures.setOnAction(event -> {
+			List<Picture> importedPictures = new ArrayList<>();
 			ImportPane importDialog = new ImportPane(masterStage.get(),
 					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 
-			importDialog.show();
+			importedPictures = importDialog.show();
 			if(albumArea.get().getSelectedAlbumId() != null) {
 				albumArea.get().resetSelection();
 			}
