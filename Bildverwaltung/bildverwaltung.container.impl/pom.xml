@@ -3,7 +3,7 @@
   <parent>
     <groupId>prog3.torvald</groupId>
     <artifactId>bildverwaltung</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
   </parent>
   <artifactId>bildverwaltung.container.impl</artifactId>
   <name>Container Impl</name>
