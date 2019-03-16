@@ -3,8 +3,11 @@
  */
 package bildverwaltung.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.nio.file.Files;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -71,6 +74,16 @@ public class PictureServiceImpl implements PictureService {
 		LOG.trace("Enter delete toDelete={}", toDelete);
 		pDao.delete(toDelete.getId());
 		LOG.trace("Exit delete");
+
+		LOG.trace("Delete File");
+		File picFile = new File(toDelete.getUri());
+		if (picFile.exists()) {
+			try {
+				Files.delete(picFile.toPath());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/* (non-Javadoc)
