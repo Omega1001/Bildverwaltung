@@ -299,7 +299,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 		importPictures.setOnAction(event -> {
 			ImportPane importDialog = new ImportPane(masterStage.get(),
-					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION), importedPictures);
+					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 
 			importDialog.show();
 			if(albumArea.get().getSelectedAlbumId() != null) {

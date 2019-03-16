@@ -51,11 +51,11 @@ public class ImportPane{
      * @param parentStage @NotNull ParentStage
      * @param msg @NotNull Messenger to take resourceStrings from
      */
-    public  ImportPane(Stage parentStage, Messenger msg, List pictures){
+    public  ImportPane(Stage parentStage, Messenger msg){
         this.msg = msg;
         this.parentStage = parentStage;
 
-        this.pictures = pictures;
+        this.pictures = new ArrayList<>();
 
         initializeNodes();
         setEventHandlers();
@@ -63,7 +63,7 @@ public class ImportPane{
         putNodesTogether();
     }
 
-    public void show() {
+    public List<Picture> show() {
         if (ApplicationIni.get()
                 .get("directory","picturesDirectory") == null) {
             Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -74,6 +74,7 @@ public class ImportPane{
         } else {
             importWindow.showAndWait();
         }
+        return pictures;
     }
 
 
