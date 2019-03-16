@@ -49,18 +49,22 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @param pictures given (assumpted) picture as file
      */
     @Override
-    public void importAll(List<File> pictures) {
+    public List<Picture> importAll(List<File> pictures) {
+
+        List<Picture> importedPictures = new ArrayList<>();
 
         for(File picture: pictures) {
             LOG.debug("Import Number {} of {}, File: {}",
                     pictures.indexOf(picture), pictures.size(), picture.getAbsolutePath());
             try {
-                importPicture(picture);
+                importedPictures.add(importPicture(picture));
             } catch (ServiceException e) {
                 e.printStackTrace();
                 LOG.warn("Import of picture {} failed", picture.getName());
             }
         }
+
+        return importedPictures;
 
     }
 

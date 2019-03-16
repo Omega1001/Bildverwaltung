@@ -2,6 +2,7 @@ package bildverwaltung.gui.fx.masterview;
 
 import java.io.*;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -243,8 +244,8 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			public void handle(ActionEvent event) {
 
 				// delete picture from db and from the hard drive
-				try {
 					Picture pic = viewArea.get().getSelectedPicture().get();
+				try {
 					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
 						// viewArea.get().getPictures().remove(pic);
 						pictureFacade.delete(pic);
@@ -258,18 +259,14 @@ public class ToolbarArea extends RebuildebleSubComponent {
 								e.printStackTrace();
 							}
 						}
+						viewArea.get().getPictures().remove(pic);
 					}
+
 
 				} catch (FacadeException e) {
 					msg().showExceptionMessage(e);
 				}
 
-				viewArea.get().loadAllPictures();
-
-				// Stay in selected album after deletion
-				if(albumArea.get().getSelectedAlbumId() != null) {
-					viewArea.get().loadAlbumById(albumArea.get().getSelectedAlbumId());
-				}
 			}
 		});
 		
@@ -298,17 +295,18 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		importM.setGraphic(IconLoader.loadIcon("Import.png"));
 
 		MenuItem importPictures = new MenuItem(msg().translate("menuItemMasterViewToolbarImport"));
+		List<Picture> importedPictures = new ArrayList<>();
+
 		importPictures.setOnAction(event -> {
 			ImportPane importDialog = new ImportPane(masterStage.get(),
-					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
+					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION), importedPictures);
 
 			importDialog.show();
-			if(albumArea.get().getSelectedAlbumId() == null) {
-				viewArea.get().loadAllPictures();
-			} else {
+			if(albumArea.get().getSelectedAlbumId() != null) {
 				albumArea.get().resetSelection();
-				viewArea.get().loadAllPictures();
 			}
+			viewArea.get().getPictures().addAll(importedPictures);
+
 		});
 		importM.getItems().addAll(importPictures);
 		return importM;

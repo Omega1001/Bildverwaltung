@@ -2,6 +2,7 @@ package bildverwaltung.gui.fx.importdialog;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
+import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.facade.PictureImportFacade;
 import bildverwaltung.localisation.Messenger;
@@ -43,14 +44,18 @@ public class ImportPane{
     private ImageView minusImgView;
     private ImageView plusImgView;
 
+    private List<Picture> pictures;
+
     /**
      *  constructor to build and insert the ImportPane
      * @param parentStage @NotNull ParentStage
      * @param msg @NotNull Messenger to take resourceStrings from
      */
-    public  ImportPane(Stage parentStage, Messenger msg){
+    public  ImportPane(Stage parentStage, Messenger msg, List pictures){
         this.msg = msg;
         this.parentStage = parentStage;
+
+        this.pictures = pictures;
 
         initializeNodes();
         setEventHandlers();
@@ -109,7 +114,7 @@ public class ImportPane{
             List<File> li = ol;
             PictureImportFacade pi = Container.getActiveContainer().materialize(PictureImportFacade.class, Scope.APPLICATION,null);
             try {
-                pi.importAll(li);
+             pictures.addAll(pi.importAll(li));
             } catch (ServiceException ex) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle(msg.translate("titleImportAlertError"));

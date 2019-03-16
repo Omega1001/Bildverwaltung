@@ -10,13 +10,15 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
+import java.util.LinkedList;
+
 public class Test extends Application {
     @Override
     public void start(Stage primaryStage){
         Button bt = new Button("Import");
         bt.setOnAction(e->{
 
-            ImportPane ip = new ImportPane(primaryStage, Container.getActiveContainer().materialize(Messenger.class,Scope.APPLICATION));
+            ImportPane ip = new ImportPane(primaryStage, Container.getActiveContainer().materialize(Messenger.class,Scope.APPLICATION), new LinkedList());
             ip.show();
         });
 
