@@ -70,7 +70,7 @@ public class SearchArea extends RebuildebleSubComponent {
 					List<Picture> pics = pictureFacade.getFiltered(sm.toFilter(), null);
 					viewArea.get().getPictures().clear();
 					viewArea.get().getPictures().addAll(pics);
-					albumArea.get().resetSelection();
+					albumArea.get().resetSelectionNoUpdate();
 				} catch (FacadeException ex) {
 					msg().showExceptionMessage(ex);
 				}
@@ -86,7 +86,7 @@ public class SearchArea extends RebuildebleSubComponent {
 					List<Picture> pics = pictureFacade.getAllPictures();
 					viewArea.get().getPictures().clear();
 					viewArea.get().getPictures().addAll(pics);
-					albumArea.get().resetSelection();
+					albumArea.get().resetSelectionNoUpdate();
 				} catch (FacadeException ex) {
 					msg().showExceptionMessage(ex);
 				}

@@ -201,7 +201,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 						Album alb = AlbumSelectionDialog.selectAlbum(msg(),
 								"msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture", pic.getAlben(),
 								masterStage.get());
-						//need to get persistent album from DB
+						// need to get persistent album from DB
 						alb = albumFacade.getAlbumById(alb.getId());
 						if (alb != null) {
 							alb.getPictures().remove(pic);
@@ -220,19 +220,19 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		MenuItem editAttributes = new MenuItem(
 				msg().translate("menuItemMasterViewToolbarOrganisePictureEditAttributes"));
 		editAttributes.setOnAction(actionEvent -> {
-			//Collect Data
+			// Collect Data
 			Picture pic = viewArea.get().getSelectedPicture().get();
 			int selectedPictureIndex = viewArea.get().getPictures().indexOf(pic);
-			//Do edit
+			// Do edit
 			AttributeEditor editor = new AttributeEditor(masterStage.get(), pic, msg());
 			editor.show();
-			//Write Back
+			// Write Back
 			try {
 				pic = pictureFacade.save(pic);
 			} catch (FacadeException e) {
 				msg().showExceptionMessage(e);
 			}
-			viewArea.get().getPictures().set(selectedPictureIndex,pic);
+			viewArea.get().getPictures().set(selectedPictureIndex, pic);
 			viewArea.get().getSelectedPicture().set(pic);
 
 		});
@@ -244,7 +244,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			public void handle(ActionEvent event) {
 
 				// delete picture from db and from the hard drive
-					Picture pic = viewArea.get().getSelectedPicture().get();
+				Picture pic = viewArea.get().getSelectedPicture().get();
 				try {
 					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
 						// viewArea.get().getPictures().remove(pic);
@@ -262,14 +262,13 @@ public class ToolbarArea extends RebuildebleSubComponent {
 						viewArea.get().getPictures().remove(pic);
 					}
 
-
 				} catch (FacadeException e) {
 					msg().showExceptionMessage(e);
 				}
 
 			}
 		});
-		
+
 		editAttributes.setDisable(true);
 		toAlbum.setDisable(true);
 		del.setDisable(true);
@@ -302,10 +301,11 @@ public class ToolbarArea extends RebuildebleSubComponent {
 					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 
 			importedPictures = importDialog.show();
-			if(albumArea.get().getSelectedAlbumId() != null) {
+			if (albumArea.get().getSelectedAlbumId() != null) {
 				albumArea.get().resetSelection();
+			} else {
+				viewArea.get().getPictures().addAll(importedPictures);
 			}
-			viewArea.get().getPictures().addAll(importedPictures);
 
 		});
 		importM.getItems().addAll(importPictures);

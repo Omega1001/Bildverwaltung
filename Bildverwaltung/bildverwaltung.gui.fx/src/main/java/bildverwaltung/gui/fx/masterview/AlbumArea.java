@@ -69,8 +69,12 @@ public class AlbumArea extends RebuildebleSubComponent {
 	}
 
 	public void resetSelection() {
-		ignoreSelectionUpdate = true;
 		albumList.getSelectionModel().clearSelection();
+	}
+	
+	public void resetSelectionNoUpdate() {
+		ignoreSelectionUpdate = true;
+		resetSelection();
 	}
 
 	public void selectAlbum(Album album) {
