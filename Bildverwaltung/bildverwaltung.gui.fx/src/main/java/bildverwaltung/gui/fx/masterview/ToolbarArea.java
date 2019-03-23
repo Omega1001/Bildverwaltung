@@ -301,7 +301,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			@Override
 			public void onChanged(Change<? extends Picture> c) {
 				boolean hasNoItens = c.getList().isEmpty();
-				editAttributes.setDisable(hasNoItens);
+				editAttributes.setDisable(c.getList().size() != 1);
 				toAlbum.setDisable(hasNoItens);
 				del.setDisable(hasNoItens);
 				show.setDisable(hasNoItens);
