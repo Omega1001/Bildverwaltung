@@ -163,16 +163,20 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					Picture pic = viewArea.get().getSelectedPicture().get();
+					List<Picture> pics = viewArea.get().getSelected().getSelectedPictures();
 					Album alb = AlbumSelectionDialog.selectAlbum(msg(), "msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",
 							albumFacade.getAllAlbums(), masterStage.get());
 					if (alb != null) {
-						if (!alb.getPictures().contains(pic)) {
-							alb.getPictures().add(pic);
+						for (Picture pic : pics) {
+							if (!alb.getPictures().contains(pic)) {
+								alb.getPictures().add(pic);
+							}
 						}
 						albumFacade.save(alb);
 					}
-					pictureFacade.refresh(pic);
+					for (Picture pic : pics) {
+						pictureFacade.refresh(pic);
+					}
 				} catch (FacadeException e) {
 					e.printStackTrace();
 				}
@@ -255,7 +259,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 					} catch (FacadeException e) {
 						msg().showExceptionMessage(e);
 					}
-				}else {
+				} else {
 					msg().showInfoMessage("msgMasterViewToolbarViewDeletePictureNothingSelected", null);
 				}
 			}
@@ -277,7 +281,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 				show.setDisable(hasNoItens);
 				removeFromAlbum.setDisable(hasNoItens);
 			}
-			
+
 		});
 
 		picture.getItems().addAll(show, toAlbum, removeFromAlbum, editAttributes, del);
