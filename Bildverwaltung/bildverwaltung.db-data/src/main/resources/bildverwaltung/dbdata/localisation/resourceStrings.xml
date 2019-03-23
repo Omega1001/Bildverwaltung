@@ -59,7 +59,8 @@
 
 		<!-- Picture Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeletePictureConfirm">Are you sure you want to delete this picture?</ResourceString>
-
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureMultipleConfirm">Are you sure you want to delete these pictures?</ResourceString>
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureNothingSelected">No pictures are currently selected</ResourceString>
 		<!-- Import Area -->
 		<ResourceString id="stageTitleImport">Import</ResourceString>
 		<ResourceString id="headerTextImportChooseOrDrag">choose or drag files to import</ResourceString>

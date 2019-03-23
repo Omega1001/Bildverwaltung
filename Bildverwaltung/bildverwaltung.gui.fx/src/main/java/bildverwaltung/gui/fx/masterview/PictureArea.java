@@ -64,7 +64,7 @@ public class PictureArea extends RebuildebleSubComponent {
 		pane.getChildren().clear();
 		pane.getChildren().addAll(toView(pictures));
 		pictures.addListener(new SyncroHandler());
-		selected.pictures.addListener(new SelectionSyncroHandler());
+		selected.selectedPictures.addListener(new SelectionSyncroHandler());
 		ScrollPane scrollPane = new ScrollPane(pane);
 		scrollPane.setFitToWidth(true);
 		scrollPane.setFitToHeight(true);
@@ -102,7 +102,7 @@ public class PictureArea extends RebuildebleSubComponent {
 	public ObjectProperty<Picture> getSelectedPicture() {
 		return selected.lastSelectedPicture;
 	}
-	
+
 	public SelectionModdel getSelected() {
 		return selected;
 	}
@@ -149,46 +149,54 @@ public class PictureArea extends RebuildebleSubComponent {
 		private void doSelect(int index) {
 			Picture p = pictures.get(index);
 			selected.lastSelectedPicture.set(p);
-			selected.pictures.clear();
-			selected.pictures.add(p);
+			selected.selectedPictures.clear();
+			selected.selectedPictures.add(p);
 		}
 
 		private void doAddSelect(int index) {
 			Picture p = pictures.get(index);
-			int i = selected.pictures.indexOf(p);
+			int i = selected.selectedPictures.indexOf(p);
 			if (i != -1) {
-				selected.pictures.remove(i);
+				selected.selectedPictures.remove(i);
 			} else {
-				selected.pictures.add(p);
+				selected.selectedPictures.add(p);
 			}
 			selected.lastSelectedPicture.set(p);
 		}
 
 		private void doRangeSelect(int toIndex) {
-			int startIndex = pictures.indexOf(selected.lastSelectedPicture.get());
-			if (toIndex == startIndex) {
-				doAddSelect(toIndex);
+			Picture lastSeleced = selected.lastSelectedPicture.get();
+			if (lastSeleced == null) {
+				// No start detected, do standard select
+				doSelect(toIndex);
 			} else {
-				List<Picture> selection = null;
-				if (toIndex < startIndex) {
-					selection = pictures.subList(toIndex, startIndex);
+				int startIndex = pictures.indexOf(lastSeleced);
+				if (toIndex == startIndex) {
+					// Single Select operation
+					doAddSelect(toIndex);
 				} else {
-					// Shift 1 right to match first exclusive, last inclusive
-					selection = pictures.subList(startIndex + 1, toIndex + 1);
-				}
-				boolean remove = false;
-				for (Picture p : selection) {
-					if (selected.pictures.contains(p)) {
-						remove = true;
-						break;
+					// Multiselect operation
+					List<Picture> selection = null;
+					if (toIndex < startIndex) {
+						selection = pictures.subList(toIndex, startIndex);
+					} else {
+						// Shift 1 right to match first exclusive, last inclusive
+						selection = pictures.subList(startIndex + 1, toIndex + 1);
 					}
+					boolean remove = false;
+					for (Picture p : selection) {
+						if (selected.selectedPictures.contains(p)) {
+							remove = true;
+							break;
+						}
+					}
+					if (remove) {
+						selected.selectedPictures.removeAll(selection);
+					} else {
+						selected.selectedPictures.addAll(selection);
+					}
+					selected.lastSelectedPicture.set(pictures.get(toIndex));
 				}
-				if (remove) {
-					selected.pictures.removeAll(selection);
-				} else {
-					selected.pictures.addAll(selection);
-				}
-				selected.lastSelectedPicture.set(pictures.get(toIndex));
 			}
 		}
 
@@ -270,7 +278,10 @@ public class PictureArea extends RebuildebleSubComponent {
 					changed = c.getRemoved();
 				}
 				for (Picture p : changed) {
-					turnBorder(pane.getChildren().get(pictures.indexOf(p)), add);
+					int index = pictures.indexOf(p);
+					if (index != -1) {
+						turnBorder(pane.getChildren().get(index), add);
+					}
 				}
 			}
 		}
@@ -316,14 +327,15 @@ public class PictureArea extends RebuildebleSubComponent {
 
 	public static final class SelectionModdel {
 		private ObjectProperty<Picture> lastSelectedPicture = new SimpleObjectProperty<>();
-		private ObservableList<Picture> pictures = FXCollections.observableArrayList();
+		private ObservableList<Picture> selectedPictures = FXCollections.observableArrayList();
+		private ObservableList<Picture> readOnlyPictures = FXCollections.unmodifiableObservableList(selectedPictures);
 
 		public ReadOnlyProperty<Picture> getLastSelectedPicture() {
 			return lastSelectedPicture;
 		}
 
-		public ObservableList<Picture> getPictures() {
-			return FXCollections.unmodifiableObservableList(pictures);
+		public ObservableList<Picture> getSelectedPictures() {
+			return readOnlyPictures;
 		}
 
 	}

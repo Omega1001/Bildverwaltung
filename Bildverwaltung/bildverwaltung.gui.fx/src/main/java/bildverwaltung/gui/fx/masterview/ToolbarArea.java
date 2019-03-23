@@ -1,8 +1,5 @@
 package bildverwaltung.gui.fx.masterview;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -25,8 +22,7 @@ import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -244,17 +240,24 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			public void handle(ActionEvent event) {
 
 				// delete picture from db and from the hard drive
-				Picture pic = viewArea.get().getSelectedPicture().get();
-				try {
-					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
-						pictureFacade.delete(pic);
-						viewArea.get().getPictures().remove(pic);
+				List<Picture> pics = viewArea.get().getSelected().getSelectedPictures();
+				if (!pics.isEmpty()) {
+					try {
+						if (ConfirmationDialog.requestConfirmation(msg(),
+								pics.size() == 1 ? "msgMasterViewToolbarViewDeletePictureConfirm"
+										: "msgMasterViewToolbarViewDeletePictureMultipleConfirm")) {
+							for (Picture p : pics) {
+								pictureFacade.delete(p);
+								viewArea.get().getPictures().remove(p);
+							}
+						}
+
+					} catch (FacadeException e) {
+						msg().showExceptionMessage(e);
 					}
-
-				} catch (FacadeException e) {
-					msg().showExceptionMessage(e);
+				}else {
+					msg().showInfoMessage("msgMasterViewToolbarViewDeletePictureNothingSelected", null);
 				}
-
 			}
 		});
 
@@ -263,15 +266,18 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		del.setDisable(true);
 		show.setDisable(true);
 		removeFromAlbum.setDisable(true);
-		viewArea.get().getSelectedPicture().addListener(new ChangeListener<Picture>() {
+		viewArea.get().getSelected().getSelectedPictures().addListener(new ListChangeListener<Picture>() {
+
 			@Override
-			public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
-				editAttributes.setDisable(newValue == null);
-				toAlbum.setDisable(newValue == null);
-				del.setDisable(newValue == null);
-				show.setDisable(newValue == null);
-				removeFromAlbum.setDisable(newValue == null);
+			public void onChanged(Change<? extends Picture> c) {
+				boolean hasNoItens = c.getList().isEmpty();
+				editAttributes.setDisable(hasNoItens);
+				toAlbum.setDisable(hasNoItens);
+				del.setDisable(hasNoItens);
+				show.setDisable(hasNoItens);
+				removeFromAlbum.setDisable(hasNoItens);
 			}
+			
 		});
 
 		picture.getItems().addAll(show, toAlbum, removeFromAlbum, editAttributes, del);
@@ -290,7 +296,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 
 			importedPictures = importDialog.show();
-			if(albumArea.get().getSelectedAlbumId() != null) {
+			if (albumArea.get().getSelectedAlbumId() != null) {
 				albumArea.get().resetSelection();
 			} else {
 				viewArea.get().getPictures().addAll(importedPictures);
