@@ -216,7 +216,7 @@ public class PictureArea extends RebuildebleSubComponent {
 					if (c.getRemovedSize() == 1) {
 						pane.getChildren().remove(c.getFrom());
 					} else if (c.getRemovedSize() > 1) {
-						pane.getChildren().remove(c.getFrom(), c.getRemovedSize() - c.getFrom());
+						pane.getChildren().remove(c.getFrom(), c.getRemovedSize() + c.getFrom());
 					}
 				} else if (c.wasUpdated()) {
 					for (int i = c.getFrom(); i < c.getTo(); i++) {
@@ -330,12 +330,23 @@ public class PictureArea extends RebuildebleSubComponent {
 		private ObservableList<Picture> selectedPictures = FXCollections.observableArrayList();
 		private ObservableList<Picture> readOnlyPictures = FXCollections.unmodifiableObservableList(selectedPictures);
 
+		public SelectionModdel() {
+			lastSelectedPicture.addListener((b, o, n) -> {
+				if (n == null)
+					selectedPictures.clear();
+			});
+		}
+
 		public ReadOnlyProperty<Picture> getLastSelectedPicture() {
 			return lastSelectedPicture;
 		}
 
 		public ObservableList<Picture> getSelectedPictures() {
 			return readOnlyPictures;
+		}
+		
+		public void clearSelection() {
+			lastSelectedPicture.set(null);
 		}
 
 	}

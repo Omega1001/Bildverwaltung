@@ -26,6 +26,8 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Add to Album</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Delete from Album</ResourceString>
 		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">The selected picture is not part of any album</ResourceString>
+		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNoCommonAlbums">The selected pictures have no album in common or are not part of any album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbumNoSelection">Nothing is selected</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Edit Attributes</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Delete Picture</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>

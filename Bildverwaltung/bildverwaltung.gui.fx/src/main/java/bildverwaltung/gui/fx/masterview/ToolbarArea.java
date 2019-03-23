@@ -1,5 +1,7 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -189,31 +191,62 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					Picture pic = viewArea.get().getSelectedPicture().get();
+					List<Picture> pics = viewArea.get().getSelected().getSelectedPictures();
+					if (pics.isEmpty()) {
+						msg().showInfoMessage("menuItemMasterViewToolbarOrganisePictureRemoveFromAlbumNoSelection",
+								null);
+						return;
+					}
 					UUID albId = albumArea.get().getSelectedAlbumId();
 					if (albId != null) {
 						Album alb = albumFacade.getAlbumById(albId);
-						alb.getPictures().remove(pic);
+						alb.getPictures().removeAll(pics);
 						albumFacade.save(alb);
-						viewArea.get().getPictures().remove(pic);
+						viewArea.get().getPictures().removeAll(pics);
 						viewArea.get().getSelectedPicture().set(null);
-					} else if (!pic.getAlben().isEmpty()) {
-						Album alb = AlbumSelectionDialog.selectAlbum(msg(),
-								"msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture", pic.getAlben(),
-								masterStage.get());
-						// need to get persistent album from DB
-						alb = albumFacade.getAlbumById(alb.getId());
-						if (alb != null) {
-							alb.getPictures().remove(pic);
-							albumFacade.save(alb);
-						}
 					} else {
-						msg().showErrorMessage("msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum", null);
+						List<Album> commonAlbums = listCommonAlbums(pics);
+						if (!commonAlbums.isEmpty()) {
+							Album alb = AlbumSelectionDialog.selectAlbum(msg(),
+									"msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture", commonAlbums,
+									masterStage.get());
+							// need to get persistent album from DB
+							alb = albumFacade.getAlbumById(alb.getId());
+							if (alb != null) {
+								for (Picture pic : pics) {
+									alb.getPictures().remove(pic);
+								}
+								albumFacade.save(alb);
+							}
+
+						} else {
+							if (pics.size() == 1) {
+								msg().showErrorMessage("msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum",
+										null);
+							} else {
+								msg().showInfoMessage(
+										"msgMasterViewToolbarOrganisePictureRemoveFromAlbumNoCommonAlbums", null);
+							}
+						}
 					}
-					pictureFacade.refresh(pic);
+					for (Picture pic : pics) {
+						pictureFacade.refresh(pic);
+					}
 				} catch (FacadeException e) {
 					e.printStackTrace();
 				}
+			}
+
+			private List<Album> listCommonAlbums(List<Picture> pics) {
+				List<Album> res = new LinkedList<>();
+				if (!pics.isEmpty()) {
+					Iterator<Picture> it = pics.iterator();
+					res.addAll(it.next().getAlben());
+					while (!res.isEmpty() && it.hasNext()) {
+						res.retainAll(it.next().getAlben());
+					}
+				}
+				return res;
 			}
 		});
 
