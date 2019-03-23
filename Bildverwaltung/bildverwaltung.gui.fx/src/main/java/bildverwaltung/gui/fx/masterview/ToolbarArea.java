@@ -13,14 +13,12 @@ import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.attributeEditor.AttributeEditor;
-import bildverwaltung.gui.fx.enlargedpicture.EnlargedPictureView;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.container.Scope;
 import bildverwaltung.gui.fx.importdialog.ImportPane;
-import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
@@ -151,12 +149,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		show.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				EnlargedPictureView enl = new EnlargedPictureView(
-						Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
-				Picture selected = viewArea.get().getSelectedPicture().get();
-				PictureIterator it = new PictureIterator(viewArea.get().getPictures(),
-						viewArea.get().getPictures().indexOf(selected));
-				enl.showEnlargedPicture(it);
+				viewArea.get().startFullScreenView();
 			}
 		});
 

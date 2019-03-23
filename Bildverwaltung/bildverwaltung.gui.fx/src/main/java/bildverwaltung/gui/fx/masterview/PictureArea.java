@@ -110,6 +110,23 @@ public class PictureArea extends RebuildebleSubComponent {
 	public ObservableList<Picture> getPictures() {
 		return pictures;
 	}
+	
+	public void startFullScreenView() {
+		PictureIterator it = null;
+		if (selected.selectedPictures.size() == 1) {
+			it = new PictureIterator(pictures, pictures.indexOf(selected.lastSelectedPicture.get()));
+		} else {
+			List<Picture> pics = new LinkedList<>(selected.selectedPictures);
+			Collections.sort(pics, (p1, p2) -> {
+				return String.CASE_INSENSITIVE_ORDER.compare(p1.getName(), p2.getName());
+			});
+			it = new PictureIterator(pics, pics.indexOf(selected.lastSelectedPicture.get()));
+		}
+
+		EnlargedPictureView epv = new EnlargedPictureView(
+				Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
+		epv.showEnlargedPicture(it);
+	}
 
 	private class PictureMouseEventHandler implements EventHandler<MouseEvent> {
 
@@ -120,7 +137,6 @@ public class PictureArea extends RebuildebleSubComponent {
 			this.obj = obj;
 		}
 
-		// TODO subFunctions!
 		@Override
 		public void handle(MouseEvent event) {
 			int index = pane.getChildren().indexOf(obj);
@@ -137,10 +153,7 @@ public class PictureArea extends RebuildebleSubComponent {
 					}
 				}
 				if (event.getClickCount() == 2) {
-					PictureIterator it = new PictureIterator(pictures, index);
-					EnlargedPictureView epv = new EnlargedPictureView(
-							Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
-					epv.showEnlargedPicture(it);
+					startFullScreenView();
 				}
 			}
 
@@ -344,7 +357,7 @@ public class PictureArea extends RebuildebleSubComponent {
 		public ObservableList<Picture> getSelectedPictures() {
 			return readOnlyPictures;
 		}
-		
+
 		public void clearSelection() {
 			lastSelectedPicture.set(null);
 		}
