@@ -27,7 +27,6 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Delete from Album</ResourceString>
 		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">The selected picture is not part of any album</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Edit Attributes</ResourceString>
-		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDraw">Draw on Picture</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Delete Picture</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarImport">Import Pictures</ResourceString>
@@ -86,10 +85,6 @@
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
 
-		<!-- Draw On Picture Area -->
-		<ResourceString id="drawOnPictureSizeLabel">Size</ResourceString>
-		<ResourceString id="drawOnPictureSave">Save</ResourceString>
-
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Enlarged View</ResourceString>
 		<ResourceString id="enlargedPictureFullscreenMsg">Exit Fullscreen by pressing ESC or press Fullscreen again in Toolbar</ResourceString>
@@ -124,7 +119,6 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Aus Album entfernen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Attribute bearbeiten</ResourceString>
-		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDraw">Bild bemalen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild loeschen</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarImport">Bilder importieren</ResourceString>
@@ -182,10 +176,6 @@
 		<ResourceString id="editAttributesAlertTitle">nicht kompatibler Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
-
-		<!-- Draw On Picture Area -->
-		<ResourceString id="drawOnPictureSizeLabel">Größe</ResourceString>
-		<ResourceString id="drawOnPictureSave">Speichern</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
