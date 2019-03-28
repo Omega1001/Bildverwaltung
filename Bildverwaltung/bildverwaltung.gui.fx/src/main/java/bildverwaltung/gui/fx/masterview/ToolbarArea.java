@@ -14,6 +14,7 @@ import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.attributeEditor.AttributeEditor;
+import bildverwaltung.gui.fx.drawOnPicture.DrawOnPicture;
 import bildverwaltung.gui.fx.enlargedpicture.EnlargedPictureView;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
@@ -237,6 +238,13 @@ public class ToolbarArea extends RebuildebleSubComponent {
 
 		});
 
+		MenuItem drawOnPicture = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDraw"));
+		drawOnPicture.setOnAction(event -> {
+			Picture pic = viewArea.get().getSelectedPicture().get();
+			DrawOnPicture dop= new DrawOnPicture(masterStage.get(),pic,msg());
+			dop.show();
+		});
+
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
 		del.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -259,6 +267,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		});
 
 		editAttributes.setDisable(true);
+		drawOnPicture.setDisable(true);
 		toAlbum.setDisable(true);
 		del.setDisable(true);
 		show.setDisable(true);
@@ -266,6 +275,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		viewArea.get().getSelectedPicture().addListener(new ChangeListener<Picture>() {
 			@Override
 			public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
+				drawOnPicture.setDisable(newValue == null);
 				editAttributes.setDisable(newValue == null);
 				toAlbum.setDisable(newValue == null);
 				del.setDisable(newValue == null);
@@ -274,7 +284,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			}
 		});
 
-		picture.getItems().addAll(show, toAlbum, removeFromAlbum, editAttributes, del);
+		picture.getItems().addAll(show, toAlbum, removeFromAlbum, editAttributes, drawOnPicture, del);
 		return picture;
 	}
 
