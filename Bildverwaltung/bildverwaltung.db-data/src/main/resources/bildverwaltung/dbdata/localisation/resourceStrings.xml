@@ -118,6 +118,7 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Bild anzeigen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Aus Album entfernen</ResourceString>
+		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">Das ausgewaehlte Bild ist nicht Teil eines Albums</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Attribute bearbeiten</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild loeschen</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
