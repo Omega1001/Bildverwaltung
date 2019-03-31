@@ -15,7 +15,7 @@ public class PictureBufferManagerImpl implements PictureBufferManager{
 
 	private static final Logger LOG = LoggerFactory.getLogger(PictureBufferManagerImpl.class);
 	//TODO Long value (currently null) has to be max memory allocated by user!!!
-	private PictureBuffer pictureBuffer = new PictureBuffer(2000L);
+	private PictureBuffer pictureBuffer = new PictureBuffer(2000000L);;
 	
 	public PictureBufferManagerImpl() {
 	}
@@ -24,8 +24,14 @@ public class PictureBufferManagerImpl implements PictureBufferManager{
 	public InputStream readFromBuffer(URI uri) {
 		LOG.trace("Enter readFromBuffer uri={}", uri);
 		
+		InputStream stream = null;
+		
 		byte[] byteArray = pictureBuffer.getBufferedPictureStream(uri);
-		InputStream stream = new ByteArrayInputStream(byteArray);
+		
+		if(byteArray != null) {
+			
+			stream = new ByteArrayInputStream(byteArray);
+		}
 		
 		
 		LOG.trace("Exit readFromBuffer stream={}", stream);

@@ -17,7 +17,7 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 
 	private static final Logger LOG = LoggerFactory.getLogger(URIResolutionDaoImpl.class);
 	private final List<URIResolver> resolvers;
-	private PictureBufferManagerImpl bufferManager;
+	private PictureBufferManagerImpl bufferManager = new PictureBufferManagerImpl();
 
 	public URIResolutionDaoImpl(List<URIResolver> resolvers) {
 		super();
@@ -28,9 +28,11 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 	public InputStream resolve(URI uri) throws DaoException {
 		LOG.trace("Enter resolve uri={}", uri);
 		
-		InputStream res = bufferManager.readFromBuffer(uri);
+		InputStream res = null;
+		res = bufferManager.readFromBuffer(uri);
 		
 		if(res == null) {
+			LOG.debug("Picture not in Buffer uri={}", uri);
 			
 			for (URIResolver resolver : resolvers) {
 				
@@ -43,8 +45,9 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 						res = bufferManager.readFromBuffer(uri);
 
 					} catch (Exception e) {
-					throw new DaoException(ExceptionType.URI_RESOLUTION_0002);
-					
+						
+						LOG.error("IOException e={}",e);
+						throw new DaoException(ExceptionType.URI_RESOLUTION_0002);
 					}
 					
 				} else {

@@ -49,7 +49,6 @@ public class PictureBuffer {
 		memoryUsage = memoryUsage + (long) stream.length;
 		order.add(uri);
 		pictureStreams.put(uri, stream);
-		
 		checkMemoryUsage();
 		
 		LOG.trace("Exit bufferImage");
@@ -93,14 +92,9 @@ public class PictureBuffer {
 	public byte[] getBufferedPictureStream(URI uri) {
 		LOG.trace("Enter getBufferedPictureStream uri={}", uri);
 		
-		byte[] stream = {0};
-		
-		if(pictureStreams.containsKey(uri)) {
-			
-			pictureStreams.get(uri);
-			order.remove(uri);
-			order.add(uri);
-		}
+		byte[] stream = pictureStreams.get(uri);
+		order.remove(uri);
+		order.add(uri);
 		
 		LOG.trace("Exit getBufferedPictureStream stream={}", stream);
 		return stream;
