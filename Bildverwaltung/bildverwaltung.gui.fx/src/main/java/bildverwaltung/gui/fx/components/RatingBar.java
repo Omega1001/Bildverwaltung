@@ -14,26 +14,51 @@ import javafx.util.Duration;
 
 public class RatingBar extends GridPane {
 
-	private final int maxRating;
 	private final StarHolderPane[] stars;
 	private IntegerProperty selected = new SimpleIntegerProperty(0);
-	
-	public RatingBar(int maxRating) {
+
+	public RatingBar(Byte rating) {
 		super();
-		this.maxRating = maxRating;
-		stars = new StarHolderPane[maxRating];
+		stars = new StarHolderPane[5];
 //		stars = new ShapeStar[maxRating];
 //		for(int i=0;i<maxRating;i++) {
 //			stars[i] = new ShapeStar(5);
 //		}
-		for(int i=0;i<maxRating;i++) {
-			StarHolderPane p = new StarHolderPane(5);
-			p.setOnMouseEntered(new RecoloringHandler(i));
-			stars[i] = p;
-			add(p, i,0);
-		}
-		
+
+// 	    for(int i=0;i<rating;i++) {
+// 	    	StarHolderPane p = new StarHolderPane(10);
+// 	    	//p.setOnMouseEntered(new RecoloringHandler(i));
+// 	    	stars[i] = p;
+// 	    	p.getStar().setFill(Color.YELLOW);
+// 	    	add(p, i,0);
+// 	    }
+
+		updateRating(rating);
+
 	}
+
+	public void updateRating(Byte newRating) {
+		int i = 0;
+		while(i < newRating) {
+			StarHolderPane p = new StarHolderPane(10);
+			//p.setOnMouseEntered(new RecoloringHandler(i));
+			stars[i] = p;
+			p.getStar().setFill(Color.YELLOW);
+			add(p, i,0);
+			i++;
+		}
+
+		while(i < 5) {
+			StarHolderPane p = new StarHolderPane(10);
+			//p.setOnMouseEntered(new RecoloringHandler(i));
+			stars[i] = p;
+			p.getStar().setFill(Color.BLACK);
+			add(p, i,0);
+			i++;
+		}
+
+	}
+
 	private class RecoloringHandler implements EventHandler<MouseEvent>{
 
 		private final int index;
@@ -47,7 +72,7 @@ public class RatingBar extends GridPane {
 		public void handle(MouseEvent event) {
 			ParallelTransition t = new ParallelTransition();
 			if(selectedIndex.get() < index) {
-				for (int i=selectedIndex.get();i<=index;i++) {
+				for (int i=selectedIndex.get();i<index;i++) {
 					t.getChildren().add(new FillTransition(new Duration(1000), stars[i].getStar(), Color.BLACK, Color.YELLOW));
 				}
 			}else if(selectedIndex.get() > index) {
@@ -65,7 +90,7 @@ public class RatingBar extends GridPane {
 	private static class StarHolderPane extends Pane{
 		private final ShapeStar star;
 		
-		public StarHolderPane(int scaleFactor) {
+		public StarHolderPane(double scaleFactor) {
 			super();
 			this.star = new ShapeStar(scaleFactor);
 			getChildren().add(star);
