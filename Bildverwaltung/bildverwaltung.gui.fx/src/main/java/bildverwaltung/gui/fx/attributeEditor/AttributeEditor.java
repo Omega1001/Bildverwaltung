@@ -30,6 +30,10 @@ public class AttributeEditor {
 	private Label dateLb;
 	private Label commentLb;
 	private TextArea commentField;
+	private Label ratingLb;
+	private ModifyingRatingBar ratingBar;
+	private Button noRatingBtn;
+	private  HBox rating;
 	private String title;
 	private Stage parentStage;
 
@@ -67,6 +71,11 @@ public class AttributeEditor {
 		this.commentLb = new Label(msg.translate("editAttributesComment"));
 		this.commentField = new TextArea(picture.getComment());
 
+		this.ratingLb = new Label(msg.translate("editAttributesRating"));
+		this.ratingBar = new ModifyingRatingBar(picture.getRating());
+		this.noRatingBtn = new Button(msg.translate("editAttributesNoRating"));
+		this.rating = new HBox();
+
 		this.confirmBt = new Button(msg.translate("confirmBtnImportConfirm"));
 		this.cancelBt = new Button(msg.translate("cancelBtnImportCancel"));
 
@@ -86,6 +95,8 @@ public class AttributeEditor {
 
 				picture.setCreationDate(Date.from(dp.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
 				picture.setComment(commentField.getText().trim());
+
+				picture.setRating(ratingBar.getCurrentRating());
 				stage2.close();
 
 			} else {
@@ -97,6 +108,9 @@ public class AttributeEditor {
 			}
 
 		});
+
+		// noRatingBtn sets the rating of the picture to zero
+		noRatingBtn.setOnAction(actionEvent -> ratingBar.updateRating((byte) 0));
 	}
 
 	private void setAppearance() {
@@ -141,8 +155,12 @@ public class AttributeEditor {
 		grid.add(dateLb, 0, 1);
 		grid.add(dp, 1, 1);
 
-		grid.add(commentLb, 0, 2);
-		grid.add(commentField, 1, 2);
+		rating.getChildren().addAll(noRatingBtn,ratingBar);
+		grid.add(ratingLb, 0, 2);
+		grid.add(rating, 1, 2);
+
+		grid.add(commentLb, 0, 3);
+		grid.add(commentField, 1, 3);
 
 		stage2.setScene(scene2);
 		stage2.initOwner(parentStage);
