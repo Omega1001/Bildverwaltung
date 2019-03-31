@@ -27,25 +27,36 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 	@Override
 	public InputStream resolve(URI uri) throws DaoException {
 		LOG.trace("Enter resolve uri={}", uri);
-		for (URIResolver resolver : resolvers) {
-			if (resolver.canHandle(uri)) {
-				try {
-					InputStream res = bufferManager.readFromBuffer(uri);
-					if(res == null) {
+		
+		InputStream res = bufferManager.readFromBuffer(uri);
+		
+		if(res == null) {
+			
+			for (URIResolver resolver : resolvers) {
+				
+				if (resolver.canHandle(uri)) {
+					
+					try {
 						
 						res = resolver.handle(uri);
 						bufferManager.addToBuffer(uri, res);
 						res = bufferManager.readFromBuffer(uri);
-					}
-					LOG.trace("Exit resolve res={}", res);
-					return res;
-				} catch (Exception e) {
+
+					} catch (Exception e) {
 					throw new DaoException(ExceptionType.URI_RESOLUTION_0002);
+					
+					}
+					
+				} else {
+					
+					LOG.error("Could not find a resolver, that can handle this uri {}",uri);
+					throw new DaoException(ExceptionType.URI_RESOLUTION_0001);
 				}
 			}
 		}
-		LOG.error("Could not find a resolver, that can handle this uri {}",uri);
-		throw new DaoException(ExceptionType.URI_RESOLUTION_0001);
+		
+		LOG.trace("Exit resolve res={}", res);
+		return res;
 	}
 
 }

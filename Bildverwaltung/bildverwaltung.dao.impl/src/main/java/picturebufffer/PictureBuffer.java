@@ -4,14 +4,16 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  *Class generating and maintaining picture-buffer objects for the application. 
  */
 
 public class PictureBuffer {
-
-	// Object pictureBufferInstance of type PictureBuffer 
-    private static PictureBuffer pictureBufferInstance = null;
+	
+	private static final Logger LOG = LoggerFactory.getLogger(PictureBuffer.class);
 	
 	// Maximum memory in bytes the buffer is not allowed to exceed.
 	private Long maxMemory;
@@ -42,6 +44,7 @@ public class PictureBuffer {
 	 * @param size, the size of the to be buffered picture.
 	 */
 	public void bufferPicture(URI uri, byte[] stream) {
+		LOG.trace("Enter bufferImage uri={}, stream={}", uri, stream);
 		
 		memoryUsage = memoryUsage + (long) stream.length;
 		order.add(uri);
@@ -49,6 +52,7 @@ public class PictureBuffer {
 		
 		checkMemoryUsage();
 		
+		LOG.trace("Exit bufferImage");
 	}
 	
 	/**
@@ -56,11 +60,14 @@ public class PictureBuffer {
 	 * This is accomplished by dropping the least used pictures.
 	 */
 	private void checkMemoryUsage() {
+		LOG.trace("Enter checkMemoryUsage");
 		
 		while(memoryUsage >= maxMemory) {
 			
 			deBufferPicture(order.removeFirst());
 		}
+		
+		LOG.trace("Exit checkMemoryUsage");
 	}
 	
 	/**
@@ -69,9 +76,12 @@ public class PictureBuffer {
 	 * @param uri, the URI of the to be de-buffered picture.
 	 */
 	private void deBufferPicture(URI uri) {
+		LOG.trace("Enter deBufferPicture uri={}", uri);
 		
 		memoryUsage = memoryUsage - (long) pictureStreams.get(uri).length;
 		pictureStreams.remove(uri);
+		
+		LOG.trace("Exit deBufferPicture");
 	}
 	
 	/**
@@ -81,11 +91,18 @@ public class PictureBuffer {
 	 * @return a byte-array containing the buffered stream of the requested picture. 
 	 */
 	public byte[] getBufferedPictureStream(URI uri) {
+		LOG.trace("Enter getBufferedPictureStream uri={}", uri);
 		
-		byte[] stream = pictureStreams.get(uri);
-		order.remove(uri);
-		order.add(uri);
+		byte[] stream = {0};
 		
+		if(pictureStreams.containsKey(uri)) {
+			
+			pictureStreams.get(uri);
+			order.remove(uri);
+			order.add(uri);
+		}
+		
+		LOG.trace("Exit getBufferedPictureStream stream={}", stream);
 		return stream;
 	}
 }
