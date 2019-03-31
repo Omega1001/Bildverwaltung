@@ -92,7 +92,7 @@ public class PictureServiceImpl implements PictureService {
 	@Override
 	public InputStream resolvePictureURI(URI pictureUri) throws ServiceException {
 		LOG.trace("Enter resolvePictureURI pictureUri={}", pictureUri);
-		InputStream res = uriDao.resolv(pictureUri);
+		InputStream res = uriDao.resolve(pictureUri);
 		LOG.trace("Exit resolvePictureURI res={}", res);
 		return res;
 	}

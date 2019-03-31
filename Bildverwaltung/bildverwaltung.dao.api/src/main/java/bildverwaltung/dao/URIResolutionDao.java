@@ -7,6 +7,6 @@ import bildverwaltung.dao.exception.DaoException;
 
 public interface URIResolutionDao {
 	
-	public InputStream resolv(URI uri)throws DaoException;
+	public InputStream resolve(URI uri)throws DaoException;
 	
 }
