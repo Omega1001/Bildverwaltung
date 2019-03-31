@@ -15,6 +15,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.Date;
@@ -182,7 +183,9 @@ public class PictureImportServiceImpl implements PictureImportService {
                 throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
             }
 
-            return new Picture(name, uri, new ArrayList<>(), extension, height, width, date, "");
+            Byte rating = 0;
+
+            return new Picture(name, uri, new ArrayList<>(), extension, height, width, date, "", rating);
         }
     }
 
