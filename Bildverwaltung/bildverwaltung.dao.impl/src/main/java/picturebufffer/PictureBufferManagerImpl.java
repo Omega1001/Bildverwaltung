@@ -10,7 +10,7 @@ import bildverwaltung.dao.PictureBufferManager;
 public class PictureBufferManagerImpl implements PictureBufferManager{
 
 	//TODO Long value (currently null) has to be max memory allocated by user!!!
-	private PictureBuffer pictureBuffer = PictureBuffer.getInstance(null);
+	private PictureBuffer pictureBuffer = new PictureBuffer(null);
 	
 	public PictureBufferManagerImpl() {
 	}

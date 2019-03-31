@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
- *Class generating and maintaining a single picture-buffer for the application. 
+ *Class generating and maintaining picture-buffer objects for the application. 
  */
 
 public class PictureBuffer {
@@ -26,21 +26,13 @@ public class PictureBuffer {
 	private HashMap<URI,byte[]> pictureStreams;
 	
 	
-	private PictureBuffer(Long max) {
+	public PictureBuffer(Long max) {
 		
 		maxMemory = (long)(max * 0.8d);
 		memoryUsage = 0L;
 		order = new LinkedList <URI>();
 		pictureStreams = new HashMap<URI,byte[]>();
-	}
-	
-	public static PictureBuffer getInstance(Long max) {
-		
-        if (pictureBufferInstance == null) 
-        	pictureBufferInstance = new PictureBuffer(max); 
-  
-        return pictureBufferInstance; 
-    } 
+	} 
 	
 	/**
 	 * Method for adding pictures to the buffer.
