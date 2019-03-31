@@ -1,41 +1,28 @@
 package picturebufffer;
-
 import java.net.URI;
 import java.util.HashMap;
 import java.util.LinkedList;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 /**
  *Class generating and maintaining picture-buffer objects for the application. 
  */
-
-public class PictureBuffer {
-	
+public class PictureBuffer {	
 	private static final Logger LOG = LoggerFactory.getLogger(PictureBuffer.class);
-	
 	// Maximum memory in bytes the buffer is not allowed to exceed.
 	private Long maxMemory;
-	
 	// Current memory usage of the buffer in byte.
-	private Long memoryUsage;
-	
+	private Long memoryUsage;	
 	// List keeping track of the chronological order in which the pictures were added to the buffer.
-	private LinkedList<URI> order;
-	
+	private LinkedList<URI> order;	
 	// The collection buffering the pictures.
-	private HashMap<URI,byte[]> pictureStreams;
-	
-	
-	public PictureBuffer(Long max) {
-		
+	private HashMap<URI,byte[]> pictureStreams;	
+	public PictureBuffer(Long max) {		
 		maxMemory = (long)(max * 0.8d);
 		memoryUsage = 0L;
 		order = new LinkedList <URI>();
 		pictureStreams = new HashMap<URI,byte[]>();
-	} 
-	
+	} 	
 	/**
 	 * Method for adding pictures to the buffer.
 	 * 
@@ -45,30 +32,23 @@ public class PictureBuffer {
 	 */
 	public void bufferPicture(URI uri, byte[] stream) {
 		LOG.trace("Enter bufferImage uri={}, stream={}", uri, stream);
-		
 		memoryUsage = memoryUsage + (long) stream.length;
 		order.add(uri);
 		pictureStreams.put(uri, stream);
 		checkMemoryUsage();
-		
 		LOG.trace("Exit bufferImage");
 	}
-	
 	/**
 	 * Method keeping track of the current memory usage of the buffer and keeping it from overflowing.
 	 * This is accomplished by dropping the least used pictures.
 	 */
 	private void checkMemoryUsage() {
-		LOG.trace("Enter checkMemoryUsage");
-		
-		while(memoryUsage >= maxMemory) {
-			
+		LOG.trace("Enter checkMemoryUsage");	
+		while(memoryUsage >= maxMemory) {	
 			deBufferPicture(order.removeFirst());
 		}
-		
 		LOG.trace("Exit checkMemoryUsage");
 	}
-	
 	/**
 	 * Method keeping drops pictures from the buffer and voids any mention of it.
 	 * 
@@ -76,13 +56,10 @@ public class PictureBuffer {
 	 */
 	private void deBufferPicture(URI uri) {
 		LOG.trace("Enter deBufferPicture uri={}", uri);
-		
 		memoryUsage = memoryUsage - (long) pictureStreams.get(uri).length;
 		pictureStreams.remove(uri);
-		
 		LOG.trace("Exit deBufferPicture");
 	}
-	
 	/**
 	 * Method which returns the stream of a buffered picture and keeps track of its usage.
 	 * 
@@ -91,11 +68,9 @@ public class PictureBuffer {
 	 */
 	public byte[] getBufferedPictureStream(URI uri) {
 		LOG.trace("Enter getBufferedPictureStream uri={}", uri);
-		
 		byte[] stream = pictureStreams.get(uri);
 		order.remove(uri);
 		order.add(uri);
-		
 		LOG.trace("Exit getBufferedPictureStream stream={}", stream);
 		return stream;
 	}
