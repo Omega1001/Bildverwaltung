@@ -5,10 +5,10 @@ import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import bildverwaltung.dao.PictureBufferManager;
+import bildverwaltung.utils.ApplicationIni;
 public class PictureBufferManagerImpl implements PictureBufferManager{
 	private static final Logger LOG = LoggerFactory.getLogger(PictureBufferManagerImpl.class);
-	//TODO Long value (currently null) has to be max memory allocated by user!!!
-	private PictureBuffer pictureBuffer = new PictureBuffer(2000000L);;
+	private PictureBuffer pictureBuffer = new PictureBuffer(Long.parseLong(ApplicationIni.get().get("cache", "maxSize_MB"))*1024*1024);
 	public PictureBufferManagerImpl() {
 	}
 	@Override

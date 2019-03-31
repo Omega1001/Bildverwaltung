@@ -7,6 +7,9 @@ public class ApplicationIni {
 	public static final String DIR_SECTION_NAME = "directory";
 	public static final String DIR_SECTION_PICTURESDIRECTORY_KEY = "picturesDirectory";
 	
+	public static final String CACHE_SIZE_NAME = "cache";
+	public static final String CACHE_SIZE_KEY = "maxSize_MB";
+	
 	private ApplicationIni() {
 	}
 	

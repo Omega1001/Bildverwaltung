@@ -37,7 +37,7 @@
 		<immediateFlush>true</immediateFlush>
 	</appender>
 
-	<root level="INFO">
+	<root level="TRACE">
 		<appender-ref ref="LOGFILE" />
 		<appender-ref ref="STDOUT" />
 	</root>
