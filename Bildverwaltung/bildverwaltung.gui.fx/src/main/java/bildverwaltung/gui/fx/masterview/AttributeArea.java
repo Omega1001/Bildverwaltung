@@ -27,15 +27,26 @@ public class AttributeArea extends RebuildebleSubComponent {
 		TitledPane title = new TitledPane();
 		title.setText(msg().translate("headerTextMasterViewInfoAreaAttributeAreaHeader"));
 		GridPane grid = new GridPane();
+
+		Label nameLb = new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureName"));
 		Label name = new Label();
+		nameLb.setMinWidth(50d);
+		name.setWrapText(true);
+
+
 		Label height = new Label();
+		Label heightLb =new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureHeight"));
+		heightLb.setMinWidth(50d);
+
 		Label width = new Label();
-		
-		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureName")), 0, 0);
+		Label widthLb = new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureWidth"));
+		widthLb.setMinWidth(50d);
+
+		grid.add(nameLb, 0, 0);
 		grid.add(name, 1, 0);
-		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureHeight")), 0, 1);
+		grid.add(heightLb, 0, 1);
 		grid.add(height, 1, 1);
-		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureWidth")), 0, 2);
+		grid.add(widthLb, 0, 2);
 		grid.add(width, 1, 2);
 		
 		ChangeListener<Picture> changeHandler = new ChangeListener<Picture>() {
