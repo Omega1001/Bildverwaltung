@@ -8,7 +8,14 @@ import bildverwaltung.dao.PictureBufferManager;
 import bildverwaltung.utils.ApplicationIni;
 public class PictureBufferManagerImpl implements PictureBufferManager{
 	private static final Logger LOG = LoggerFactory.getLogger(PictureBufferManagerImpl.class);
-	private PictureBuffer pictureBuffer = new PictureBuffer(Long.parseLong(ApplicationIni.get().get("cache", "maxSize_MB"))*1024*1024);
+	// Constant for turning a long value containing the size in MB into the corresponding amount of bytes.
+	private static final Long TO_BYTE = (long)(1024*1024);
+	// Constant containing maximum size of the cache in MB, allocated by the user in the app.ini.
+	private static final Long CACHE_SIZE_MB = Long.parseLong(ApplicationIni.get().get("cache", "maxSize_MB"));
+	// Constant containing the actual cache size in MB.
+	private static final Long CACHE_SIZE = CACHE_SIZE_MB * TO_BYTE;
+	// The to be managed PictureBuffer
+	private PictureBuffer pictureBuffer = new PictureBuffer(CACHE_SIZE);
 	public PictureBufferManagerImpl() {
 	}
 	@Override

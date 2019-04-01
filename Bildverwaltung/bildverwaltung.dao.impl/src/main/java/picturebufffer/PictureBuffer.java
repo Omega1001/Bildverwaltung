@@ -11,14 +11,17 @@ public class PictureBuffer {
 	private static final Logger LOG = LoggerFactory.getLogger(PictureBuffer.class);
 	// Maximum memory in bytes the buffer is not allowed to exceed.
 	private Long maxMemory;
+	// Maximum size in bytes a picture is allowed to be buffered.
+	private Long maxPictureSize;
 	// Current memory usage of the buffer in byte.
-	private Long memoryUsage;	
+	private Long memoryUsage;
 	// List keeping track of the chronological order in which the pictures were added to the buffer.
-	private LinkedList<URI> order;	
+	private LinkedList<URI> order;
 	// The collection buffering the pictures.
-	private HashMap<URI,byte[]> pictureStreams;	
-	public PictureBuffer(Long max) {		
-		maxMemory = (long)(max * 0.8d);
+	private HashMap<URI,byte[]> pictureStreams;
+	public PictureBuffer(Long max) {
+		maxMemory = (long)(max * 0.9d);
+		maxPictureSize = (long)(maxMemory * 0.9d);
 		memoryUsage = 0L;
 		order = new LinkedList <URI>();
 		pictureStreams = new HashMap<URI,byte[]>();
@@ -32,10 +35,14 @@ public class PictureBuffer {
 	 */
 	public void bufferPicture(URI uri, byte[] stream) {
 		LOG.trace("Enter bufferImage uri={}, stream={}", uri, stream);
-		memoryUsage = memoryUsage + (long) stream.length;
-		order.add(uri);
-		pictureStreams.put(uri, stream);
-		checkMemoryUsage();
+		long pictureSize = (long) stream.length;
+		if(pictureSize < maxPictureSize) {
+			LOG.trace("HIER!!! maxPictureSize={}", maxPictureSize);
+			memoryUsage = memoryUsage + pictureSize;
+			order.add(uri);
+			pictureStreams.put(uri, stream);
+			checkMemoryUsage();
+		}
 		LOG.trace("Exit bufferImage");
 	}
 	/**
@@ -63,8 +70,8 @@ public class PictureBuffer {
 	/**
 	 * Method which returns the stream of a buffered picture and keeps track of its usage.
 	 * 
-	 * @param uri,
-	 * @return a byte-array containing the buffered stream of the requested picture. 
+	 * @param uri, of the requested picture.
+	 * @return byte-array, containing the buffered stream of the requested picture. 
 	 */
 	public byte[] getBufferedPictureStream(URI uri) {
 		LOG.trace("Enter getBufferedPictureStream uri={}", uri);

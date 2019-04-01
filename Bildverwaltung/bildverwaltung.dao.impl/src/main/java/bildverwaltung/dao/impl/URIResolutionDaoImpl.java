@@ -48,6 +48,12 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 		LOG.trace("Exit resolve res={}", res);
 		return res;
 	}
+	/**
+	 * Method for buffering a stream as a byteArray.
+	 *
+	 * @param stream, which shall be buffered. 
+	 * @return byte[], containing the buffered stream.
+	 */
 	private byte[] asArray(InputStream stream) {
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		int byt;
