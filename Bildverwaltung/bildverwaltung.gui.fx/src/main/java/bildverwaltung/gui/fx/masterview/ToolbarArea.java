@@ -236,6 +236,13 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			viewArea.get().getSelectedPicture().set(pic);
 
 		});
+		
+		MenuItem grayScale = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureGrayScale"));
+		grayScale.setOnAction(event -> {
+			Picture pic = viewArea.get().getSelectedPicture().get();
+			GrayScale gscale = new GrayScale(masterStage.get(),pic,msg());
+			gscale.show();
+		});
 
 		MenuItem del = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDelete"));
 		del.setOnAction(new EventHandler<ActionEvent>() {
@@ -259,6 +266,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		});
 
 		editAttributes.setDisable(true);
+		grayScale.setDisable(true);
 		toAlbum.setDisable(true);
 		del.setDisable(true);
 		show.setDisable(true);
@@ -266,6 +274,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		viewArea.get().getSelectedPicture().addListener(new ChangeListener<Picture>() {
 			@Override
 			public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
+				dgrayScale.setDisable(newValue == null);
 				editAttributes.setDisable(newValue == null);
 				toAlbum.setDisable(newValue == null);
 				del.setDisable(newValue == null);
