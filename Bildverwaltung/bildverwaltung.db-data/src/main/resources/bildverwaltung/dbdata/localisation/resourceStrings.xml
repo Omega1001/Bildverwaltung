@@ -6,8 +6,8 @@
 		<ResourceString id="headlineAppConfirmationDlg">Are your sure?</ResourceString>
 		<!-- Generic Search -->
 		<ResourceString id="itemLabelGenericSearchDISABLED">Disabled</ResourceString>
-		<ResourceString id="itemLabelGenericSearchIS_EQUAL">is equal to</ResourceString>
-		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">is not equal to</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_EQUAL">Is equal to</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">Is not equal to</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warning</ResourceString>
@@ -49,8 +49,8 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Width</ResourceString>
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Select an Album to display</ResourceString>
-		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Select an Album to Add</ResourceString>
-		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture">Select an Album to Remove the Picture from</ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Select an Album to add</ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture">Select an Album to remove the Picture from</ResourceString>
 		<!-- Album Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Are you sure you want to delete this album?</ResourceString>
 		<!-- Album Creation -->
@@ -62,35 +62,36 @@
 
 		<!-- Import Area -->
 		<ResourceString id="stageTitleImport">Import</ResourceString>
-		<ResourceString id="headerTextImportChooseOrDrag">choose or drag files to import</ResourceString>
+		<ResourceString id="headerTextImportChooseOrDrag">Choose or drag files to import</ResourceString>
 		<ResourceString id="descriptorImportFileChooserExtensionFilterPictures">Pictures</ResourceString>
 		<ResourceString id="descriptorImportFileChooserExtensionFilterAny">Any</ResourceString>
-		<ResourceString id="tooltipImportChooseButtonChooseFiles">choose file in file Tree</ResourceString>
-		<ResourceString id="tooltipImportRemoveButtonRemoveFiles">remove selected Files</ResourceString>
-		<ResourceString id="tooltipImportCancelButtonCloseWindow">close this Window</ResourceString>
-		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">import chosen Files</ResourceString>
-		<ResourceString id="cancelBtnImportCancel">cancel</ResourceString>
-		<ResourceString id="confirmBtnImportConfirm">confirm</ResourceString>
+		<ResourceString id="tooltipImportChooseButtonChooseFiles">Choose file in file Tree</ResourceString>
+		<ResourceString id="tooltipImportRemoveButtonRemoveFiles">Remove selected Files</ResourceString>
+		<ResourceString id="tooltipImportCancelButtonCloseWindow">Close this Window</ResourceString>
+		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">Import chosen Files</ResourceString>
+		<ResourceString id="cancelBtnImportCancel">Cancel</ResourceString>
+		<ResourceString id="confirmBtnImportConfirm">Confirm</ResourceString>
 		<ResourceString id="titleImportAlertError">Error</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
-		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">your Files could not get Imported</ResourceString>
-		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in Section [directory] is missing</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Your files could not get imported</ResourceString>
+		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in section [directory] is missing</ResourceString>
 
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Edit Attributes</ResourceString>
 		<ResourceString id="editAttributesName">Name</ResourceString>
 		<ResourceString id="editAttributesCreationDate">Creation Date</ResourceString>
 		<ResourceString id="editAttributesComment">Comment</ResourceString>
-		<ResourceString id="editAttributesAlertTitle">Incompatible Name</ResourceString>
+		<ResourceString id="editAttributesAlertTitle">Incompatible name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Enlarged View</ResourceString>
-		<ResourceString id="enlargedPictureFullscreenMsg">Exit Fullscreen by pressing ESC or press Fullscreen again in Toolbar</ResourceString>
+		<ResourceString id="enlargedPictureFullscreenMsg">Exit Fullscreen by pressing [ESC] or press Fullscreen again in Toolbar</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarNextPicture">Next Picture</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Previous Picture</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Fullscreen Mode</ResourceString>
+		
 	</Language>
 	<Language languageCode="de" countryCode="">
 		<!-- App commons -->
@@ -99,8 +100,8 @@
 		<ResourceString id="headlineAppConfirmationDlg">Sind sie sich sicher?</ResourceString>
 		<!-- Generic Search -->
 		<ResourceString id="itemLabelGenericSearchDISABLED">Deaktiviert</ResourceString>
-		<ResourceString id="itemLabelGenericSearchIS_EQUAL">entspricht</ResourceString>
-		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">entspricht nicht</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_EQUAL">Entspricht</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">Entspricht nicht</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warnung</ResourceString>
@@ -114,13 +115,13 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganisePicture">Bild</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDisplay">Album anzeigen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumCreate">Album erstellen</ResourceString>
-		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Album loeschen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Album löschen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Bild anzeigen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Aus Album entfernen</ResourceString>
-		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">Das ausgewaehlte Bild ist nicht Teil eines Albums</ResourceString>
+		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">Das ausgewählte Bild ist nicht Teil eines Albums</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Attribute bearbeiten</ResourceString>
-		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild loeschen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild löschen</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarImport">Bilder importieren</ResourceString>
 		<!-- Info Area -->
@@ -134,18 +135,18 @@
 		<ResourceString id="headerTextMasterViewInfoAreaSearchAreaAlbum">Album</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaSearchAreaAlbumName">Name</ResourceString>
 		<ResourceString id="btnMasterViewInfoAreaSearchAreaSearch">Suchen</ResourceString>
-		<ResourceString id="btnMasterViewInfoAreaSearchAreaReset">Zuruecksetzen</ResourceString>
+		<ResourceString id="btnMasterViewInfoAreaSearchAreaReset">Zurücksetzen</ResourceString>
 		<!-- Attribute Area -->
 		<ResourceString id="headerTextMasterViewInfoAreaAttributeAreaHeader">Eigenschaften</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
-		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Hoehe</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Höhe</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Breite</ResourceString>
 		<!-- Album Selection Dialog -->
-		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Waehlen sie das anzuzeigende Album aus</ResourceString>
-		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Waehlen sie das Album zum hinzufuegen aus </ResourceString>
-		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture">Waehlen sie das Album in dem das Bild entfernt wird</ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Wählen sie das anzuzeigende Album aus</ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Wählen sie das hinzuzufügende Album aus </ResourceString>
+		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture">Wählen sie das Album, aus dem das Bild entfernt wird</ResourceString>
 		<!-- Album Deletion -->
-		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Sind sie sich sicher, dass sie dieses Album loeschen moechten?</ResourceString>
+		<ResourceString id="msgMasterViewToolbarViewDeleteAlbumConfirm">Sind sie sich sicher, dass sie dieses Album löschen möchten?</ResourceString>
 		<!-- Album Creation -->
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Kommentar</ResourceString>
@@ -155,18 +156,18 @@
 
 		<!-- Import Area -->
 		<ResourceString id="stageTitleImport">Import</ResourceString>
-		<ResourceString id="headerTextImportChooseOrDrag">waehle oder ziehe Alben zum importieren</ResourceString>
+		<ResourceString id="headerTextImportChooseOrDrag">Wähle oder ziehe Dateien zum importieren</ResourceString>
 		<ResourceString id="descriptorImportFileChooserExtensionFilterPictures">Bilder</ResourceString>
-		<ResourceString id="descriptorImportFileChooserExtensionFilterAny">Beliebig</ResourceString>
-		<ResourceString id="tooltipImportChooseButtonChooseFiles">Datei im Dateibaum auswaehlen</ResourceString>
-		<ResourceString id="tooltipImportRemoveButtonRemoveFiles">ausgewaehlte Dateien loeschen</ResourceString>
-		<ResourceString id="tooltipImportCancelButtonCloseWindow">dieses Fenster schließen</ResourceString>
-		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">ausgewaehlte Dateien importieren</ResourceString>
-		<ResourceString id="cancelBtnImportCancel">abbrechen</ResourceString>
-		<ResourceString id="confirmBtnImportConfirm">bestaetigen</ResourceString>
+		<ResourceString id="descriptorImportFileChooserExtensionFilterAny">Beliebige</ResourceString>
+		<ResourceString id="tooltipImportChooseButtonChooseFiles">Datei im Verzeichnis auswählen</ResourceString>
+		<ResourceString id="tooltipImportRemoveButtonRemoveFiles">Ausgewählte Dateien entfernen</ResourceString>
+		<ResourceString id="tooltipImportCancelButtonCloseWindow">Dieses Fenster schließen</ResourceString>
+		<ResourceString id="tooltipImportConfirmButtonImportChosenFiles">Ausgewählte Dateien importieren</ResourceString>
+		<ResourceString id="cancelBtnImportCancel">Abbrechen</ResourceString>
+		<ResourceString id="confirmBtnImportConfirm">Bestätigen</ResourceString>
 		<ResourceString id="titleImportAlertError">Fehler</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Fehler beim Import</ResourceString>
-		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">ihre Dateien konnten nicht importiert werden</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Ihre Dateien konnten nicht importiert werden</ResourceString>
 		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in Section [directory] fehlt</ResourceString>
 
 		<!-- Edit Attributes Area -->
@@ -174,15 +175,15 @@
 		<ResourceString id="editAttributesName">Name</ResourceString>
 		<ResourceString id="editAttributesCreationDate">Erstellungsdatum</ResourceString>
 		<ResourceString id="editAttributesComment">Kommentar</ResourceString>
-		<ResourceString id="editAttributesAlertTitle">nicht kompatibler Name</ResourceString>
+		<ResourceString id="editAttributesAlertTitle">Inkompatibler Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
-		<ResourceString id="enlargedPictureFullscreenMsg">Verlassen der Vollbildansicht durch ESC oder Taste oben rechts</ResourceString>
+		<ResourceString id="enlargedPictureFullscreenMsg">Zum beenden des Vollbildmodus [ESC] oder nochmals auf Vollbild in der Toolbar drücken </ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarNextPicture">Nächstes Bild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Vorheriges Bild</ResourceString>
-		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Vollbild-Ansicht</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Vollbild</ResourceString>
 	</Language>
 </Translations>
