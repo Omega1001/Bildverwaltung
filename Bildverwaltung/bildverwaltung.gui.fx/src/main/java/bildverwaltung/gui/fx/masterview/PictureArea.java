@@ -65,12 +65,17 @@ public class PictureArea extends RebuildebleSubComponent {
 			view.setPreserveRatio(true);
 			view.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
 
+			// Create a new BorderPane to enforce certain limitations to the picture and its space
 			BorderPane bp = new BorderPane();
+
+			// one sigle picture Pane will always be 200x200 px
 			bp.setMinHeight(200d);
 			bp.setMaxHeight(200d);
 			bp.setMinWidth(200d);
 			bp.setMaxWidth(200d);
 			bp.setStyle("-fx-border-color: black");
+
+			bp.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
 			bp.setCenter(view);
 			res.add(bp);
 
@@ -177,6 +182,7 @@ public class PictureArea extends RebuildebleSubComponent {
 		try {
 			List<Picture> pics = pictureFacade.getAllPictures();
 			pictures.clear();
+			actualImageViews.clear();
 			pictures.addAll(pics);
 			if (!pictures.contains(selectedPicture.getValue())) {
 				selectedPicture.set(null);
@@ -192,6 +198,7 @@ public class PictureArea extends RebuildebleSubComponent {
 		try {
 			Album album = albumFacade.getAlbumById(albumId);
 			pictures.clear();
+			actualImageViews.clear();
 			pictures.addAll(album.getPictures());
 			if (!pictures.contains(selectedPicture.getValue())) {
 				selectedPicture.set(null);
