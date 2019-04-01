@@ -1,20 +1,20 @@
 package bildverwaltung.gui.fx.grayScale;
 
-//import bildverwaltung.container.Container;
-//import bildverwaltung.container.Scope;
-//import bildverwaltung.dao.entity.Picture;
-//import bildverwaltung.dao.exception.FacadeException;
-//import bildverwaltung.facade.PictureFacade;
-//import bildverwaltung.localisation.Messenger;
-//import javafx.scene.Group;
-//import javafx.scene.Scene;
-//import javafx.scene.control.*;
-//import javafx.scene.image.Image;
-//import javafx.scene.input.MouseEvent;
-//import javafx.scene.layout.BorderPane;
-//import javafx.scene.paint.Paint;
-//import javafx.stage.Modality;
-//import javafx.stage.Stage;
+import bildverwaltung.container.Container;
+import bildverwaltung.container.Scope;
+import bildverwaltung.dao.entity.Picture;
+import bildverwaltung.dao.exception.FacadeException;
+import bildverwaltung.facade.PictureFacade;
+import bildverwaltung.localisation.Messenger;
+import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
+import javafx.scene.paint.Paint;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 
 import java.io.File;
@@ -23,43 +23,44 @@ import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
 public class GrayScale{
-	//private PictureFacade pictureFacade = Container.getActiveContainer().materialize(PictureFacade.class, Scope.APPLICATION);
-  //private double mouseX;
-  //private double mouseY;
-  //private boolean mousePressed;
-  //private Stage parent;
-  //private Picture picture;
-  //private Stage primaryStage;
-  //private Scene scene;
-  //private BorderPane borderPane;
-  //private ToolBar toolBar;
-  //private Button saveButton;
-  //private Button cancelButton;            
+	private PictureFacade pictureFacade = Container.getActiveContainer().materialize(PictureFacade.class, Scope.APPLICATION);
+    private double mouseX;
+    private double mouseY;
+    private boolean mousePressed;
+    private Stage parent;
+    private Picture picture;
+    private Messenger msg;
+    private Stage primaryStage;
+    private Scene scene;
+    private BorderPane borderPane;
+    private ToolBar toolBar;
+    private Button saveButton;
+    private Button cancelButton;            
 	
-  //public GrayScale(Stage parent, Picture picture) {
-  	//this.parent  = parent;
-      //this.picture = picture;
+  public GrayScale(Stage parent, Picture picture) {
+  	this.parent  = parent;
+    this.picture = picture;
 
 
-      //initialize();
-      //addHandlers();
-      //setAppearance();
-      //putTogether();
+      initialize();
+      addHandlers();
+     // setAppearance();
+     // putTogether();
   }
   
-  //private void initialize(){
-    //  primaryStage = new Stage();
-     // borderPane   = new BorderPane();
-      //scene        = new Scene(borderPane);
-      //toolBar      = new ToolBar();
-      //saveButton   = new Button(msg.translate("grayScaleSave"));
-      //cancelButton = new Button(msg.translate("buttonCancel"));
-      //BufferedImage img = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
+  private void initialize(){
+      primaryStage = new Stage();
+      borderPane   = new BorderPane();
+      scene        = new Scene(borderPane);
+      toolBar      = new ToolBar();
+      saveButton   = new Button(msg.translate("grayScaleSave"));
+      cancelButton = new Button(msg.translate("buttonCancel"));
+      BufferedImage img = new BufferedImage(img.getWidth(), img.getHeight(), BufferedImage.TYPE_INT_ARGB);
   }
           
-	//public static void main(String[] args)throws IOException{
+	public static void main(String[] args)throws IOException{
 		BufferedImage img = null;
-		File f = null;
+		File f = null; 
 		
 		//read image
 		try{
@@ -104,42 +105,26 @@ public class GrayScale{
 		}
 	}
 	
-	//private void colorChoiceBoxUsed() {
+	private void addHandlers(){
+      cancelButton.setOnAction(event -> {
+         primaryStage.close();
+      });
 
-		//int color = getSelectedChoiceBoxIndex();
-
-		//if (color == 0) {
-			//return;
-		//}
-
-		//usedColorFilter = true;
-
-		//if (color == 1) {
-			//displayImage.setImage(GrayScaler.grayScaleImage(displayImage.getImage()));
-			//return;
-		//}
-	//}
-	
-	//private void addHandlers(){
-  //    cancelButton.setOnAction(event -> {
-    //      primaryStage.close();
-      //});
-
-      //saveButton.setOnAction(event -> {
-        //  grayScale();
+     // saveButton.setOnAction(event -> {
+      //    grayScale();
       //});
 
       
-      //private void putTogether(){
-        //  borderPane.setTop(toolBar);
-          //toolBar.getItems().addAll(size,saveButton, cancelButton);
-          //primaryStage.setScene(scene);
-          //primaryStage.initOwner(parent);
-          //primaryStage.initModality(Modality.APPLICATION_MODAL);
-      //}
+//      private void putTogether(){
+//          borderPane.setTop(toolBar);
+//          toolBar.getItems().addAll(size,saveButton, cancelButton);
+//          primaryStage.setScene(scene);
+//          primaryStage.initOwner(parent);
+//          primaryStage.initModality(Modality.APPLICATION_MODAL);
+//      }
 
-      //public void show(){
-        //  primaryStage.showAndWait();
-      //}
-  //}
+//      public void show(){
+//          primaryStage.showAndWait();
+//      }
+  }
 }
