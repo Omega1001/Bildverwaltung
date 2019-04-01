@@ -37,9 +37,8 @@ public class PictureBuffer {
 		LOG.trace("Enter bufferImage uri={}, stream={}", uri, stream);
 		long pictureSize = (long) stream.length;
 		if(pictureSize < maxPictureSize) {
-			LOG.trace("HIER!!! maxPictureSize={}", maxPictureSize);
 			memoryUsage = memoryUsage + pictureSize;
-			order.add(uri);
+			order.addLast(uri);
 			pictureStreams.put(uri, stream);
 			checkMemoryUsage();
 		}
@@ -51,7 +50,7 @@ public class PictureBuffer {
 	 */
 	private void checkMemoryUsage() {
 		LOG.trace("Enter checkMemoryUsage");	
-		while(memoryUsage >= maxMemory) {	
+		while(memoryUsage >= maxMemory) {
 			deBufferPicture(order.removeFirst());
 		}
 		LOG.trace("Exit checkMemoryUsage");
@@ -75,9 +74,12 @@ public class PictureBuffer {
 	 */
 	public byte[] getBufferedPictureStream(URI uri) {
 		LOG.trace("Enter getBufferedPictureStream uri={}", uri);
-		byte[] stream = pictureStreams.get(uri);
-		order.remove(uri);
-		order.add(uri);
+		byte[] stream = null;
+		if(pictureStreams.containsKey(uri)) {
+			stream = pictureStreams.get(uri);
+			order.remove(uri);
+			order.addLast(uri);
+		}
 		LOG.trace("Exit getBufferedPictureStream stream={}", stream);
 		return stream;
 	}
