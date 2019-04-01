@@ -27,7 +27,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Pane;
 
 public class PictureArea extends RebuildebleSubComponent {
 	private AlbumFacade albumFacade = Container.getActiveContainer().materialize(AlbumFacade.class, Scope.APPLICATION);
@@ -35,6 +37,7 @@ public class PictureArea extends RebuildebleSubComponent {
 			Scope.APPLICATION);
 	private ObjectProperty<Picture> selectedPicture = new SimpleObjectProperty<>();
 	private ObservableList<Picture> pictures = FXCollections.observableArrayList();
+	private List<ImageView> actualImageViews = new ArrayList<>();
 	private FlowPane pane = new FlowPane();
 
 	public PictureArea(Messenger msg) {
@@ -53,18 +56,29 @@ public class PictureArea extends RebuildebleSubComponent {
 		return scrollPane;
 	}
 
-	private List<ImageView> toView(List<? extends Picture> pictures) {
-		List<ImageView> res = new ArrayList<>(pictures.size());
+	private List<Pane> toView(List<? extends Picture> pictures) {
+		List<Pane> res = new ArrayList<>(pictures.size());
 		for (Picture p : pictures) {
 			ImageView view = new ImageView();
 			view.setFitWidth(200d);
 			view.setFitHeight(200d);
 			view.setPreserveRatio(true);
 			view.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
-			res.add(view);
+
+			BorderPane bp = new BorderPane();
+			bp.setMinHeight(200d);
+			bp.setMaxHeight(200d);
+			bp.setMinWidth(200d);
+			bp.setMaxWidth(200d);
+			bp.setStyle("-fx-border-color: black");
+			bp.setCenter(view);
+			res.add(bp);
+
+			actualImageViews.add(view);
+
 			try {
 				InputStream is = pictureFacade.resolvePictureURI(p.getUri());
-				Image i = new Image(is);
+				Image i = new Image(is, 200d, 200d, true, true);
 				view.setImage(i);
 				try {
 					is.close();
@@ -97,7 +111,7 @@ public class PictureArea extends RebuildebleSubComponent {
 
 		@Override
 		public void handle(MouseEvent event) {
-			int index = pane.getChildren().indexOf(obj);
+			int index = actualImageViews.indexOf(obj);
 			if (MouseEvent.MOUSE_CLICKED.equals(event.getEventType())) {
 				// Mouse Clicked
 				if (MouseButton.PRIMARY.equals(event.getButton())) {
@@ -126,6 +140,7 @@ public class PictureArea extends RebuildebleSubComponent {
 				} else if (c.wasRemoved() && c.getRemovedSize() > 0) {
 					if (c.getRemovedSize() == 1) {
 						pane.getChildren().remove(c.getFrom());
+						actualImageViews.remove(c.getFrom());
 					} else if (c.getRemovedSize() > 1) {
 						pane.getChildren().remove(c.getFrom(), c.getRemovedSize() - c.getFrom());
 					}
@@ -154,7 +169,7 @@ public class PictureArea extends RebuildebleSubComponent {
 
 	}
 
-	public List<ImageView> getList() {
+	public List<Pane> getList() {
 		return toView(pictures);
 	}
 
