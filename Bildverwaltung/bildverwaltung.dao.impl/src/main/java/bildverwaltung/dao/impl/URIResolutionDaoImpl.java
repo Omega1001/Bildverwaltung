@@ -55,6 +55,7 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 	 * @return byte[], containing the buffered stream.
 	 */
 	private byte[] asArray(InputStream stream) {
+		LOG.trace("Enter asArray stream={}", stream);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		int byt;
 		try {
@@ -66,6 +67,7 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 			e.printStackTrace();
 		}
 		byte [] byteArray = outputStream.toByteArray();
+		LOG.trace("Exit asArray byteArray={}", byteArray);
 		return byteArray;
 	}
 }
