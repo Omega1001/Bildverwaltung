@@ -241,7 +241,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		MenuItem drawOnPicture = new MenuItem(msg().translate("menuItemMasterViewToolbarOrganisePictureDraw"));
 		drawOnPicture.setOnAction(event -> {
 			Picture pic = viewArea.get().getSelectedPicture().get();
-			DrawOnPicture dop= new DrawOnPicture(masterStage.get(),pic,msg());
+			DrawOnPicture dop= new DrawOnPicture(masterStage.get(),pic,msg(),viewArea.get());
 			dop.show();
 		});
 
