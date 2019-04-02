@@ -73,7 +73,6 @@ public class PictureArea extends RebuildebleSubComponent {
 			bp.setMaxHeight(200d);
 			bp.setMinWidth(200d);
 			bp.setMaxWidth(200d);
-			bp.setStyle("-fx-border-color: black");
 
 			bp.addEventHandler(MouseEvent.ANY, new PictureMouseEventHandler(view));
 			bp.setCenter(view);
