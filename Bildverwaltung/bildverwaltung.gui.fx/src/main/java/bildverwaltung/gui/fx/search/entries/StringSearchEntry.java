@@ -16,40 +16,51 @@ public class StringSearchEntry<E extends UUIDBase> extends SearchEntry<E, String
 
 	private TextField value = new TextField();
 
-	public StringSearchEntry(String name, SingularAttribute<E, String> field, String defaultValue, ComparisonMode defaultMode) {
-		super(name, field,defaultValue,defaultMode);
+	public StringSearchEntry(String name, SingularAttribute<E, String> field, String defaultValue,
+			ComparisonMode defaultMode) {
+		super(name, field, defaultValue, defaultMode);
 	}
 
 	@Override
 	public List<FilterDiscriptor<E, ?>> asDescriptor() {
-		FilterDiscriptor<E, ?> res = new FilterDiscriptor<E, String>(getField(), value.getText(),
-				getComparisonMode());
+		FilterDiscriptor<E, ?> res = new FilterDiscriptor<E, String>(getField(), value.getText(), getComparisonMode());
 		return Arrays.asList(res);
 	}
 
 	@Override
 	public void render(SearchRenderer renderer) {
-		renderer.beginSearchEntry();
+		renderer.beginSearchEntry(this);
 		renderer.putSearchFieldLabel(getName());
 		setComparisonMode(renderer.putCompairMode(ComparisonMode.values()));
 		renderer.putInputField(value);
 		renderer.newLine();
 		renderer.endEntry();
 	}
-	
+
 	@Override
 	public void reset() {
 		super.reset();
 		value.setText(getDefaultValue());
 	}
 
+	@Override
+	public void handleComparisonModeChange(ComparisonMode oldMode, ComparisonMode newMode) {
+		if (newMode == oldMode) {
+			// Do nothing
+		} else {
+			// Actual change
+			value.setDisable(ComparisonMode.DISABLED.equals(newMode));
+		}
+	}
+
 	public static class Generator implements SearchFieldGenerator<String> {
 
 		@Override
-		public <E extends UUIDBase> SearchEntry<E, ?> generate(String name, SingularAttribute<E, String> field, String defaultValue,ComparisonMode defaultMode) {
+		public <E extends UUIDBase> SearchEntry<E, ?> generate(String name, SingularAttribute<E, String> field,
+				String defaultValue, ComparisonMode defaultMode) {
 			if (String.class.equals(field.getBindableJavaType())) {
-				return new StringSearchEntry<E>(name,field,(String)defaultValue,defaultMode);
-			}else {
+				return new StringSearchEntry<E>(name, field, (String) defaultValue, defaultMode);
+			} else {
 				throw new IllegalArgumentException("Type does not match");
 			}
 		}

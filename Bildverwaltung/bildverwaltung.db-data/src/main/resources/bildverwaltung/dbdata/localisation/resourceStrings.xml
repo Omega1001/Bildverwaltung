@@ -8,6 +8,8 @@
 		<ResourceString id="itemLabelGenericSearchDISABLED">Disabled</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">is equal to</ResourceString>
 		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">is not equal to</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">between</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">not between</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warning</ResourceString>
@@ -103,6 +105,8 @@
 		<ResourceString id="itemLabelGenericSearchDISABLED">Deaktiviert</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">entspricht</ResourceString>
 		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">entspricht nicht</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">zwischen</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">nicht zwischen</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warnung</ResourceString>

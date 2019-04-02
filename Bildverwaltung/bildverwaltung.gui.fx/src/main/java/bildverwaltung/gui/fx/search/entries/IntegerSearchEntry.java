@@ -51,7 +51,7 @@ public class IntegerSearchEntry<E extends UUIDBase> extends SearchEntry<E, Integ
 	}
 
 	public void render(SearchRenderer renderer) {
-		renderer.beginSearchEntry();
+		renderer.beginSearchEntry(this);
 		renderer.putSearchFieldLabel(getName());
 		setComparisonMode(renderer.putCompairMode(ComparisonMode.values()));
 		renderer.putInputField(value);
@@ -65,6 +65,16 @@ public class IntegerSearchEntry<E extends UUIDBase> extends SearchEntry<E, Integ
 		Integer dv = getDefaultValue();
 		value.setText(dv != null ? dv.toString() : null);
 	}
+	
+	 @Override
+	    public void handleComparisonModeChange(ComparisonMode oldMode, ComparisonMode newMode) {
+	    	if (newMode == oldMode) {
+	    		//Do nothing
+	    	}else {
+	    		//Actual change
+	    		value.setDisable(ComparisonMode.DISABLED.equals(newMode));
+	    	}
+	    }
 
 	public static class Generator implements SearchFieldGenerator<Integer> {
 

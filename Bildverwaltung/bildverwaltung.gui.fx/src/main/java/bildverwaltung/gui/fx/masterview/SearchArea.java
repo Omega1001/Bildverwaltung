@@ -10,6 +10,8 @@ import bildverwaltung.dao.entity.Album_;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.entity.Picture_;
 import bildverwaltung.dao.exception.FacadeException;
+import bildverwaltung.dao.helper.SortCriteria;
+import bildverwaltung.dao.helper.SortOrder;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.search.SearchCategory;
 import bildverwaltung.gui.fx.search.SearchCategoryBuilder;
@@ -68,7 +70,8 @@ public class SearchArea extends RebuildebleSubComponent {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					List<Picture> pics = pictureFacade.getFiltered(sm.toFilter(), null);
+					List<Picture> pics = pictureFacade.getFiltered(sm.toFilter(),
+							Arrays.asList(new SortCriteria<>(Picture_.name, SortOrder.ASC)));
 					viewArea.get().getPictures().clear();
 					viewArea.get().getPictures().addAll(pics);
 					albumArea.get().resetSelectionNoUpdate();

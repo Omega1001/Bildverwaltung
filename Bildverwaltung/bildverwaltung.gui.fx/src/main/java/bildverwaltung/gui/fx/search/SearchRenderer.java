@@ -23,7 +23,7 @@ public interface SearchRenderer {
 	
 	public void endCathegory();
 	
-	public void beginSearchEntry();
+	public void beginSearchEntry(SearchEntry<?, ?> currentEntry);
 
 	public void putSearchFieldLabel(String name);
 

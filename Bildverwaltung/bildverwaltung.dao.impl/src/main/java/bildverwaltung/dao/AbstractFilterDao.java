@@ -13,6 +13,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.From;
 import javax.persistence.criteria.Join;
 import javax.persistence.criteria.Order;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.persistence.metamodel.Attribute;
@@ -26,6 +27,7 @@ import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.helper.ComparisonMode;
 import bildverwaltung.dao.helper.DataFilter;
 import bildverwaltung.dao.helper.FilterDiscriptor;
+import bildverwaltung.dao.helper.FilterValueDiscriptor;
 import bildverwaltung.dao.helper.SortCriteria;
 import bildverwaltung.dao.helper.SortOrder;
 
@@ -115,15 +117,15 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 				Join<E, ?> joinRoot = null;
 				for (FilterDiscriptor<?, ?> filter : join.getValue().getEntityOwnedFilters()) {
 					if (!ComparisonMode.DISABLED.equals(filter.getComparisonMode())) {
-						//Build Join root if necessary
-						if(joinRoot == null) {
+						// Build Join root if necessary
+						if (joinRoot == null) {
 							if (join.getKey() instanceof SingularAttribute) {
 								joinRoot = root.join((SingularAttribute<E, ?>) join.getKey());
 							} else {
 								joinRoot = root.join(join.getKey().getName());
 							}
 						}
-						//Create and add filter
+						// Create and add filter
 						addFilter(filter, joinRoot, cb, filterPredicates);
 					}
 				}
@@ -154,10 +156,14 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 			case NOT_EQUAL:
 				negate = true;
 			case IS_EQUAL:
-				work = cb.equal(root.get(filter.getAttribute().getName()), filter.getValue());
+				work = cb.equal(root.get(filter.getAttribute().getName()), filter.getValue().getValue());
 				break;
+			case NOT_BETWEEN:
+				negate = true;
+			case IS_BETWEEN:
+				work = generateBetween(filter, root, cb);
 			case DISABLED:
-				//Do nothing -> Filter is disabled
+				// Do nothing -> Filter is disabled
 				break;
 			default:
 				LOG.warn("Tried to filter with unsupported mode {}, ignoring ...", filter.getComparisonMode().name());
@@ -174,6 +180,24 @@ public abstract class AbstractFilterDao<E extends UUIDBase> extends AbstractDao<
 			}
 		}
 		LOG.trace("Exit addFilter");
+	}
+
+	@SuppressWarnings({ "unchecked", "rawtypes" }) //Both are checked and safe
+	private Predicate generateBetween(FilterDiscriptor<?, ?> filter, From<?, ?> root, CriteriaBuilder cb) {
+		FilterValueDiscriptor<?> val = filter.getValue();
+		Class<?> targetType = filter.getAttribute().getJavaType();
+		Class<Comparable> number = Comparable.class;
+
+		if (number.isAssignableFrom(targetType) && number.isInstance(val.getValue())
+				&& number.isInstance(val.getSecondaryValue())) {
+			
+			Comparable first = (Comparable) val.getValue();
+			Comparable second = (Comparable) val.getSecondaryValue();
+			Path<Comparable> path = root.get(filter.getAttribute().getName());
+			
+			return cb.between(path, cb.literal(first), cb.literal(second));
+		}
+		return null;
 	}
 
 	/**

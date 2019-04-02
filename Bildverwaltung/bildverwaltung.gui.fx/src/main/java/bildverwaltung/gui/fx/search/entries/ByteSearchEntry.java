@@ -3,6 +3,7 @@ package bildverwaltung.gui.fx.search.entries;
 import bildverwaltung.dao.entity.UUIDBase;
 import bildverwaltung.dao.helper.ComparisonMode;
 import bildverwaltung.dao.helper.FilterDiscriptor;
+import bildverwaltung.dao.helper.FilterValueDiscriptor;
 import bildverwaltung.gui.fx.search.SearchEntry;
 import bildverwaltung.gui.fx.search.SearchFieldGenerator;
 import bildverwaltung.gui.fx.search.SearchRenderer;
@@ -16,11 +17,14 @@ import java.util.List;
 
 public class ByteSearchEntry <E extends UUIDBase> extends SearchEntry<E, Byte> {
     private TextField value;
+    private TextField secondValue;
     // private Supplier<ComparisonMode> compMode;
 
     public ByteSearchEntry(String name, SingularAttribute<E, Byte> field, Byte defaultValue, ComparisonMode defaultMode) {
         super(name, field, defaultValue, defaultMode);
         value = constructValueElement();
+        secondValue = constructValueElement();
+        secondValue.setVisible(false);
     }
 
     private TextField constructValueElement() {
@@ -44,17 +48,28 @@ public class ByteSearchEntry <E extends UUIDBase> extends SearchEntry<E, Byte> {
 
     @Override
     public List<FilterDiscriptor<E, ?>> asDescriptor() {
-        Byte val = value.getText() != null ? Byte.parseByte(value.getText()) : null;
-        FilterDiscriptor<E, ?> res = new FilterDiscriptor<E, Byte>(getField(), val, getComparisonMode());
+    	
+    	
+        Byte val = asByte(value.getText());
+        Byte secondVal = asByte(secondValue.getText());
+        FilterDiscriptor<E, ?> res = new FilterDiscriptor<E, Byte>(getField(), new FilterValueDiscriptor<Byte>(val, secondVal), getComparisonMode());
         return Arrays.asList(res);
     }
 
-    public void render(SearchRenderer renderer) {
-        renderer.beginSearchEntry();
+    private Byte asByte(String text) {
+    	if(text != null && !"".equals(text)) {
+    		return Byte.parseByte(text);
+    	}
+    	return null;
+	}
+
+	public void render(SearchRenderer renderer) {
+        renderer.beginSearchEntry(this);
         renderer.putSearchFieldLabel(getName());
         setComparisonMode(renderer.putCompairMode(ComparisonMode.values()));
         renderer.putInputField(value);
         renderer.newLine();
+        renderer.putInputField(secondValue);
         renderer.endEntry();
     }
 
@@ -64,8 +79,24 @@ public class ByteSearchEntry <E extends UUIDBase> extends SearchEntry<E, Byte> {
         Byte dv = getDefaultValue();
         value.setText(dv != null ? dv.toString() : null);
     }
+    
+    @Override
+    public void handleComparisonModeChange(ComparisonMode oldMode, ComparisonMode newMode) {
+    	if (newMode == oldMode) {
+    		//Do nothing
+    	}else {
+    		//Actual change
+    		value.setDisable(ComparisonMode.DISABLED.equals(newMode));
+    		secondValue.setVisible(requiresSecondValue(newMode));
+    	}
+    }
 
-    public static class Generator implements SearchFieldGenerator<Byte> {
+    private boolean requiresSecondValue(ComparisonMode newMode) {
+		return ComparisonMode.IS_BETWEEN.equals(newMode) ||
+				ComparisonMode.NOT_BETWEEN.equals(newMode);
+	}
+
+	public static class Generator implements SearchFieldGenerator<Byte> {
 
         @Override
         public <E extends UUIDBase> SearchEntry<E, ?> generate(String name, SingularAttribute<E, Byte> field,
