@@ -156,7 +156,10 @@ public class PictureImportServiceImpl implements PictureImportService {
             String name = picture.getName(); // Does this give the file name with the extension?
 
             if(name.contains(extension)) {
-                name = name.substring(0, name.lastIndexOf("."));
+                int index = name.lastIndexOf(".");
+                if(index != -1) {
+                    name = name.substring(0, name.lastIndexOf("."));
+                }
             }
 
             URI uri = picture.toURI();

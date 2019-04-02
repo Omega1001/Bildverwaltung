@@ -55,6 +55,7 @@ public class SearchArea extends RebuildebleSubComponent {
 	private SearchCategory<Picture> buildPictureCathegory() {
 		return new SearchCategoryBuilder<Picture>()
 				.addEntry(msg().translate("labelMasterViewInfoAreaSearchAreaPictureName"), Picture_.name)
+				.addEntry("Rating", Picture_.rating)
 				.asEntityOwned(msg().translate("headerTextMasterViewInfoAreaSearchAreaPicture"));
 	}
 

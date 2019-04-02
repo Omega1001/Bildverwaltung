@@ -72,12 +72,11 @@ public class IntegerSearchEntry<E extends UUIDBase> extends SearchEntry<E, Integ
 		public <E extends UUIDBase> SearchEntry<E, ?> generate(String name, SingularAttribute<E, Integer> field,
 				Integer defaultValue, ComparisonMode defaultMode) {
 			if (Integer.class.equals(field.getBindableJavaType()) || int.class.equals(field.getBindableJavaType())) {
-				return new IntegerSearchEntry<E>(name, field, (Integer) defaultValue,defaultMode);
+				return new IntegerSearchEntry<E>(name, field, (Integer) defaultValue, defaultMode);
 			} else {
 				throw new IllegalArgumentException("Type does not match");
 			}
 		}
-
 	}
 
 }
