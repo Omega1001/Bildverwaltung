@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
@@ -33,19 +34,22 @@ public class GrayScale{
     private Stage primaryStage;
     private Scene scene;
     private BorderPane borderPane;
+    private Label size;
     private ToolBar toolBar;
     private Button saveButton;
-    private Button cancelButton;            
-	
-  public GrayScale(Stage parent, Picture picture) {
+    private Button cancelButton;     
+	private Group centerGroup;
+    
+  public GrayScale(Stage parent, Picture picture, Messenger msg) {
   	this.parent  = parent;
     this.picture = picture;
+    this.msg     = msg;
 
 
       initialize();
       addHandlers();
-     // setAppearance();
-     // putTogether();
+      pictureGrayScale();
+      putTogether();
   }
   
   private void initialize(){
@@ -53,22 +57,24 @@ public class GrayScale{
       borderPane   = new BorderPane();
       scene        = new Scene(borderPane);
       toolBar      = new ToolBar();
+      size         = new Label(msg.translate("grayScaleSizeLabel"));
       saveButton   = new Button(msg.translate("grayScaleSave"));
       cancelButton = new Button(msg.translate("buttonCancel"));
+      centerGroup  = new Group;
       BufferedImage img = new BufferedImage(picture.getWidth(), picture.getHeigth(), BufferedImage.TYPE_INT_ARGB);
   }
           
-	public static void main(String[] args)throws IOException{
-		BufferedImage picture = null;
-		File f = null; 
+  		private void pictureGrayScale() {
+        BufferedImage picture = null;
+		Image img = null; 
 		
 		//read image
-		try{
-			f = new File(".png");
-			picture = ImageIO.read(f);
+		try(InputStream is = pictureFacade.resolvePictureURI(pictureUri())){
+			img = new Image(is);
+			//picture = ImageIO.read(img);
 			
 		}catch(IOException e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		
 		//define height and width of the image
@@ -96,9 +102,9 @@ public class GrayScale{
 		}
 		
 		//write image
-		try{
-			f = new File("blablabla.png");
-			ImageIO.write(picture,"jpg", f);
+		try(InputSream is = pictureFacade.resolvePictureURI(pictureUri())){
+		    img = new Image(is);
+			//ImageIO.write(picture,"jpg", img);
 			
 		}catch(IOException e){
 			e.printStackTrace();
@@ -113,18 +119,27 @@ public class GrayScale{
      // saveButton.setOnAction(event -> {
       //    grayScale();
       //});
+      
+      centerGroup.addEventFilter(MouseEvent.ANY,event -> {
+          mouseX = event.getX();
+          mouseY = event.getY();
+          mousePressed = event.isPrimaryButtonDown();
+      });
+	}
 
       
-//      private void putTogether(){
-//          borderPane.setTop(toolBar);
-//          toolBar.getItems().addAll(size,saveButton, cancelButton);
-//          primaryStage.setScene(scene);
-//          primaryStage.initOwner(parent);
-//          primaryStage.initModality(Modality.APPLICATION_MODAL);
-//      }
+      private void putTogether(){
+    	  borderPane.setCenter(centerGroup);
+    	  centerGroup.getChildren().addAll(grayScale);
+          borderPane.setTop(toolBar);
+          toolBar.getItems().addAll(size,saveButton, cancelButton);
+          primaryStage.setScene(scene);
+          primaryStage.initOwner(parent);
+          primaryStage.initModality(Modality.APPLICATION_MODAL);
+      }
 
-//      public void show(){
-//          primaryStage.showAndWait();
-//      }
+      public void show(){
+          primaryStage.showAndWait();
+      }
   }
 }
