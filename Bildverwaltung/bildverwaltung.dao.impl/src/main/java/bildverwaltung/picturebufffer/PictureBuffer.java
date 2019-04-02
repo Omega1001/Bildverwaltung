@@ -26,7 +26,7 @@ public class PictureBuffer {
 		maxMemory = 0L;
 		maxPictureSize = 0L;
 		if(max != null && max > 0) {
-			maxMemory = (long)(max * 0.9d);
+			maxMemory = max;
 			maxPictureSize = (long)(maxMemory * 0.9d);
 		}
 		memoryUsage = 0L;
@@ -54,11 +54,11 @@ public class PictureBuffer {
 		    throw ex;
 		}
 		long pictureSize = (long) stream.length;
-		if(pictureSize < maxPictureSize) {
+		if(pictureSize <= maxPictureSize) {
 			memoryUsage = memoryUsage + pictureSize;
+			checkMemoryUsage();
 			order.addLast(uri);
 			pictureStreams.put(uri, stream);
-			checkMemoryUsage();
 		}
 		LOG.trace("Exit bufferImage");
 	}
@@ -69,7 +69,7 @@ public class PictureBuffer {
 	 */
 	private void checkMemoryUsage() throws DaoException {
 		LOG.trace("Enter checkMemoryUsage");	
-		while(memoryUsage >= maxMemory) {
+		while(memoryUsage > maxMemory) {
 			deBufferPicture(order.removeFirst());
 		}
 		LOG.trace("Exit checkMemoryUsage");
