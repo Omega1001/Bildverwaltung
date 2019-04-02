@@ -225,7 +225,6 @@ public class PictureBufferTest {
 	public void testBufferPicture12() throws DaoException {
 		eightMByteBuffer.bufferPicture(dummyURI1, dummyPicture1);
 		eightMByteBuffer.bufferPicture(dummyURIBigger, dummyPictureBigger);
-		System.out.println(eightMByteBuffer.getOrder());
 		assertTrue(eightMByteBuffer.getOrder().contains(dummyURIBigger));
 		assertTrue(eightMByteBuffer.getPictureStreams().containsKey(dummyURIBigger));
 		assertTrue(eightMByteBuffer.getPictureStreams().containsValue(dummyPictureBigger));
