@@ -11,8 +11,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
@@ -174,15 +172,22 @@ public class Picture extends UUIDBase {
 		this.comment = comment;
 	}
 
-	public void setRating(Byte rating) {
-		this.rating = rating;
-	}
-
+	/**
+	 * @return the rating
+	 */
 	@Column(nullable = false)
 	public Byte getRating() {
 		return rating;
 	}
 
+	/**
+	 * @param rating the rating to set
+	 */
+	@Min(0)
+	@Max(5)
+	public void setRating(Byte rating) {
+		this.rating = rating;
+	}
 
 
 	@Override
