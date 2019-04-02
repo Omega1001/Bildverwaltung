@@ -59,7 +59,7 @@ public class FarbFilter {
       scene        = new Scene(borderPane);
       toolBar      = new ToolBar();
       size         = new Label(msg.translate("farbFilterSizeLabel"));
-      saveButton   = new Button(msg.translate("grayScaleSave"));
+      saveButton   = new Button(msg.translate("farbFilterSave"));
       cancelButton = new Button(msg.translate("buttonCancel"));
       centerGroup  = new Group;
       BufferedImage img = new BufferedImage(picture.getWidth(), picture.getHeigth(), BufferedImage.TYPE_INT_ARGB);
