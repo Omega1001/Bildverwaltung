@@ -35,7 +35,14 @@ public class ByteSearchEntry <E extends UUIDBase> extends SearchEntry<E, Byte> {
                 if (event.getCharacter().length() != 0) {
                     char c = event.getCharacter().charAt(0);
                     if (c >= '0' && c <= '9') {
-                        // Numbers are OK, do nothing
+                        // Check if given number and already existing number in textbox exceeds the lmit of a Byte
+                       String text = value.getText();
+                       if(text != null) {
+                           int size = Integer.parseInt(text + c);
+                           if(size > 127 || size < -128) {
+                               event.consume();
+                           }
+                       }
                     } else {
                         // Invalid char, stop event from spreading
                         event.consume();

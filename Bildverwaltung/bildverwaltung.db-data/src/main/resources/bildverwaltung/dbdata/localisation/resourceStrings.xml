@@ -183,7 +183,7 @@
 		<ResourceString id="editAttributesAlertTitle">nicht kompatibler Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
-		<ResourceString id="editAttributesNoRating">no rating</ResourceString>
+		<ResourceString id="editAttributesNoRating">keine Bewertung</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
