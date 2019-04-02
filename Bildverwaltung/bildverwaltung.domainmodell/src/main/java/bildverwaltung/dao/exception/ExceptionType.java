@@ -5,6 +5,7 @@ public enum ExceptionType {
 	
 	URI_RESOLUTION_0001("Unable to resolve uri : no compatible handler",null,null),
 	URI_RESOLUTION_0002("Unable to resolve uri : error during reading target",null,null),
+	URI_RESOLUTION_0003("Unable to resolve uri : error while writing stream to byte[]",null,null),
 	
 	
 	ABS_DAO_0001("Can not save null object",null,null),
@@ -20,10 +21,15 @@ public enum ExceptionType {
 	IMPORT_SAVING_PIC_TO_DB_FAILED("Adding picture entity to DB failed", "", ""),
     IMPORT_COPY_PIC_FAILED("Copying picture file to own directory failed","", ""),
 	IMPORT_EXTRACT_ATTRIBS_FAILED("Extracting Attributes from picture file failed", "",""),
-	NOT_A_PICTURE("Given picture file is not actually a picture", "", "")
+	NOT_A_PICTURE("Given picture file is not actually a picture", "", ""),
+	
+	
+	PICTURE_BUFFER_0001("Unable ot buffer picture : URI must not be null",null,null),
+	PICTURE_BUFFER_0002("Unable ot buffer picture : byte[] must not be null",null,null),
+	PICTURE_BUFFER_0003("Unable ot de-buffer picture : URI must not be null",null,null),
+	PICTURE_BUFFER_0004("Unable ot get buffered picture stream. : URI must not be null",null,null);
 
 
-	;
 	private final String message;
 	private final String errorRs;
 	private final String errorDetailRs;

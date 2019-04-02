@@ -1,10 +1,11 @@
-package picturebufffer;
+package bildverwaltung.picturebufffer;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.net.URI;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import bildverwaltung.dao.PictureBufferManager;
+import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.utils.ApplicationIni;
 public class PictureBufferManagerImpl implements PictureBufferManager{
 	private static final Logger LOG = LoggerFactory.getLogger(PictureBufferManagerImpl.class);
@@ -19,7 +20,7 @@ public class PictureBufferManagerImpl implements PictureBufferManager{
 	public PictureBufferManagerImpl() {
 	}
 	@Override
-	public InputStream readFromBuffer(URI uri) {
+	public InputStream readFromBuffer(URI uri) throws DaoException {
 		LOG.trace("Enter readFromBuffer uri={}", uri);
 		InputStream stream = null;
 		byte[] byteArray = pictureBuffer.getBufferedPictureStream(uri);
@@ -30,7 +31,7 @@ public class PictureBufferManagerImpl implements PictureBufferManager{
 		return stream;
 	}
 	@Override
-	public void addToBuffer(URI uri, byte[] byteArray) {
+	public void addToBuffer(URI uri, byte[] byteArray) throws DaoException {
 		LOG.trace("Enter addToBuffer uri={}, stream=[]", uri, byteArray);
 		pictureBuffer.bufferPicture(uri, byteArray);
 		LOG.trace("Exit addToBuffer");

@@ -12,7 +12,7 @@ import bildverwaltung.dao.URIResolutionDao;
 import bildverwaltung.dao.URIResolver;
 import bildverwaltung.dao.exception.DaoException;
 import bildverwaltung.dao.exception.ExceptionType;
-import picturebufffer.PictureBufferManagerImpl;
+import bildverwaltung.picturebufffer.PictureBufferManagerImpl;
 public class URIResolutionDaoImpl implements URIResolutionDao {
 	private static final Logger LOG = LoggerFactory.getLogger(URIResolutionDaoImpl.class);
 	private final List<URIResolver> resolvers;
@@ -36,8 +36,9 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 						bufferManager.addToBuffer(uri, byteArray);
 						res = new ByteArrayInputStream(byteArray);
 					} catch (Exception e) {
-						LOG.error("IOException e={}",e);
-						throw new DaoException(ExceptionType.URI_RESOLUTION_0002);
+						DaoException ex = new DaoException(ExceptionType.URI_RESOLUTION_0002);
+					    LOG.error(ex.toString());
+					    throw ex;
 					}
 				} else {
 					LOG.error("Could not find a resolver, that can handle this uri {}",uri);
@@ -53,8 +54,9 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 	 *
 	 * @param stream, which shall be buffered. 
 	 * @return byte[], containing the buffered stream.
+	 * @throws DaoException 
 	 */
-	private byte[] asArray(InputStream stream) {
+	private byte[] asArray(InputStream stream) throws DaoException {
 		LOG.trace("Enter asArray stream={}", stream);
 		ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 		int byt;
@@ -63,8 +65,9 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 				outputStream.write(byt);
 			}
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			DaoException ex = new DaoException(ExceptionType.URI_RESOLUTION_0003);
+		    LOG.error(ex.toString());
+		    throw ex;
 		}
 		byte [] byteArray = outputStream.toByteArray();
 		LOG.trace("Exit asArray byteArray={}", byteArray);
