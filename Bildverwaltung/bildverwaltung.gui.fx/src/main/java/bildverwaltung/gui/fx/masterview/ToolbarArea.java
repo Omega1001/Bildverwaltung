@@ -15,6 +15,7 @@ import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.attributeEditor.AttributeEditor;
 import bildverwaltung.gui.fx.enlargedpicture.EnlargedPictureView;
+import bildverwaltung.gui.fx.grayScale.GrayScale;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;

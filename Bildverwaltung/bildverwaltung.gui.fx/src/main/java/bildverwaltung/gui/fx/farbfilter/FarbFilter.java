@@ -1,10 +1,11 @@
-package bildverwaltung.gui.fx.grayScale;
+package bildverwaltung.gui.fx.farbfilter;
 
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
 import bildverwaltung.dao.entity.Picture;
 import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.PictureFacade;
+import bildverwaltung.gui.fx.grayScale.InputSream;
 import bildverwaltung.localisation.Messenger;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -19,10 +20,11 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.awt.image.BufferedImage;
 import javax.imageio.ImageIO;
 
-public class GrayScale{
+public class FarbFilter {
 	private PictureFacade pictureFacade = Container.getActiveContainer().materialize(PictureFacade.class, Scope.APPLICATION);
     private double mouseX;
     private double mouseY;
@@ -33,19 +35,22 @@ public class GrayScale{
     private Stage primaryStage;
     private Scene scene;
     private BorderPane borderPane;
+    private Label size;
     private ToolBar toolBar;
     private Button saveButton;
-    private Button cancelButton;            
-	
-  public GrayScale(Stage parent, Picture picture) {
+    private Button cancelButton;     
+	private Group centerGroup;
+    
+  public FarbFilter(Stage parent, Picture picture, Messenger msg) {
   	this.parent  = parent;
     this.picture = picture;
+    this.msg     = msg;
 
 
       initialize();
       addHandlers();
-     // setAppearance();
-     // putTogether();
+      pictureFarbFilter();
+      putTogether();
   }
   
   private void initialize(){
@@ -53,52 +58,79 @@ public class GrayScale{
       borderPane   = new BorderPane();
       scene        = new Scene(borderPane);
       toolBar      = new ToolBar();
+      size         = new Label(msg.translate("farbFilterSizeLabel"));
       saveButton   = new Button(msg.translate("grayScaleSave"));
       cancelButton = new Button(msg.translate("buttonCancel"));
+      centerGroup  = new Group;
       BufferedImage img = new BufferedImage(picture.getWidth(), picture.getHeigth(), BufferedImage.TYPE_INT_ARGB);
   }
           
-	public static void main(String[] args)throws IOException{
-		BufferedImage picture = null;
-		File f = null; 
+  		private void pictureFarbFilter() {
+        BufferedImage picture = null;
+		Image img = null; 
 		
 		//read image
-		try{
-			f = new File(".png");
-			picture = ImageIO.read(f);
+		try(InputStream is = pictureFacade.resolvePictureURI(pictureUri())){
+			img = new Image(is);
+			//picture = ImageIO.read(img);
 			
 		}catch(IOException e){
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		
 		//define height and width of the image
 		int width  = picture.getWidth();
 		int height = picture.getHeight();
 
-		//from rgb into graysacale
+		//convert to red image 
 		for(int y = 0; y < height; y++){
 			for(int x = 0; x < width; x++){
-				int p = picture.getRGB(x,y);
+				int p = picture.getRGB(x, y);
 				
 				int a = (p>>24) & 0xff;
 				int r = (p>>16) & 0xff;
-				int g = (p>>8)  & 0xff;
-				int b = p       & 0xff;
-				
-				//calculate
-				int avg = (r + g + b)/3;
 				
 				//put RGB for avg
-				p = (a<<24) | (avg << 16) | (avg << 8) | avg;
+				p = (a<<24) | (r << 16) | (0 << 8) | 0;
 				
 				picture.setRGB(x, y, p);
 			}
 		}
 		
+		//convert to green image 
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
+				int p = picture.getRGB(x, y);
+						
+				int a = (p>>24) & 0xff;
+				int g = (p>>8) & 0xff;
+			
+				//put RGB for avg
+				p = (a<<24) | (0 << 16) | (g << 8) | 0;
+						
+				picture.setRGB(x, y, p);
+			}
+		}
+		
+		//convert to blue image 
+		for(int y = 0; y < height; y++){
+			for(int x = 0; x < width; x++){
+				int p = picture.getRGB(x, y);
+						
+				int a = (p>>24) & 0xff;
+				int b = p & 0xff;
+		
+				//put RGB for avg
+				p = (a<<24) | (0 << 16) | (0 << 8) | b;
+						
+				picture.setRGB(x, y, p);
+			}
+		}
+		
 		//write image
-		try{
-			f = new File("blablabla.png");
-			ImageIO.write(picture,"jpg", f);
+		try(InputSream is = pictureFacade.resolvePictureURI(pictureUri())){
+		    img = new Image(is);
+			//ImageIO.write(picture,"jpg", img);
 			
 		}catch(IOException e){
 			e.printStackTrace();
@@ -111,20 +143,30 @@ public class GrayScale{
       });
 
      // saveButton.setOnAction(event -> {
-      //    grayScale();
+      //    farbFilter();
       //});
+      
+      centerGroup.addEventFilter(MouseEvent.ANY,event -> {
+          mouseX = event.getX();
+          mouseY = event.getY();
+          mousePressed = event.isPrimaryButtonDown();
+      });
+	}
 
       
-//      private void putTogether(){
-//          borderPane.setTop(toolBar);
-//          toolBar.getItems().addAll(size,saveButton, cancelButton);
-//          primaryStage.setScene(scene);
-//          primaryStage.initOwner(parent);
-//          primaryStage.initModality(Modality.APPLICATION_MODAL);
-//      }
+      private void putTogether(){
+    	  borderPane.setCenter(centerGroup);
+    	  centerGroup.getChildren().addAll(farbFilter);
+          borderPane.setTop(toolBar);
+          toolBar.getItems().addAll(size,saveButton, cancelButton);
+          primaryStage.setScene(scene);
+          primaryStage.initOwner(parent);
+          primaryStage.initModality(Modality.APPLICATION_MODAL);
+      }
 
-//      public void show(){
-//          primaryStage.showAndWait();
-//      }
+      public void show(){
+          primaryStage.showAndWait();
+      }
   }
 }
+
