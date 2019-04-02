@@ -11,8 +11,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 
 @Entity
 public class Picture extends UUIDBase {
@@ -183,8 +181,6 @@ public class Picture extends UUIDBase {
 	/**
 	 * @param rating the rating to set
 	 */
-	@Min(0)
-	@Max(5)
 	public void setRating(Byte rating) {
 		this.rating = rating;
 	}
