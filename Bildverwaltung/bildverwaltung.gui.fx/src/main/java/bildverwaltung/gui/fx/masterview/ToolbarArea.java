@@ -232,7 +232,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			} catch (FacadeException e) {
 				msg().showExceptionMessage(e);
 			}
-			viewArea.get().getPictures().set(selectedPictureIndex, pic);
+			viewArea.get().getSelectedPicture().set(null);
 			viewArea.get().getSelectedPicture().set(pic);
 
 		});

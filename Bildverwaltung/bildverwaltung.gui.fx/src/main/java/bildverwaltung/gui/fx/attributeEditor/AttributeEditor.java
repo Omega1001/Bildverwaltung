@@ -1,6 +1,7 @@
 package bildverwaltung.gui.fx.attributeEditor;
 
 import bildverwaltung.dao.entity.Picture;
+import bildverwaltung.gui.fx.rating.ModifyingRatingBar;
 import bildverwaltung.localisation.Messenger;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;

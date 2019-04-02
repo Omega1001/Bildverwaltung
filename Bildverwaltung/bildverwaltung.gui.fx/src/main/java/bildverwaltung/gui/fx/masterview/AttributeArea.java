@@ -3,7 +3,7 @@ package bildverwaltung.gui.fx.masterview;
 import java.util.function.Supplier;
 
 import bildverwaltung.dao.entity.Picture;
-import bildverwaltung.gui.fx.components.RatingBar;
+import bildverwaltung.gui.fx.rating.RatingBar;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import javafx.beans.property.ObjectProperty;
@@ -13,7 +13,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 
 public class AttributeArea extends RebuildebleSubComponent {
@@ -43,7 +42,7 @@ public class AttributeArea extends RebuildebleSubComponent {
 		grid.add(height, 1, 1);
 		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureWidth")), 0, 2);
 		grid.add(width, 1, 2);
-		grid.add(new Label(msg().translate("Rating")), 0, 3);
+		grid.add(new Label(msg().translate("labelMasterViewInfoAreaAttributeAreaPictureRating")), 0, 3);
 		grid.add(rating, 1, 3);
 		
 		ChangeListener<Picture> changeHandler = new ChangeListener<Picture>() {

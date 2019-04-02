@@ -47,6 +47,7 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Height</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Width</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureRating">Rating</ResourceString>
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Select an Album to display</ResourceString>
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Select an Album to Add</ResourceString>
@@ -84,6 +85,7 @@
 		<ResourceString id="editAttributesAlertTitle">Incompatible Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
+		<ResourceString id="editAttributesNoRating">no rating</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Enlarged View</ResourceString>
@@ -139,6 +141,7 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Hoehe</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Breite</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureRating">Bewertung</ResourceString>
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Waehlen sie das anzuzeigende Album aus</ResourceString>
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Waehlen sie das Album zum hinzufuegen aus </ResourceString>
@@ -176,6 +179,7 @@
 		<ResourceString id="editAttributesAlertTitle">nicht kompatibler Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
+		<ResourceString id="editAttributesNoRating">no rating</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
