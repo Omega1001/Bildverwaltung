@@ -1,11 +1,7 @@
 package bildverwaltung.gui.fx.enlargedpicture;
 
-import java.util.List;
-
-
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
-import bildverwaltung.gui.fx.masterview.PictureArea;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
@@ -14,9 +10,7 @@ import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ToolBar;
 import javafx.scene.control.Tooltip;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
@@ -29,6 +23,7 @@ public class EnlargedPictureToolBar extends RebuildebleSubComponent{
 	private final String LAST_PIC = msg().translate("buttonEnlargedPictureToolBarLastPicture");
 	private final String FULL_PIC = msg().translate("buttonEnlargedPictureToolBarFullPicture");
 	private final String NEXT_PIC = msg().translate("buttonEnlargedPictureToolBarNextPicture");
+	private final String DIASHOW_PIC = msg().translate("buttonEnlargedPictureToolBarDiashow");
 
 	private static final double BUTTON_SIZE = 40.0;
 
@@ -68,6 +63,17 @@ public class EnlargedPictureToolBar extends RebuildebleSubComponent{
 			public void handle(ActionEvent event) {
 				//TODO
 			}});
+		
+		// Starts diashow
+		// TODO BLOCK NEEDS FCKN RESOURCE STINRGS
+			Button buttonDiashow = new Button (msg().translate("buttonEnlargedPictureToolBarDiashow"));
+			buttonDiashow.setGraphic(IconLoader.loadIcon("Weiter.png"));
+			showButtonWithFunction(buttonDiashow, DIASHOW_PIC, BUTTON_SIZE);
+			buttonDiashow.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						//TODO
+		}});
+
 
 		HBox buttonBox = new HBox();
 		buttonBox.setAlignment(Pos.CENTER);
