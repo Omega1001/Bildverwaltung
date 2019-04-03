@@ -29,6 +29,8 @@ public class EnlargedPictureToolBar extends RebuildebleSubComponent{
 	private final String LAST_PIC = msg().translate("buttonEnlargedPictureToolBarLastPicture");
 	private final String FULL_PIC = msg().translate("buttonEnlargedPictureToolBarFullPicture");
 	private final String NEXT_PIC = msg().translate("buttonEnlargedPictureToolBarNextPicture");
+	// TODO NEEDS FCKN RESOURCE STINRG
+	private final String DIASHOW_PIC = msg().translate("Diashow");
 
 	private static final double BUTTON_SIZE = 40.0;
 
@@ -68,6 +70,17 @@ public class EnlargedPictureToolBar extends RebuildebleSubComponent{
 			public void handle(ActionEvent event) {
 				//TODO
 			}});
+		
+		// Starts diashow
+		// TODO BLOCK NEEDS FCKN RESOURCE STINRGS
+			Button buttonDiashow = new Button ("Diashow");
+			buttonDiashow.setGraphic(IconLoader.loadIcon("Weiter.png"));
+			showButtonWithFunction(buttonDiashow, DIASHOW_PIC, BUTTON_SIZE);
+			buttonDiashow.setOnAction(new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						//TODO
+		}});
+
 
 		HBox buttonBox = new HBox();
 		buttonBox.setAlignment(Pos.CENTER);

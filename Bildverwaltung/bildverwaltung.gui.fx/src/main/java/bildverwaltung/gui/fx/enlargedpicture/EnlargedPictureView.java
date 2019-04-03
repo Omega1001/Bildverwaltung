@@ -9,9 +9,13 @@ import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.WrappedImageView;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.localisation.Messenger;
+import javafx.animation.Animation;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
@@ -20,7 +24,7 @@ import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
-
+import javafx.util.Duration;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -43,8 +47,14 @@ public class EnlargedPictureView {
 	private Button btnBack;
 	private Button btnNext;
 	private Button btnFullScreen;
+	private Button btnDiashow;
 	private Label curPictureCount;
 	private BorderPane toolBarFullscreen;
+	
+	private boolean diashowStatus = false;
+	private Timeline timeline;
+	private HBox navBtnBoxLeft;
+	private ChoiceBox<Integer> secondsBox;
 
 	private static final double BTN_SIZE = 50.0;
 
@@ -57,6 +67,9 @@ public class EnlargedPictureView {
 		setEventHandlersAndListeners();
 		setAppearance();
 		putNodesTogether();
+		
+		secondsBox.setValue(5);
+		secondsBox.getItems().addAll(1, 2, 3, 5, 10);
 	}
 
 	private void initializeNodes() {
@@ -70,6 +83,11 @@ public class EnlargedPictureView {
 		btnNext = new Button();
 		btnBack = new Button();
 		btnFullScreen = new Button();
+		
+		
+		btnDiashow = new Button();
+		navBtnBoxLeft = new HBox();
+		secondsBox = new ChoiceBox<>();
 
 		curPictureCount = new Label();
 	}
@@ -78,6 +96,7 @@ public class EnlargedPictureView {
 		btnNext.setOnAction(actionEvent -> nextPicture());
 		btnBack.setOnAction(actionEvent -> previousPicture());
 		btnFullScreen.setOnAction(actionEvent -> mainWindow.setFullScreen(!mainWindow.isFullScreen()));
+		btnDiashow.setOnAction(actionEvent -> diashow());
 
 		// Keyboard stuff
         // Left or Right Key: next / previous picture
@@ -148,7 +167,7 @@ public class EnlargedPictureView {
 		navBtnBox.setAlignment(Pos.BOTTOM_CENTER);
 
 		btnFullScreen.setGraphic(IconLoader.loadIcon("Grossansicht.png"));
-		btnBack.setPrefSize(BTN_SIZE,BTN_SIZE);
+		btnFullScreen.setPrefSize(BTN_SIZE, BTN_SIZE);
 		btnFullScreen.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarFullscreen")));
 
 		BorderPane.setAlignment(curPictureCount,Pos.BOTTOM_CENTER);
@@ -157,7 +176,17 @@ public class EnlargedPictureView {
 
 		curPictureCount.setFont((Font.font(BTN_SIZE/2.0)));
 		curPictureCount.setTextAlignment(TextAlignment.CENTER);
+		
+		
+		//TODO WHOLE BLOCK NEEDS FCKN RESOURCE STRINGS... AND A PICTURE!
+		btnDiashow.setGraphic(IconLoader.loadIcon("Grossansicht.png"));
+		btnDiashow.setPrefSize(BTN_SIZE, BTN_SIZE);
+		btnDiashow.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarFullscreen")));
+		
+		navBtnBoxLeft.setSpacing(5.0);
+		navBtnBoxLeft.setAlignment(Pos.BOTTOM_LEFT);
 
+		
 		bpImg.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-border-width: 10px;");
 		toolbar.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-padding: 0 5 5 5;");
 	}
@@ -167,6 +196,11 @@ public class EnlargedPictureView {
 		navBtnBox.getChildren().addAll(btnBack,curPictureCount,btnNext);
 		toolbar.setRight(btnFullScreen);
 		toolbar.setCenter(navBtnBox);
+		
+		
+		toolbar.setLeft(navBtnBoxLeft);
+		navBtnBoxLeft.getChildren().addAll(btnDiashow, secondsBox);
+		
 
 		mainBorderPane.setBottom(toolbar);
 	}
@@ -226,5 +260,28 @@ public class EnlargedPictureView {
 
 			updateCurrentEnlargedPicture(currentPicture);
 			curPictureCount.setText((it.nextIndex()+1) + "/" + it.getIteratorSize());
+	}
+	
+	/**
+	 * Method for starting a diashow
+	 */
+	private void diashow() {
+		diashowStatus = !diashowStatus;
+		if(diashowStatus == true) {
+			timeline = new Timeline(new KeyFrame(Duration.seconds(getSeconds()), actionEvent -> nextPicture()));
+			timeline.setCycleCount(Animation.INDEFINITE);
+			timeline.play();
+		}
+		if(diashowStatus == false) {
+			timeline.stop();
+		}
+	}
+	
+	/**
+	 * Method which return the current value of the secondsBox
+	 * @return
+	 */
+	private Integer getSeconds() {
+		return secondsBox.getValue();
 	}
 }
