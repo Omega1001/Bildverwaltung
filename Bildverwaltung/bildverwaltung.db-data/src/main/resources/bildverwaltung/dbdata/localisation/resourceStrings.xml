@@ -89,6 +89,7 @@
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
 		<ResourceString id="editAttributesNoRating">No rating</ResourceString>
+		<ResourceString id="editAttributesRating">Rating</ResourceString>
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Enlarged View</ResourceString>
 		<ResourceString id="enlargedPictureFullscreenMsg">Exit Fullscreen by pressing [ESC] or press Fullscreen again in Toolbar</ResourceString>
@@ -187,6 +188,7 @@
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
 		<ResourceString id="editAttributesNoRating">Keine Bewertung</ResourceString>
+		<ResourceString id="editAttributesRating">Bewertung</ResourceString>
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
 		<ResourceString id="enlargedPictureFullscreenMsg">Zum beenden des Vollbildmodus [ESC] oder nochmals auf Vollbild in der Toolbar drücken </ResourceString>
