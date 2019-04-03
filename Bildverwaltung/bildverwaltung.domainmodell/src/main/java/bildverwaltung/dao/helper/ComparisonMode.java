@@ -23,6 +23,17 @@ public enum ComparisonMode {
 	 * See {@link #IS_EQUAL} to learn more
 	 * @see #IS_EQUAL 
 	 */
-	NOT_EQUAL;
+	NOT_EQUAL, 
+	/**
+	 * Specifies that a value has to be between two values
+	 * @see #NOT_BETWEEN
+	 */
+	IS_BETWEEN,
+	/**
+	 * Negation of {@link #IS_BETWEEN}<br>
+	 * See {@link #IS_BETWEEN} to learn more
+	 * @see #IS_BETWEEN 
+	 */
+	NOT_BETWEEN;
 
 }
