@@ -1,8 +1,7 @@
 package bildverwaltung.gui.fx.masterview;
 
-import java.io.*;
-import java.nio.file.Files;
-import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.function.Supplier;
@@ -14,19 +13,16 @@ import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.gui.fx.attributeEditor.AttributeEditor;
-import bildverwaltung.gui.fx.enlargedpicture.EnlargedPictureView;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumCreationDialog;
 import bildverwaltung.gui.fx.masterview.dialogs.AlbumSelectionDialog;
 import bildverwaltung.gui.fx.util.ConfirmationDialog;
 import bildverwaltung.gui.fx.util.IconLoader;
 import bildverwaltung.container.Scope;
 import bildverwaltung.gui.fx.importdialog.ImportPane;
-import bildverwaltung.gui.fx.util.PictureIterator;
 import bildverwaltung.gui.fx.util.RebuildebleSubComponent;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.DBDataRefference;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Node;
@@ -153,12 +149,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		show.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {
-				EnlargedPictureView enl = new EnlargedPictureView(
-						Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
-				Picture selected = viewArea.get().getSelectedPicture().get();
-				PictureIterator it = new PictureIterator(viewArea.get().getPictures(),
-						viewArea.get().getPictures().indexOf(selected));
-				enl.showEnlargedPicture(it);
+				viewArea.get().startFullScreenView();
 			}
 		});
 
@@ -167,16 +158,20 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					Picture pic = viewArea.get().getSelectedPicture().get();
+					List<Picture> pics = viewArea.get().getSelected().getSelectedPictures();
 					Album alb = AlbumSelectionDialog.selectAlbum(msg(), "msgMasterViewAlbumSelecionDlgSelectAlbumToAdd",
 							albumFacade.getAllAlbums(), masterStage.get());
 					if (alb != null) {
-						if (!alb.getPictures().contains(pic)) {
-							alb.getPictures().add(pic);
+						for (Picture pic : pics) {
+							if (!alb.getPictures().contains(pic)) {
+								alb.getPictures().add(pic);
+							}
 						}
 						albumFacade.save(alb);
 					}
-					pictureFacade.refresh(pic);
+					for (Picture pic : pics) {
+						pictureFacade.refresh(pic);
+					}
 				} catch (FacadeException e) {
 					e.printStackTrace();
 				}
@@ -189,31 +184,62 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			@Override
 			public void handle(ActionEvent event) {
 				try {
-					Picture pic = viewArea.get().getSelectedPicture().get();
+					List<Picture> pics = viewArea.get().getSelected().getSelectedPictures();
+					if (pics.isEmpty()) {
+						msg().showInfoMessage("menuItemMasterViewToolbarOrganisePictureRemoveFromAlbumNoSelection",
+								null);
+						return;
+					}
 					UUID albId = albumArea.get().getSelectedAlbumId();
 					if (albId != null) {
 						Album alb = albumFacade.getAlbumById(albId);
-						alb.getPictures().remove(pic);
+						alb.getPictures().removeAll(pics);
 						albumFacade.save(alb);
-						viewArea.get().getPictures().remove(pic);
+						viewArea.get().getPictures().removeAll(pics);
 						viewArea.get().getSelectedPicture().set(null);
-					} else if (!pic.getAlben().isEmpty()) {
-						Album alb = AlbumSelectionDialog.selectAlbum(msg(),
-								"msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture", pic.getAlben(),
-								masterStage.get());
-						// need to get persistent album from DB
-						alb = albumFacade.getAlbumById(alb.getId());
-						if (alb != null) {
-							alb.getPictures().remove(pic);
-							albumFacade.save(alb);
-						}
 					} else {
-						msg().showErrorMessage("msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum", null);
+						List<Album> commonAlbums = listCommonAlbums(pics);
+						if (!commonAlbums.isEmpty()) {
+							Album alb = AlbumSelectionDialog.selectAlbum(msg(),
+									"msgMasterViewAlbumSelecionDlgSelectAlbumToRemovePicture", commonAlbums,
+									masterStage.get());
+							// need to get persistent album from DB
+							alb = albumFacade.getAlbumById(alb.getId());
+							if (alb != null) {
+								for (Picture pic : pics) {
+									alb.getPictures().remove(pic);
+								}
+								albumFacade.save(alb);
+							}
+
+						} else {
+							if (pics.size() == 1) {
+								msg().showErrorMessage("msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum",
+										null);
+							} else {
+								msg().showInfoMessage(
+										"msgMasterViewToolbarOrganisePictureRemoveFromAlbumNoCommonAlbums", null);
+							}
+						}
 					}
-					pictureFacade.refresh(pic);
+					for (Picture pic : pics) {
+						pictureFacade.refresh(pic);
+					}
 				} catch (FacadeException e) {
 					e.printStackTrace();
 				}
+			}
+
+			private List<Album> listCommonAlbums(List<Picture> pics) {
+				List<Album> res = new LinkedList<>();
+				if (!pics.isEmpty()) {
+					Iterator<Picture> it = pics.iterator();
+					res.addAll(it.next().getAlben());
+					while (!res.isEmpty() && it.hasNext()) {
+						res.retainAll(it.next().getAlben());
+					}
+				}
+				return res;
 			}
 		});
 
@@ -245,17 +271,24 @@ public class ToolbarArea extends RebuildebleSubComponent {
 			public void handle(ActionEvent event) {
 
 				// delete picture from db and from the hard drive
-				Picture pic = viewArea.get().getSelectedPicture().get();
-				try {
-					if (ConfirmationDialog.requestConfirmation(msg(), "msgMasterViewToolbarViewDeletePictureConfirm")) {
-						pictureFacade.delete(pic);
-						viewArea.get().getPictures().remove(pic);
+				List<Picture> pics = viewArea.get().getSelected().getSelectedPictures();
+				if (!pics.isEmpty()) {
+					try {
+						if (ConfirmationDialog.requestConfirmation(msg(),
+								pics.size() == 1 ? "msgMasterViewToolbarViewDeletePictureConfirm"
+										: "msgMasterViewToolbarViewDeletePictureMultipleConfirm")) {
+							for (Picture p : pics) {
+								pictureFacade.delete(p);
+								viewArea.get().getPictures().remove(p);
+							}
+						}
+
+					} catch (FacadeException e) {
+						msg().showExceptionMessage(e);
 					}
-
-				} catch (FacadeException e) {
-					msg().showExceptionMessage(e);
+				} else {
+					msg().showInfoMessage("msgMasterViewToolbarViewDeletePictureNothingSelected", null);
 				}
-
 			}
 		});
 
@@ -264,15 +297,18 @@ public class ToolbarArea extends RebuildebleSubComponent {
 		del.setDisable(true);
 		show.setDisable(true);
 		removeFromAlbum.setDisable(true);
-		viewArea.get().getSelectedPicture().addListener(new ChangeListener<Picture>() {
+		viewArea.get().getSelected().getSelectedPictures().addListener(new ListChangeListener<Picture>() {
+
 			@Override
-			public void changed(ObservableValue<? extends Picture> observable, Picture oldValue, Picture newValue) {
-				editAttributes.setDisable(newValue == null);
-				toAlbum.setDisable(newValue == null);
-				del.setDisable(newValue == null);
-				show.setDisable(newValue == null);
-				removeFromAlbum.setDisable(newValue == null);
+			public void onChanged(Change<? extends Picture> c) {
+				boolean hasNoItens = c.getList().isEmpty();
+				editAttributes.setDisable(c.getList().size() != 1);
+				toAlbum.setDisable(hasNoItens);
+				del.setDisable(hasNoItens);
+				show.setDisable(hasNoItens);
+				removeFromAlbum.setDisable(hasNoItens);
 			}
+
 		});
 
 		picture.getItems().addAll(show, toAlbum, removeFromAlbum, editAttributes, del);
@@ -291,7 +327,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 					Container.getActiveContainer().materialize(Messenger.class, Scope.APPLICATION));
 
 			importedPictures = importDialog.show();
-			if(albumArea.get().getSelectedAlbumId() != null) {
+			if (albumArea.get().getSelectedAlbumId() != null) {
 				albumArea.get().resetSelection();
 			} else {
 				viewArea.get().getPictures().addAll(importedPictures);

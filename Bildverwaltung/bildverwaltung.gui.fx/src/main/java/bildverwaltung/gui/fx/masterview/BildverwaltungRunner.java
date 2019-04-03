@@ -1,5 +1,10 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.awt.Frame;
+import java.util.Locale;
+
+import javax.swing.JOptionPane;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +19,8 @@ import bildverwaltung.localisation.MessengerImpl;
 import bildverwaltung.localisation.TranslatorImpl;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
@@ -22,7 +29,32 @@ public class BildverwaltungRunner extends Application {
 
 	public static void main(String[] args) {
 		LOG.info("Bildverwaltung is starting up ...");
-		Container.startupContainer();
+		
+		
+		try {
+			
+			Container.startupContainer();
+	    } 
+		catch (Exception e) {
+			
+	    	Frame frame = new Frame();
+	    	Locale locale = Locale.getDefault();
+	    	
+	    	if (locale.equals(Locale.GERMANY)) {
+	    		
+	    		JOptionPane.showMessageDialog(frame,
+	 	    		   "Die Anwendung wird bereits ausgeführt.",
+	 	    		   "FEHLER!",
+	 	    		   	JOptionPane.ERROR_MESSAGE);
+	    	}
+	    	else {
+	    		JOptionPane.showMessageDialog(frame,
+	    				"ERROR!",
+	    				"The application is already running.",
+	    				JOptionPane.ERROR_MESSAGE);
+	    	}
+	    }
+		
 		addAdditionalFactories(Container.getActiveContainer());
 		launch(args);
 		LOG.debug("Application close trigered");

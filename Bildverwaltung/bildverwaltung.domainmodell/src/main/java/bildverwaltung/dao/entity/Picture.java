@@ -23,10 +23,11 @@ public class Picture extends UUIDBase {
 	private int width;
 	private Date creationDate = new Date();
 	private String comment;
-	
+	private Byte rating;
+
 	public Picture(String name, URI uri, List<Album> alben,
 			String extension, int heigth, int with, Date creationDate,
-			String comment) {
+			String comment, Byte rating) {
 		super();
 		this.name = name;
 		this.uri = uri;
@@ -36,9 +37,10 @@ public class Picture extends UUIDBase {
 		this.width = with;
 		this.creationDate = creationDate;
 		this.comment = comment;
+		this.rating = rating;
 	}
-	
-	
+
+
 
 	public Picture() {
 		super();
@@ -168,6 +170,20 @@ public class Picture extends UUIDBase {
 		this.comment = comment;
 	}
 
+	/**
+	 * @return the rating
+	 */
+	@Column(nullable = false)
+	public Byte getRating() {
+		return rating;
+	}
+
+	/**
+	 * @param rating the rating to set
+	 */
+	public void setRating(Byte rating) {
+		this.rating = rating;
+	}
 
 
 	@Override
@@ -177,8 +193,8 @@ public class Picture extends UUIDBase {
 				.append(alben).append(", uri=").append(uri).append("]");
 		return builder.toString();
 	}
-	
-	
-	
-	
+
+
+
+
 }

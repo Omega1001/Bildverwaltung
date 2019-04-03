@@ -32,7 +32,7 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 					LOG.trace("Exit resolv res={}", res);
 					return res;
 				} catch (Exception e) {
-					throw new DaoException(ExceptionType.URI_RESOLUTION_0002);
+					throw new DaoException(ExceptionType.URI_RESOLUTION_0002,e);
 				}
 			}
 		}

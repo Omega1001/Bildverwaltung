@@ -10,6 +10,7 @@ import javax.persistence.metamodel.SingularAttribute;
 
 import bildverwaltung.dao.entity.UUIDBase;
 import bildverwaltung.dao.helper.ComparisonMode;
+import bildverwaltung.gui.fx.search.entries.ByteSearchEntry;
 import bildverwaltung.gui.fx.search.entries.IntegerSearchEntry;
 import bildverwaltung.gui.fx.search.entries.StringSearchEntry;
 
@@ -21,6 +22,8 @@ public class SearchCategoryBuilder<E extends UUIDBase> {
 		GENERATORS.put(String.class, new StringSearchEntry.Generator());
 		GENERATORS.put(Integer.class, new IntegerSearchEntry.Generator());
 		GENERATORS.put(int.class, new IntegerSearchEntry.Generator());
+		GENERATORS.put(Byte.class, new ByteSearchEntry.Generator());
+		GENERATORS.put(byte.class, new ByteSearchEntry.Generator());
 	}
 
 	private List<SearchEntry<E, ?>> entries = new LinkedList<>();

@@ -8,6 +8,8 @@
 		<ResourceString id="itemLabelGenericSearchDISABLED">Disabled</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">is equal to</ResourceString>
 		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">is not equal to</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">between</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">not between</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warning</ResourceString>
@@ -26,6 +28,8 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Add to Album</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Delete from Album</ResourceString>
 		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">The selected picture is not part of any album</ResourceString>
+		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNoCommonAlbums">The selected pictures have no album in common or are not part of any album</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbumNoSelection">Nothing is selected</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Edit Attributes</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Delete Picture</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
@@ -47,6 +51,7 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Height</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Width</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureRating">Rating</ResourceString>
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Select an Album to display</ResourceString>
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Select an Album to Add</ResourceString>
@@ -59,7 +64,8 @@
 
 		<!-- Picture Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeletePictureConfirm">Are you sure you want to delete this picture?</ResourceString>
-
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureMultipleConfirm">Are you sure you want to delete these pictures?</ResourceString>
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureNothingSelected">No pictures are currently selected</ResourceString>
 		<!-- Import Area -->
 		<ResourceString id="stageTitleImport">Import</ResourceString>
 		<ResourceString id="headerTextImportChooseOrDrag">choose or drag files to import</ResourceString>
@@ -84,6 +90,7 @@
 		<ResourceString id="editAttributesAlertTitle">Incompatible Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
+		<ResourceString id="editAttributesNoRating">no rating</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Enlarged View</ResourceString>
@@ -101,6 +108,8 @@
 		<ResourceString id="itemLabelGenericSearchDISABLED">Deaktiviert</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">entspricht</ResourceString>
 		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">entspricht nicht</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">zwischen</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">nicht zwischen</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warnung</ResourceString>
@@ -139,6 +148,7 @@
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureName">Name</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureHeight">Hoehe</ResourceString>
 		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureWidth">Breite</ResourceString>
+		<ResourceString id="labelMasterViewInfoAreaAttributeAreaPictureRating">Bewertung</ResourceString>
 		<!-- Album Selection Dialog -->
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToDisplay">Waehlen sie das anzuzeigende Album aus</ResourceString>
 		<ResourceString id="msgMasterViewAlbumSelecionDlgSelectAlbumToAdd">Waehlen sie das Album zum hinzufuegen aus </ResourceString>
@@ -176,6 +186,7 @@
 		<ResourceString id="editAttributesAlertTitle">nicht kompatibler Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
+		<ResourceString id="editAttributesNoRating">keine Bewertung</ResourceString>
 
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>

@@ -14,7 +14,7 @@ public class PictureIterator implements ListIterator<Picture> {
 	public PictureIterator(List<Picture> pictures, int position) {
 		this.pictures = pictures;
 		stdIterator = pictures.listIterator();
-		iteratorSize = pictures.spliterator().getExactSizeIfKnown();
+		iteratorSize = pictures.size();
 		seek(position);
 	}
 
