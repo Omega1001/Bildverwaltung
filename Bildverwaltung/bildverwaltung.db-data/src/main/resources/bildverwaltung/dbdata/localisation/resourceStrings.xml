@@ -8,8 +8,8 @@
 		<ResourceString id="itemLabelGenericSearchDISABLED">Disabled</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">Is equal to</ResourceString>
 		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">Is not equal to</ResourceString>
-		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">between</ResourceString>
-		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">not between</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">Between</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">Not between</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warning</ResourceString>
@@ -61,7 +61,6 @@
 		<!-- Album Creation -->
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Comment</ResourceString>
-
 		<!-- Picture Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeletePictureConfirm">Are you sure you want to delete this picture?</ResourceString>
 		<ResourceString id="msgMasterViewToolbarViewDeletePictureMultipleConfirm">Are you sure you want to delete these pictures?</ResourceString>
@@ -81,7 +80,6 @@
 		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
 		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Your files could not get imported</ResourceString>
 		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in section [directory] is missing</ResourceString>
-
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Edit Attributes</ResourceString>
 		<ResourceString id="editAttributesName">Name</ResourceString>
@@ -90,7 +88,7 @@
 		<ResourceString id="editAttributesAlertTitle">Incompatible name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Please select a picture</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Picture name must not be empty</ResourceString>
-
+		<ResourceString id="editAttributesNoRating">No rating</ResourceString>
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Enlarged View</ResourceString>
 		<ResourceString id="enlargedPictureFullscreenMsg">Exit Fullscreen by pressing [ESC] or press Fullscreen again in Toolbar</ResourceString>
@@ -108,8 +106,8 @@
 		<ResourceString id="itemLabelGenericSearchDISABLED">Deaktiviert</ResourceString>
 		<ResourceString id="itemLabelGenericSearchIS_EQUAL">Entspricht</ResourceString>
 		<ResourceString id="itemLabelGenericSearchNOT_EQUAL">Entspricht nicht</ResourceString>
-		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">zwischen</ResourceString>
-		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">nicht zwischen</ResourceString>
+		<ResourceString id="itemLabelGenericSearchIS_BETWEEN">Zwischen</ResourceString>
+		<ResourceString id="itemLabelGenericSearchNOT_BETWEEN">Nicht zwischen</ResourceString>
 		<!-- Messenger -->
 		<ResourceString id="aleartHeaderInfoMessage">Information</ResourceString>
 		<ResourceString id="aleartHeaderWarningMessage">Warnung</ResourceString>
@@ -128,6 +126,8 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Aus Album entfernen</ResourceString>
 		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">Das ausgewählte Bild ist nicht Teil eines Albums</ResourceString>
+		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNoCommonAlbums">Die ausgewählten Bilder haben kein Album gemeinsam oder sind in keinem Album enthalten</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbumNoSelection">Nichts ausgewählt</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureEditAttributes">Attribute bearbeiten</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDelete">Bild löschen</ResourceString>
 		<ResourceString id="labelMasterViewToolbarImport">Import</ResourceString>
@@ -159,10 +159,10 @@
 		<!-- Album Creation -->
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumName">Name</ResourceString>
 		<ResourceString id="labelMasterViewAlbumSelecionDlgAlbumComment">Kommentar</ResourceString>
-
 		<!-- Picture Deletion -->
 		<ResourceString id="msgMasterViewToolbarViewDeletePictureConfirm">Sind sie sicher, dass sie dieses Bild löschen möchten?</ResourceString>
-
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureMultipleConfirm">Sind sie sicher, dass sie diese Bilder löschen möchten?</ResourceString>
+		<ResourceString id="msgMasterViewToolbarViewDeletePictureNothingSelected">Es sind zur Zeit keine Bilder ausgewählt</ResourceString>
 		<!-- Import Area -->
 		<ResourceString id="stageTitleImport">Import</ResourceString>
 		<ResourceString id="headerTextImportChooseOrDrag">Wähle oder ziehe Dateien zum importieren</ResourceString>
@@ -178,7 +178,6 @@
 		<ResourceString id="headerImportAlertErrorInImport">Fehler beim Import</ResourceString>
 		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Ihre Dateien konnten nicht importiert werden</ResourceString>
 		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in Section [directory] fehlt</ResourceString>
-
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Attribute ändern</ResourceString>
 		<ResourceString id="editAttributesName">Name</ResourceString>
@@ -187,8 +186,7 @@
 		<ResourceString id="editAttributesAlertTitle">Inkompatibler Name</ResourceString>
 		<ResourceString id="editAttributesAlertPictureSelectionEmpty">Bitte wählen sie ein Bild aus</ResourceString>
 		<ResourceString id="editAttributesAlertHeaderNameIsEmpty">Name des Bildes darf nicht leer sein</ResourceString>
-		<ResourceString id="editAttributesNoRating">keine Bewertung</ResourceString>
-
+		<ResourceString id="editAttributesNoRating">Keine Bewertung</ResourceString>
 		<!-- Enlarged Picture View -->
 		<ResourceString id="enlargedPictureTitle">Großansicht</ResourceString>
 		<ResourceString id="enlargedPictureFullscreenMsg">Zum beenden des Vollbildmodus [ESC] oder nochmals auf Vollbild in der Toolbar drücken </ResourceString>
