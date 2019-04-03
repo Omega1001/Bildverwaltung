@@ -53,22 +53,22 @@ public class PictureDaoImplTest {
 	public void setUp() {
 		try {
 			pic1 = new Picture("black", new URI("file", "//bildverwaltung.dao.impl/src/test/resources/black.png", null),
-					null, ".png", 4, 128, new Date(978307200), "Is black.");
+					null, ".png", 4, 128, new Date(978307200), "Is black.", (byte) 0);
 			pic1.setId(uUID1);
 			pic1B = new Picture("Bee", new URI("file", "//bildverwaltung.dao.impl/src/test/resources/Bee.png", null),
-					null, ".jpg", 16, 16, new Date(978307200), "Is Bee.");
+					null, ".jpg", 16, 16, new Date(978307200), "Is Bee.", (byte) 0);
 			pic1B.setId(uUID1);
 			pic2 = new Picture("blue", new URI("file", "//bildverwaltung.dao.impl/src/test/resources/blue.png", null),
-					null, ".png", 8, 64, new Date(1012608000), "Is blue.");
+					null, ".png", 8, 64, new Date(1012608000), "Is blue.", (byte) 0);
 			pic2.setId(uUID2);
 			pic3 = new Picture("green", new URI("file", "//bildverwaltung.dao.impl/src/test/resources/green.png", null),
-					null, ".png", 16, 32, new Date(1046649600), "Is green.");
+					null, ".png", 16, 32, new Date(1046649600), "Is green.", (byte) 0);
 			pic3.setId(uUID3);
 			pic4 = new Picture("red", new URI("file", "//bildverwaltung.dao.impl/src/test/resources/red.png", null),
-					null, ".png", 32, 16, new Date(1081036800), "Is red.");
+					null, ".png", 32, 16, new Date(1081036800), "Is red.", (byte) 0);
 			pic4.setId(uUID4);
 			pic5 = new Picture("white", new URI("file", "//bildverwaltung.dao.impl/src/test/resources/white.png", null),
-					null, ".png", 64, 8, new Date(1115251200), "Is white.");
+					null, ".png", 64, 8, new Date(1115251200), "Is white.", (byte) 0);
 			pic5.setId(uUID5);
 		} catch (URISyntaxException e) {
 			throw new RuntimeException(e);
