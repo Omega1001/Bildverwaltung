@@ -91,6 +91,7 @@
 		<ResourceString id="buttonEnlargedPictureToolBarNextPicture">Next Picture</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Previous Picture</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Fullscreen Mode</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarDiashow">Slide Show</ResourceString>
 	</Language>
 	<Language languageCode="de" countryCode="">
 		<!-- App commons -->
@@ -183,5 +184,6 @@
 		<ResourceString id="buttonEnlargedPictureToolBarNextPicture">Nächstes Bild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Vorheriges Bild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Vollbild-Ansicht</ResourceString>
+		<ResourceString id="buttonEnlargedPictureToolBarDiashow">Diashow</ResourceString>
 	</Language>
 </Translations>

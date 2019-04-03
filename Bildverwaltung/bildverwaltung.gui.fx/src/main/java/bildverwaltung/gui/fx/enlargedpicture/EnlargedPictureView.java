@@ -168,24 +168,21 @@ public class EnlargedPictureView {
 
 		btnFullScreen.setGraphic(IconLoader.loadIcon("Grossansicht.png"));
 		btnFullScreen.setPrefSize(BTN_SIZE, BTN_SIZE);
-		btnFullScreen.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarFullscreen")));
-
+		btnFullScreen.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarFullscreen")));	
+		
+		btnDiashow.setGraphic(IconLoader.loadIcon("Diashow.png"));
+		btnDiashow.setPrefSize(BTN_SIZE, BTN_SIZE);
+		btnDiashow.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarDiashow")));
+		
+		navBtnBoxLeft.setSpacing(5.0);
+		navBtnBoxLeft.setAlignment(Pos.BOTTOM_LEFT);
+		
 		BorderPane.setAlignment(curPictureCount,Pos.BOTTOM_CENTER);
 		BorderPane.setAlignment(navBtnBox,Pos.BOTTOM_CENTER);
 		BorderPane.setAlignment(btnFullScreen, Pos.BOTTOM_RIGHT);
 
 		curPictureCount.setFont((Font.font(BTN_SIZE/2.0)));
 		curPictureCount.setTextAlignment(TextAlignment.CENTER);
-		
-		
-		//TODO WHOLE BLOCK NEEDS FCKN RESOURCE STRINGS... AND A PICTURE!
-		btnDiashow.setGraphic(IconLoader.loadIcon("Grossansicht.png"));
-		btnDiashow.setPrefSize(BTN_SIZE, BTN_SIZE);
-		btnDiashow.setTooltip(new Tooltip(msg.translate("buttonEnlargedPictureToolBarFullscreen")));
-		
-		navBtnBoxLeft.setSpacing(5.0);
-		navBtnBoxLeft.setAlignment(Pos.BOTTOM_LEFT);
-
 		
 		bpImg.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-border-width: 10px;");
 		toolbar.setStyle("-fx-background-color: White; -fx-border-color: White; -fx-padding: 0 5 5 5;");
@@ -278,7 +275,7 @@ public class EnlargedPictureView {
 	}
 	
 	/**
-	 * Method which return the current value of the secondsBox
+	 * Method which returns the current value of the secondsBox
 	 * @return
 	 */
 	private Integer getSeconds() {
