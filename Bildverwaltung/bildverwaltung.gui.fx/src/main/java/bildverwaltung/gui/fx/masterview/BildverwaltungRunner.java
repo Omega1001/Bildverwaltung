@@ -1,9 +1,14 @@
 package bildverwaltung.gui.fx.masterview;
 
+import java.awt.Dimension;
 import java.awt.Frame;
 import java.util.Locale;
 
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import bildverwaltung.container.Container;
 import bildverwaltung.container.ManagedContainer;
 import bildverwaltung.container.Scope;
-import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.AlbumFacade;
 import bildverwaltung.facade.PictureFacade;
 import bildverwaltung.localisation.Messenger;
@@ -31,29 +35,7 @@ public class BildverwaltungRunner extends Application {
 		LOG.info("Bildverwaltung is starting up ...");
 		
 		
-		try {
-			
-			Container.startupContainer();
-	    } 
-		catch (Exception e) {
-			
-	    	Frame frame = new Frame();
-	    	Locale locale = Locale.getDefault();
-	    	
-	    	if (locale.equals(Locale.GERMANY)) {
-	    		
-	    		JOptionPane.showMessageDialog(frame,
-	 	    		   "Die Anwendung wird bereits ausgeführt.",
-	 	    		   "FEHLER!",
-	 	    		   	JOptionPane.ERROR_MESSAGE);
-	    	}
-	    	else {
-	    		JOptionPane.showMessageDialog(frame,
-	    				"ERROR!",
-	    				"The application is already running.",
-	    				JOptionPane.ERROR_MESSAGE);
-	    	}
-	    }
+		tryStartupContainer();
 		
 		addAdditionalFactories(Container.getActiveContainer());
 		launch(args);
@@ -108,6 +90,46 @@ public class BildverwaltungRunner extends Application {
 		activeContainer.addFactory(TranslatorImpl.FACTORY);
 		activeContainer.addFactory(MessengerImpl.FACTORY);
 		LOG.trace("Exit addAdditionalFactories");
+	}
+	/**
+	 * Method to startup the container and throw a visible error message containing the cause.
+	 */
+	private static void tryStartupContainer() {
+		try {
+			Container.startupContainer();
+	    } 
+		catch (Exception exception) {
+            StringBuffer sb = new StringBuffer();
+            while (exception != null) {
+                sb.append(exception.getMessage()).append("\r\n");
+                exception = (Exception) exception.getCause();
+            }
+            String cause = sb.toString();
+	    	Frame frame = new Frame();
+	    	JTextArea textArea = new JTextArea(cause);
+	    	JSplitPane splitPane;
+	    	JScrollPane scrollPane = new JScrollPane(textArea);
+	    	textArea.setLineWrap(true);  
+	    	textArea.setWrapStyleWord(true);
+	    	scrollPane.setPreferredSize(new Dimension(1000, 250));
+
+	    	Locale locale = Locale.getDefault();
+	    	if (locale.equals(Locale.GERMANY)) {
+	    		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+	    									new JLabel("Fehler beim Starten."), 
+	    									scrollPane);
+	    		JOptionPane.showMessageDialog(frame,
+	    				splitPane, "FEHLER!", JOptionPane.ERROR_MESSAGE);
+	    	}
+	    	else {
+	    		splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,
+	    									new JLabel("Error on startup."), 
+	    									scrollPane);
+	    		JOptionPane.showMessageDialog(frame,
+	    				splitPane,
+	    				"ERROR!", JOptionPane.ERROR_MESSAGE);
+	    	}
+	    }
 	}
 
 }
