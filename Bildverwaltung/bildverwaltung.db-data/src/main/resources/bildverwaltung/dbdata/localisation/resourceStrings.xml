@@ -124,7 +124,7 @@
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumCreate">Album erstellen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganiseAlbumDelete">Album löschen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureDisplay">Bild anzeigen</ResourceString>
-		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufuegen</ResourceString>
+		<ResourceString id="menuItemMasterViewToolbarOrganisePictureToAlbum">Zu Album hinzufügen</ResourceString>
 		<ResourceString id="menuItemMasterViewToolbarOrganisePictureRemoveFromAlbum">Aus Album entfernen</ResourceString>
 		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum">Das ausgewählte Bild ist nicht Teil eines Albums</ResourceString>
 		<ResourceString id="msgMasterViewToolbarOrganisePictureRemoveFromAlbumNoCommonAlbums">Die ausgewählten Bilder haben kein Album gemeinsam oder sind in keinem Album enthalten</ResourceString>
