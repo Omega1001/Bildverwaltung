@@ -23,6 +23,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.IOException;
@@ -190,6 +191,7 @@ public class EnlargedPictureView {
 
 	private void putNodesTogether() {
         mainWindow.setScene(scene);
+        mainWindow.initModality(Modality.APPLICATION_MODAL);
 		navBtnBox.getChildren().addAll(btnBack,curPictureCount,btnNext);
 		toolbar.setRight(btnFullScreen);
 		toolbar.setCenter(navBtnBox);
