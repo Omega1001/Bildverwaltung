@@ -47,7 +47,6 @@ public class PictureArea extends RebuildebleSubComponent {
 	// SimpleObjectProperty<>();
 	private SelectionModdel selected = new SelectionModdel();
 	private ObservableList<Picture> pictures = FXCollections.observableArrayList();
-	private List<ImageView> actualImageViews = new ArrayList<>();
 	private FlowPane pane = new FlowPane();
 
 	public PictureArea(Messenger msg) {
@@ -71,8 +70,8 @@ public class PictureArea extends RebuildebleSubComponent {
 		List<Node> res = new ArrayList<>(pictures.size());
 		for (Picture p : pictures) {
 			ImageView view = new ImageView();
-			view.setFitWidth(200d);
-			view.setFitHeight(200d);
+			view.setFitWidth(196d);
+			view.setFitHeight(196d);
 			view.setPreserveRatio(true);
 			StackPane border = new StackPane();
 
@@ -86,7 +85,7 @@ public class PictureArea extends RebuildebleSubComponent {
 			res.add(border);
 			try {
 				InputStream is = pictureFacade.resolvePictureURI(p.getUri());
-				Image i = new Image(is, 200d, 200d, true, true);
+				Image i = new Image(is, 196d, 196d, true, true);
 				view.setImage(i);
 				try {
 					is.close();
