@@ -92,7 +92,7 @@ public class BildverwaltungRunner extends Application {
 		LOG.trace("Exit addAdditionalFactories");
 	}
 	/**
-	 * Method to startup the container and throw a visible error message containing the cause.
+	 * Method to startup the container and throw a visible error message containing the cause in case any errors happen.
 	 */
 	private static void tryStartupContainer() {
 		try {
