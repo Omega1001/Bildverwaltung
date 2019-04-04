@@ -1,5 +1,6 @@
 package bildverwaltung.gui.fx.search;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import bildverwaltung.dao.entity.UUIDBase;
@@ -160,11 +161,12 @@ public class SearchManager<E extends UUIDBase> {
 		}
 
 		@Override
-		public ValueProxy<ComparisonMode> putCompairMode(ComparisonMode[] values) {
+		public ValueProxy<ComparisonMode> putCompairMode(ComparisonMode ... values) {
 			if (hasComparisonMode) {
 				throw new IllegalArgumentException("Field has a comparisonMode already");
 			}
 			ObservableList<TranslatedValue<ComparisonMode>> vals = FXCollections.observableArrayList();
+			Arrays.sort(values);
 			for (ComparisonMode m : values) {
 				vals.add(new TranslatedValue<ComparisonMode>(getTranslator(), "itemLabelGenericSearch" + m.name(), m));
 			}

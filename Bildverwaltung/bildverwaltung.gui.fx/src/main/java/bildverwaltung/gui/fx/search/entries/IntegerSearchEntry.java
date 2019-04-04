@@ -53,7 +53,7 @@ public class IntegerSearchEntry<E extends UUIDBase> extends SearchEntry<E, Integ
 	public void render(SearchRenderer renderer) {
 		renderer.beginSearchEntry(this);
 		renderer.putSearchFieldLabel(getName());
-		setComparisonMode(renderer.putCompairMode(ComparisonMode.values()));
+		setComparisonMode(renderer.putCompairMode(ComparisonMode.DISABLED,ComparisonMode.IS_EQUAL,ComparisonMode.NOT_EQUAL));
 		renderer.putInputField(value);
 		renderer.newLine();
 		renderer.endEntry();

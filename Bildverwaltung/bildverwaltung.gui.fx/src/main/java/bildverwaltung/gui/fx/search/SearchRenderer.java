@@ -27,7 +27,7 @@ public interface SearchRenderer {
 
 	public void putSearchFieldLabel(String name);
 
-	public ValueProxy<ComparisonMode> putCompairMode(ComparisonMode[] values);
+	public ValueProxy<ComparisonMode> putCompairMode(ComparisonMode ... values);
 
 	public void putInputField(Node value);
 
