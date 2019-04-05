@@ -97,6 +97,7 @@ public class TransactionProxy implements InvocationHandler {
 	private void handleEndTransaction(boolean isBorder, boolean hasStarted) {
 		if (implicitEnd || (isBorder && hasStarted)) {
 			if (em.getTransaction().isActive()) {
+				em.flush();
 				em.getTransaction().commit();
 				em.getEntityManagerFactory().getCache().evictAll();
 			}
