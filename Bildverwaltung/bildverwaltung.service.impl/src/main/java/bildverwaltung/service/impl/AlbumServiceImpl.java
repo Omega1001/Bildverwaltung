@@ -63,11 +63,4 @@ public class AlbumServiceImpl implements AlbumService {
 		LOG.trace("Exit delete");
 	}
 
-	@Override
-	public void refresh(Album alb) throws ServiceException {
-		LOG.trace("Enter refresh alb={}", alb);
-		aDao.refresh(alb);
-		LOG.trace("Exit refresh");
-	}
-
 }

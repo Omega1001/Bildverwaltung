@@ -18,7 +18,5 @@ public interface AlbumFacade {
 	public Album getAlbumById(UUID albumId) throws FacadeException;
 
 	public void delete(UUID id) throws FacadeException;
-
-	public void refresh(Album alb) throws FacadeException;
 	
 }

@@ -99,16 +99,4 @@ public class AlbumFacadeImpl implements AlbumFacade {
 		}
 	}
 
-	@Override
-	public void refresh(Album alb) throws FacadeException {
-		try {
-			aService.refresh(alb);
-		} catch (FacadeException ex) {
-			throw ex;
-		} catch (Exception ex) {
-			LOG.error("Unexpected error during refreshing album {} : ",alb);
-			throw new FacadeException(ExceptionType.UNKNOWN, ex);
-		}		
-	}
-
 }

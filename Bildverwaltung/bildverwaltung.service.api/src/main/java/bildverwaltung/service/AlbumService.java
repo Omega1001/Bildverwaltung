@@ -18,7 +18,5 @@ public interface AlbumService {
 	public Album getAlbumById(UUID albumId) throws ServiceException;
 
 	public void delete(UUID albumId)throws ServiceException;
-
-	public void refresh(Album alb)throws ServiceException;
 	
 }
