@@ -197,6 +197,7 @@ public class ToolbarArea extends RebuildebleSubComponent {
 						albumFacade.save(alb);
 						viewArea.get().getPictures().removeAll(pics);
 						viewArea.get().getSelectedPicture().set(null);
+						albumFacade.refresh(alb);
 					} else {
 						List<Album> commonAlbums = listCommonAlbums(pics);
 						if (!commonAlbums.isEmpty()) {
@@ -210,8 +211,9 @@ public class ToolbarArea extends RebuildebleSubComponent {
 									alb.getPictures().remove(pic);
 								}
 								albumFacade.save(alb);
+								albumFacade.refresh(alb);
 							}
-
+							
 						} else {
 							if (pics.size() == 1) {
 								msg().showErrorMessage("msgMasterViewToolbarOrganisePictureRemoveFromAlbumNotInAlbum",
