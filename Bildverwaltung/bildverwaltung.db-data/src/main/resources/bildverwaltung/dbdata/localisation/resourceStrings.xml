@@ -100,7 +100,7 @@
 		
 		<!-- Exceptions -->
 		<ResourceString id="msgAlbumSaveError">Failed to save Album</ResourceString>
-		<ResourceString id="msgAlbumSaveErrorDuplicatedName">A Album with that name already exists</ResourceString>
+		<ResourceString id="msgAlbumSaveErrorDuplicatedName">An Album with that name already exists</ResourceString>
 	</Language>
 	<Language languageCode="de" countryCode="">
 		<!-- App commons -->
