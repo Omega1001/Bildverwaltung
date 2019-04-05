@@ -15,8 +15,29 @@ import javax.persistence.metamodel.SingularAttribute;
 public class FilterDiscriptor<En, V> {
 
 	private final SingularAttribute<En, V> attribute;
-	private final V value;
+	private final FilterValueDiscriptor<V> value;
 	private final ComparisonMode comparisonMode;
+
+	/**
+	 * Convenience Constructor that implicitly creates a
+	 * {@link FilterValueDiscriptor} using the provided value<br>
+	 * 
+	 * See
+	 * {@link #FilterDiscriptor(SingularAttribute, FilterValueDiscriptor, ComparisonMode)}
+	 * to learn more
+	 * 
+	 * @param attribute
+	 *            Field to be filtered on
+	 * @param value
+	 *            to be used in comparison
+	 * @param comparisonMode
+	 *            The method that is to be used during comparison
+	 * @see #FilterDiscriptor(SingularAttribute, FilterValueDiscriptor,
+	 *      ComparisonMode)
+	 */
+	public FilterDiscriptor(SingularAttribute<En, V> attribute, V value, ComparisonMode comparisonMode) {
+		this(attribute, new FilterValueDiscriptor<>(value), comparisonMode);
+	}
 
 	/**
 	 * Generates a new {@link FilterDiscriptor}
@@ -28,7 +49,8 @@ public class FilterDiscriptor<En, V> {
 	 * @param comparisonMode
 	 *            The method that is to be used during comparison
 	 */
-	public FilterDiscriptor(SingularAttribute<En, V> attribute, V value, ComparisonMode comparisonMode) {
+	public FilterDiscriptor(SingularAttribute<En, V> attribute, FilterValueDiscriptor<V> value,
+			ComparisonMode comparisonMode) {
 		super();
 		this.attribute = attribute;
 		this.value = value;
@@ -39,7 +61,7 @@ public class FilterDiscriptor<En, V> {
 		return attribute;
 	}
 
-	public V getValue() {
+	public FilterValueDiscriptor<V> getValue() {
 		return value;
 	}
 

@@ -37,6 +37,7 @@ public class InfoArea extends RebuildebleSubComponent {
 	protected Node build() {
 		VBox b = new VBox(albumArea.getGraphic(), searchArea.getGraphic(), attributeArea.getGraphic());
 		b.setMaxHeight(Double.MAX_VALUE);
+		b.setMaxWidth(200d);
 		b.setBorder(new Border(new BorderStroke(Color.BLACK, 
 	            BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
 		return b;

@@ -105,9 +105,10 @@ public class ImportPane{
     private void setEventHandlers(){
         chooseBt.setOnAction((e)->{
             FileChooser fc = getPreparedFileChooser();
-            List<File> fileList = fc.showOpenMultipleDialog(importWindow);
+            List<File> fileList = fc.showOpenMultipleDialog(importWindow); //unmodifiable
             if (fileList != null) {
-                ol.addAll(removeDuplicates(fileList));
+                List<File> modifiableList = new ArrayList<>(fileList); //modifiable
+                ol.addAll(removeDuplicates(modifiableList));
             }
         });
 
