@@ -200,5 +200,9 @@
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Vorheriges Bild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Vollbild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarDiashow">Diashow</ResourceString>
+		
+		!-- Exceptions -->
+		<ResourceString id="msgAlbumSaveError">Speichern des Albums ist fehlgeschlagen</ResourceString>
+		<ResourceString id="msgAlbumSaveErrorDuplicatedName">Ein Album mit diesem Namen existiert bereits</ResourceString>
 	</Language>
 </Translations>
