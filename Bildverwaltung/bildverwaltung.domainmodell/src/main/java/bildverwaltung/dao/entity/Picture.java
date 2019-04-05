@@ -81,7 +81,7 @@ public class Picture extends UUIDBase {
 	/**
 	 * @return the alben
 	 */
-	@ManyToMany(mappedBy = "pictures", cascade= {CascadeType.DETACH,CascadeType.MERGE,CascadeType.PERSIST,CascadeType.REFRESH})
+	@ManyToMany(mappedBy = "pictures", cascade= {CascadeType.DETACH,CascadeType.REFRESH})
 	public List<Album> getAlben() {
 		return alben;
 	}

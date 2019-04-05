@@ -138,7 +138,6 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>, Aut
 						key);
 			} else {
 				em.remove(obj);
-				em.clear();
 			}
 		} catch (Exception e) {
 			LOG.error("Entity : {} :Error during removing Entity with key{} : ", entityClass.getSimpleName(), key, e);
@@ -158,6 +157,7 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>, Aut
 	public E refresh(E obj) throws DaoException {
 		if (obj != null && em.contains(obj)) {
 			em.refresh(obj);
+			em.getEntityManagerFactory().getCache().evictAll();
 		}
 		return obj;
 	}
