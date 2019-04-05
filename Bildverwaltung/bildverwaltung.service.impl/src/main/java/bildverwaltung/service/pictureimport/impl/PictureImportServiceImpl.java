@@ -47,9 +47,10 @@ public class PictureImportServiceImpl implements PictureImportService {
      * convert a List of Files to Picture (if they are actually a picture) into the DB
      *
      * @param pictures given (assumpted) picture as file
+     * @throws ServiceException 
      */
     @Override
-    public List<Picture> importAll(List<File> pictures) {
+    public List<Picture> importAll(List<File> pictures) throws ServiceException {
 
         List<Picture> importedPictures = new ArrayList<>();
 
@@ -59,8 +60,8 @@ public class PictureImportServiceImpl implements PictureImportService {
             try {
                 importedPictures.add(importPicture(picture));
             } catch (ServiceException e) {
-                e.printStackTrace();
                 LOG.warn("Import of picture {} failed", picture.getName());
+                throw e;
             }
         }
 

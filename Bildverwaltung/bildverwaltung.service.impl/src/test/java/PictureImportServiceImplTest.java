@@ -134,7 +134,11 @@ public class PictureImportServiceImplTest {
         pictures.add(new File(PictureImportService.class.getResource("/voll_das_picture_und_so").toURI()));
         pictures.add(new File(PictureImportService.class.getResource("/ex_pics/wow_gordon_existiert_zweimal.jpg").toURI()));
 
-        sut.importAll(pictures);
+        try {
+			sut.importAll(pictures);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 
         File filesToExpect = new File(PICTURES_PATH);
         System.out.println(filesToExpect.list().toString());
