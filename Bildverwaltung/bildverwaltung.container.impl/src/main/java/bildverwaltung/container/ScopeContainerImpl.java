@@ -37,12 +37,7 @@ public class ScopeContainerImpl implements ScopeContainer, Closeable {
 	}
 
 	public UUID beginSubScope() {
-
-		// TODO do we need it?
-		// Methode bereits in ManagedContainer
-		// Subscopes werden aber anscheinend trotzdem im ScopeContainer gemanaged, also
-		// wirds auch hier erstellt
-
+		
 		UUID newSubScopeId = UUID.randomUUID();
 
 		ScopeContainer newSubScope = new ScopeContainerImpl(managedScope, newSubScopeId);
