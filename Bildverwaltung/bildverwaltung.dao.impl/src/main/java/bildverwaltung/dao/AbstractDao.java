@@ -64,6 +64,7 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>, Aut
 		}
 		try {
 			E res = em.merge(toSave);
+			em.flush();
 			LOG.trace("Exit save res={}", res);
 			return res;
 		} catch (Exception e) {
