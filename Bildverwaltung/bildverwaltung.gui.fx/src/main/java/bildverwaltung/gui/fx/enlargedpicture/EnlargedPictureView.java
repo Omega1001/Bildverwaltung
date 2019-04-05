@@ -267,11 +267,13 @@ public class EnlargedPictureView {
 	private void startDiashow() {
 		diashowIsRunning = !diashowIsRunning;
 		if(diashowIsRunning) {
+			btnDiashow.setGraphic(IconLoader.loadIcon("Pause.png"));
 			timeline = new Timeline(new KeyFrame(Duration.seconds(getSeconds()), actionEvent -> nextPicture()));
 			timeline.setCycleCount(Animation.INDEFINITE);
 			timeline.play();
 		}
 		if(!diashowIsRunning) {
+			btnDiashow.setGraphic(IconLoader.loadIcon("Diashow.png"));
 			timeline.stop();
 		}
 	}
