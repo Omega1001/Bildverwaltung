@@ -1,8 +1,5 @@
 package bildverwaltung.dao.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.List;
@@ -22,6 +19,7 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 		this.resolvers = resolvers;
 	}
 	@Override
+<<<<<<< HEAD
 	public InputStream resolve(URI uri) throws DaoException {
 		LOG.trace("Enter resolve uri={}", uri);
 		InputStream res = null;
@@ -43,6 +41,20 @@ public class URIResolutionDaoImpl implements URIResolutionDao {
 				} else {
 					LOG.error("Could not find a resolver, that can handle this uri {}",uri);
 					throw new DaoException(ExceptionType.URI_RESOLUTION_0001);
+=======
+	public InputStream resolv(URI uri) throws DaoException {
+		LOG.trace("Enter resolv uri={}", uri);
+		for (URIResolver resolver : resolvers) {
+			if (resolver.canHandle(uri)) {
+				try {
+					InputStream res = resolver.handle(uri);
+					LOG.trace("Exit resolv res={}", res);
+					return res;
+				} catch (Exception e) {
+					DaoException ex = new DaoException(ExceptionType.URI_RESOLUTION_0002, e);
+				    LOG.error(ex.toString());
+				    throw ex;
+>>>>>>> refs/remotes/origin/master
 				}
 			}
 		}

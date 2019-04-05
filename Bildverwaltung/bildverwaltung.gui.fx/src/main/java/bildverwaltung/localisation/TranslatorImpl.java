@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,6 +19,9 @@ import bildverwaltung.dao.exception.FacadeException;
 import bildverwaltung.facade.ResourceStringFacade;
 
 public class TranslatorImpl implements Translator {
+	
+	public static final Pattern LINEWRAP = Pattern.compile("(\\\\r\\\n|\\\\r|\\\\n)");
+	
 	public static final Factory<Translator> FACTORY = new Factory<Translator>() {
 
 		@Override
@@ -54,8 +59,20 @@ public class TranslatorImpl implements Translator {
 			}
 			translations.put(inUse, bundle);
 		}
-		return bundle.getString(resourceKey);
+		String res = bundle.getString(resourceKey);
+		res = replaceLinewraps(res);
+		return res;
 
+	}
+
+	private String replaceLinewraps(String s) {
+		String res = s;
+		Matcher m = LINEWRAP.matcher(res);
+		while (m.find()) {
+			res = res.replace(m.group(), "\r\n");
+			m = LINEWRAP.matcher(res);
+		}
+		return res;
 	}
 
 	@Override

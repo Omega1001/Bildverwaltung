@@ -66,6 +66,7 @@ public class Executer {
 	private static void rebuildShema(EntityManager em) {
 		em.getTransaction().begin();
 		Query q = em.createNativeQuery(getScript("bildverwaltung/dbdata/ddl/dropDDL.sql"));
+		q.executeUpdate();
 		q = em.createNativeQuery(getScript("bildverwaltung/dbdata/ddl/createDDL.sql"));
 		q.executeUpdate();
 		em.getTransaction().commit();

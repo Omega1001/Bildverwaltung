@@ -56,6 +56,10 @@ public abstract class SearchEntry<E extends UUIDBase, V> {
 			comparisonMode.set(defaultMode != null ? defaultMode : ComparisonMode.DISABLED);
 		}
 	}
+	
+	public void handleComparisonModeChange(ComparisonMode oldMode, ComparisonMode newMode) {
+		//Do nothing
+	}
 
 	public V getDefaultValue() {
 		return defaultValue;

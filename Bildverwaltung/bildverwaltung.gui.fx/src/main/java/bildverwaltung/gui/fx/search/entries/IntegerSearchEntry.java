@@ -51,9 +51,9 @@ public class IntegerSearchEntry<E extends UUIDBase> extends SearchEntry<E, Integ
 	}
 
 	public void render(SearchRenderer renderer) {
-		renderer.beginSearchEntry();
+		renderer.beginSearchEntry(this);
 		renderer.putSearchFieldLabel(getName());
-		setComparisonMode(renderer.putCompairMode(ComparisonMode.values()));
+		setComparisonMode(renderer.putCompairMode(ComparisonMode.DISABLED,ComparisonMode.IS_EQUAL,ComparisonMode.NOT_EQUAL));
 		renderer.putInputField(value);
 		renderer.newLine();
 		renderer.endEntry();
@@ -65,6 +65,16 @@ public class IntegerSearchEntry<E extends UUIDBase> extends SearchEntry<E, Integ
 		Integer dv = getDefaultValue();
 		value.setText(dv != null ? dv.toString() : null);
 	}
+	
+	 @Override
+	    public void handleComparisonModeChange(ComparisonMode oldMode, ComparisonMode newMode) {
+	    	if (newMode == oldMode) {
+	    		//Do nothing
+	    	}else {
+	    		//Actual change
+	    		value.setDisable(ComparisonMode.DISABLED.equals(newMode));
+	    	}
+	    }
 
 	public static class Generator implements SearchFieldGenerator<Integer> {
 
@@ -72,12 +82,11 @@ public class IntegerSearchEntry<E extends UUIDBase> extends SearchEntry<E, Integ
 		public <E extends UUIDBase> SearchEntry<E, ?> generate(String name, SingularAttribute<E, Integer> field,
 				Integer defaultValue, ComparisonMode defaultMode) {
 			if (Integer.class.equals(field.getBindableJavaType()) || int.class.equals(field.getBindableJavaType())) {
-				return new IntegerSearchEntry<E>(name, field, (Integer) defaultValue,defaultMode);
+				return new IntegerSearchEntry<E>(name, field, (Integer) defaultValue, defaultMode);
 			} else {
 				throw new IllegalArgumentException("Type does not match");
 			}
 		}
-
 	}
 
 }

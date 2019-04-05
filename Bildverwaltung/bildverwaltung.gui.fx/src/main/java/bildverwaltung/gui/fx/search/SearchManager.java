@@ -1,5 +1,6 @@
 package bildverwaltung.gui.fx.search;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import bildverwaltung.dao.entity.UUIDBase;
@@ -89,7 +90,7 @@ public class SearchManager<E extends UUIDBase> {
 		private GridPane contentGrid = new GridPane();
 		private int currentLine = -1;
 		private ChoiceBox<TranslatedValue<ComparisonMode>> comparisonMode;
-		private List<Node> values = new LinkedList<>();
+		private SearchEntry<?, ?> currentEntry;
 		private boolean hasCaption = false;
 		private boolean hasComparisonMode = false;
 		private boolean searchIsComplete = false;
@@ -142,10 +143,10 @@ public class SearchManager<E extends UUIDBase> {
 		}
 
 		@Override
-		public void beginSearchEntry() {
+		public void beginSearchEntry(SearchEntry<?, ?> entry) {
 			hasCaption = false;
 			hasComparisonMode = false;
-			values.clear();
+			this.currentEntry = entry;
 			newLine();
 		}
 
@@ -160,11 +161,12 @@ public class SearchManager<E extends UUIDBase> {
 		}
 
 		@Override
-		public ValueProxy<ComparisonMode> putCompairMode(ComparisonMode[] values) {
+		public ValueProxy<ComparisonMode> putCompairMode(ComparisonMode ... values) {
 			if (hasComparisonMode) {
 				throw new IllegalArgumentException("Field has a comparisonMode already");
 			}
 			ObservableList<TranslatedValue<ComparisonMode>> vals = FXCollections.observableArrayList();
+			Arrays.sort(values);
 			for (ComparisonMode m : values) {
 				vals.add(new TranslatedValue<ComparisonMode>(getTranslator(), "itemLabelGenericSearch" + m.name(), m));
 			}
@@ -180,7 +182,6 @@ public class SearchManager<E extends UUIDBase> {
 		@Override
 		public void putInputField(Node value) {
 			contentGrid.add(value, 2, currentLine);
-			values.add(value);
 		}
 
 		@Override
@@ -191,28 +192,28 @@ public class SearchManager<E extends UUIDBase> {
 
 		@Override
 		public void endEntry() {
-			if (!hasCaption || !hasComparisonMode || values.isEmpty()) {
+			if (!hasCaption || !hasComparisonMode) {
 				throw new IllegalArgumentException("Field is incomplete");
 			}
-			comparisonMode.getSelectionModel().selectedItemProperty().addListener(new CompModeChangeListener(values));
+			comparisonMode.getSelectionModel().selectedItemProperty()
+					.addListener(new CompModeChangeListener(currentEntry));
 			comparisonMode.getSelectionModel().selectFirst();
 		}
 
 		private static class CompModeChangeListener implements ChangeListener<TranslatedValue<ComparisonMode>> {
 
-			private final List<Node> values;
+			private final SearchEntry<?, ?> entry;
 
-			public CompModeChangeListener(List<Node> values) {
+			public CompModeChangeListener(SearchEntry<?, ?> entry) {
 				super();
-				this.values = new LinkedList<>(values);
+				this.entry = entry;
 			}
 
 			@Override
 			public void changed(ObservableValue<? extends TranslatedValue<ComparisonMode>> observable,
 					TranslatedValue<ComparisonMode> oldValue, TranslatedValue<ComparisonMode> newValue) {
-				for (Node value : values) {
-					value.setDisable(newValue == null || ComparisonMode.DISABLED.equals(newValue.getValue()));
-				}
+				entry.handleComparisonModeChange(oldValue != null ? oldValue.getValue() : null,
+						newValue != null ? newValue.getValue() : null);
 			}
 		}
 
@@ -237,9 +238,9 @@ public class SearchManager<E extends UUIDBase> {
 			public void set(ComparisonMode obj) {
 				if (obj != null) {
 					for (TranslatedValue<ComparisonMode> t : items) {
-						if(obj.equals(t.getValue())) {
+						if (obj.equals(t.getValue())) {
 							comparisonMode.setValue(t);
-							//comparisonMode.getSelectionModel().select(t);
+							// comparisonMode.getSelectionModel().select(t);
 							return;
 						}
 					}
