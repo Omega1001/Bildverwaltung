@@ -23,9 +23,6 @@ public class PictureImportFacadeFactory implements Factory<PictureImportFacade> 
         PictureImportService service = container.materialize(PictureImportService.class, scope);
         PictureImportFacade facade = new PictureImportFacadeImpl(service);
 
-        /*
-        TODO ask what the boolean parameters do and how we should set them
-         */
         return TransactionProxy.proxyFor(facade, PictureImportFacade.class, em,true,true);
 
     }

@@ -24,9 +24,6 @@ public class PictureImportServiceFactory implements Factory<PictureImportService
         PictureDao facade = container.materialize(PictureDao.class, scope);
         PictureImportService importService = new PictureImportServiceImpl(facade);
 
-        /*
-        TODO ask what the two booleans actually do and how they should be set here
-         */
         return TransactionProxy.proxyFor(importService, getInterfaceType(),em,  true, false);
     }
 }
