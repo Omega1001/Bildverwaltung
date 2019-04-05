@@ -52,7 +52,7 @@ public class EnlargedPictureView {
 	private Label curPictureCount;
 	private BorderPane toolBarFullscreen;
 	
-	private boolean diashowStatus = false;
+	private boolean diashowIsRunning = false;
 	private Timeline timeline;
 	private HBox navBtnBoxLeft;
 	private ChoiceBox<Integer> secondsBox;
@@ -97,7 +97,7 @@ public class EnlargedPictureView {
 		btnNext.setOnAction(actionEvent -> nextPicture());
 		btnBack.setOnAction(actionEvent -> previousPicture());
 		btnFullScreen.setOnAction(actionEvent -> mainWindow.setFullScreen(!mainWindow.isFullScreen()));
-		btnDiashow.setOnAction(actionEvent -> diashow());
+		btnDiashow.setOnAction(actionEvent -> startDiashow());
 
 		// Keyboard stuff
         // Left or Right Key: next / previous picture
@@ -264,14 +264,14 @@ public class EnlargedPictureView {
 	/**
 	 * Method for starting a diashow
 	 */
-	private void diashow() {
-		diashowStatus = !diashowStatus;
-		if(diashowStatus == true) {
+	private void startDiashow() {
+		diashowIsRunning = !diashowIsRunning;
+		if(diashowIsRunning) {
 			timeline = new Timeline(new KeyFrame(Duration.seconds(getSeconds()), actionEvent -> nextPicture()));
 			timeline.setCycleCount(Animation.INDEFINITE);
 			timeline.play();
 		}
-		if(diashowStatus == false) {
+		if(!diashowIsRunning) {
 			timeline.stop();
 		}
 	}

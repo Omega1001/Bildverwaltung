@@ -65,13 +65,12 @@ public class EnlargedPictureToolBar extends RebuildebleSubComponent{
 			}});
 		
 		// Starts diashow
-		// TODO BLOCK NEEDS FCKN RESOURCE STINRGS
-			Button buttonDiashow = new Button (msg().translate("buttonEnlargedPictureToolBarDiashow"));
-			buttonDiashow.setGraphic(IconLoader.loadIcon("Weiter.png"));
-			showButtonWithFunction(buttonDiashow, DIASHOW_PIC, BUTTON_SIZE);
-			buttonDiashow.setOnAction(new EventHandler<ActionEvent>() {
-					public void handle(ActionEvent event) {
-						//TODO
+		Button buttonDiashow = new Button (msg().translate("buttonEnlargedPictureToolBarDiashow"));
+		buttonDiashow.setGraphic(IconLoader.loadIcon("Weiter.png"));
+		showButtonWithFunction(buttonDiashow, DIASHOW_PIC, BUTTON_SIZE);
+		buttonDiashow.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
+				//TODO
 		}});
 
 
