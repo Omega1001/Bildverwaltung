@@ -99,6 +99,7 @@ public class TransactionProxy implements InvocationHandler {
 			if (em.getTransaction().isActive()) {
 				em.flush();
 				em.getTransaction().commit();
+				em.clear();
 				em.getEntityManagerFactory().getCache().evictAll();
 			}
 		}
