@@ -108,6 +108,9 @@ public class EnlargedPictureView {
 				previousPicture();
 			}
 		});
+		
+		// Stops diashow (timeline) upon closing window
+		mainWindow.setOnCloseRequest(windowEvent -> stopDiashow());
 
 		// When enlargedPicture switches to fullscreen, hide the toolbar
 		mainWindow.fullScreenProperty().addListener((v,o,n) -> {
@@ -284,5 +287,14 @@ public class EnlargedPictureView {
 	 */
 	private Integer getSeconds() {
 		return secondsBox.getValue();
+	}
+	/**
+	 * Stops diashow
+	 */
+	private void stopDiashow() {
+		if(diashowIsRunning) {
+		diashowIsRunning = false;
+		timeline.stop();
+		}
 	}
 }
