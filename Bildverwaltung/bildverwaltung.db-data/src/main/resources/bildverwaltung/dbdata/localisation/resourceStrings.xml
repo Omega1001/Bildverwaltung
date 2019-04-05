@@ -97,6 +97,10 @@
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Previous Picture</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Fullscreen Mode</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarDiashow">Slide Show</ResourceString>
+		
+		<!-- Exceptions -->
+		<ResourceString id="msgAlbumSaveError">Failed to save Album</ResourceString>
+		<ResourceString id="msgAlbumSaveErrorDuplicatedName">A Album with that name already exists</ResourceString>
 	</Language>
 	<Language languageCode="de" countryCode="">
 		<!-- App commons -->
