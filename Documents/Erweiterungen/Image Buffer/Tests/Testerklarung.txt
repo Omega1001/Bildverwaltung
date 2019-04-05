@@ -1,0 +1,15 @@
+Testerklarung
+
+ALLE Tests sind je ca. 2 minuten lang.
+
+Tests wurden alle auf dem gleichen Rechner durchgeführt ("leider" SSD).
+
+master ... .mp4 sind die videos OHNE buffer (aktueller master Branch).
+buffer ... .mp4 sind die videos MIT buffer.
+
+... mit ... sind jeweils 1 sekundige Diashows mit dem 500MB Bild.
+... ohne ... sind jeweils 1 sekundige Diashows ohne dem 500MB Bild.
+... rechts ... sind Aufnahmen von einem versuch bei dem einfach nur [->] (rechte Pfeiltaste) gedruckt wurde, ohne das 500MB Bild.
+
+Die master_buffer_rechts.xlsx ist die Auswerung der dritten Versuchsreihe (... rechts ...).
+Ergebnis der Buffer scheint im Falle einer SSD und verhältnissmaßig riesigen Bildern nur marginale Vorteile zu liefern!
