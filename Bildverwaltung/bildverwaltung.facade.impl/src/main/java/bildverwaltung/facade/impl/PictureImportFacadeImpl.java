@@ -25,14 +25,9 @@ public class PictureImportFacadeImpl implements PictureImportFacade {
 
 
    @Override
-   public List<Picture> importAll(List<File> pictures) throws ServiceException {
+   public List<Picture> importAll(List<File> pictures) {
       List<Picture> importedPictures;
-      try {
-         importedPictures = picImportService.importAll(pictures);
-      }catch(ServiceException e){
-         throw e;
-      }
-
+      importedPictures = picImportService.importAll(pictures);
       return importedPictures;
    }
 

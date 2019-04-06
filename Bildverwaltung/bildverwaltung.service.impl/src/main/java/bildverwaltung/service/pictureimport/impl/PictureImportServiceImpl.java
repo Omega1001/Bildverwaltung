@@ -50,7 +50,7 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @throws ServiceException 
      */
     @Override
-    public List<Picture> importAll(List<File> pictures) throws ServiceException {
+    public List<Picture> importAll(List<File> pictures) {
 
         List<Picture> importedPictures = new ArrayList<>();
 
@@ -61,12 +61,10 @@ public class PictureImportServiceImpl implements PictureImportService {
                 importedPictures.add(importPicture(picture));
             } catch (ServiceException e) {
                 LOG.warn("Import of picture {} failed", picture.getName());
-                throw e;
             }
         }
 
         return importedPictures;
-
     }
 
 
@@ -82,42 +80,44 @@ public class PictureImportServiceImpl implements PictureImportService {
             throw new ServiceException(ExceptionType.APP_INI_PICTURES_DIR_MISSING);
         }
 
-        if (!isPicture(picture)) {
+        if(!isPicture(picture) || picture == null) {
+            LOG.error("Picture {} is not actually a picture", picture.getAbsolutePath());
             throw new ServiceException(ExceptionType.NOT_A_PICTURE);
+        } else {
+            Picture newPicture = convertToEntity(picture);
+
+
+            //File directory = new File("PictureManager");
+            File directory = new File(picturesDirectory);
+            //File newFile = new File("PictureManager/" + picture.getName());
+            File newFile = new File(picturesDirectory + File.separator + picture.getName());
+
+            directory.mkdirs();
+            LOG.debug("created Directory {} in absolute path {}", directory.getName(), directory.getAbsolutePath());
+
+            try {
+                LOG.debug("copy {} to {}", picture.getName(), newFile.getName());
+                Files.copy(picture.toPath(), newFile.toPath());
+            } catch (IOException e) {
+                //e.printStackTrace();
+                throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
+            }
+
+
+            //rename the File in copy directory to the corresponding UUID of the Picture entity
+            File newName = new File(directory.getAbsolutePath() + File.separator + newPicture.getId().toString());
+
+            newFile.renameTo(newName);
+            newPicture.setUri(newName.toURI());
+            LOG.debug("Saved new picture file as {}", newName.getAbsolutePath());
+            try {
+                dao.save(newPicture);
+                LOG.debug("saved picture in db with following attributes: {}", newPicture.toString());
+            } catch (DaoException e) {
+                throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
+            }
+            return newPicture;
         }
-
-        Picture newPicture = convertToEntity(picture);
-
-        //File directory = new File("PictureManager");
-        File directory = new File(picturesDirectory);
-        //File newFile = new File("PictureManager/" + picture.getName());
-        File newFile = new File(picturesDirectory + File.separator + picture.getName());
-
-        directory.mkdirs();
-        LOG.debug("created Directory {} in absolute path {}", directory.getName(), directory.getAbsolutePath());
-
-        try {
-            LOG.debug("copy {} to {}",picture.getName(),newFile.getName());
-            Files.copy(picture.toPath(), newFile.toPath());
-        } catch (IOException e) {
-            //e.printStackTrace();
-            throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
-        }
-
-
-        //rename the File in copy directory to the corresponding UUID of the Picture entity
-        File newName = new File(directory.getAbsolutePath() + File.separator + newPicture.getId().toString());
-
-        newFile.renameTo(newName);
-        newPicture.setUri(newName.toURI());
-        LOG.debug("Saved new picture file as {}", newName.getAbsolutePath());
-        try {
-            dao.save(newPicture);
-            LOG.debug("saved picture in db with following attributes: {}", newPicture.toString());
-        } catch (DaoException e) {
-            throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
-        }
-        return newPicture;
 
     }
 

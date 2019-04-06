@@ -78,7 +78,7 @@
 		<ResourceString id="confirmBtnImportConfirm">Confirm</ResourceString>
 		<ResourceString id="titleImportAlertError">Error</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
-		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Your files could not get imported</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Following files could not be imported</ResourceString>
 		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in section [directory] is missing</ResourceString>
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Edit Attributes</ResourceString>
@@ -181,7 +181,7 @@
 		<ResourceString id="confirmBtnImportConfirm">Bestätigen</ResourceString>
 		<ResourceString id="titleImportAlertError">Fehler</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Fehler beim Import</ResourceString>
-		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Ihre Dateien konnten nicht importiert werden</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Folgende Dateien konnten nicht importiert werden:</ResourceString>
 		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in Section [directory] fehlt</ResourceString>
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Attribute ändern</ResourceString>
