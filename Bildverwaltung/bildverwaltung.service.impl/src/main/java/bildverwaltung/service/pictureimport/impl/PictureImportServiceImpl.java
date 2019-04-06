@@ -147,49 +147,43 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @throws ServiceException if there is a exception thrown while reading the file
      */
     private Picture convertToEntity(File picture) throws ServiceException{
-        if(!isPicture(picture) || picture == null) {
-            LOG.error("Picture {} is not actually a picture", picture.getAbsolutePath());
-           throw new ServiceException(ExceptionType.NOT_A_PICTURE);
-        } else {
+        LOG.debug("trying to get attributes needed from {}", picture.getAbsolutePath());
+        String extension = getFileExtension(picture);
+        String name = picture.getName(); // Does this give the file name with the extension?
 
-            LOG.debug("trying to get attributes needed from {}", picture.getAbsolutePath());
-            String extension = getFileExtension(picture);
-            String name = picture.getName(); // Does this give the file name with the extension?
-
-            if(name.contains(extension)) {
-                int index = name.lastIndexOf(".");
-                if(index != -1) {
-                    name = name.substring(0, name.lastIndexOf("."));
-                }
+        if(name.contains(extension)) {
+            int index = name.lastIndexOf(".");
+            if(index != -1) {
+                name = name.substring(0, name.lastIndexOf("."));
             }
-
-            URI uri = picture.toURI();
-
-
-            // extract attributes from the picture itself
-            int width;
-            int height;
-            Date date;
-            try {
-                LOG.debug("Trying to get size and creation date of file {}",picture.getName());
-                BasicFileAttributes attributes = Files.readAttributes(picture.toPath(),BasicFileAttributes.class);
-                BufferedImage pictureStream = ImageIO.read(picture);
-
-                height = pictureStream.getHeight();
-                width = pictureStream.getWidth();
-                //date = new Date();
-                date = new Date(attributes.creationTime().to(TimeUnit.MILLISECONDS));
-
-            } catch (IOException e) {
-                LOG.error("Error while trying to get the size and/or creation date of picture {}"
-                        ,picture.getAbsolutePath());
-                throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
-            }
-
-            Byte rating = 0;
-
-            return new Picture(name, uri, new ArrayList<>(), extension, height, width, date, "", rating);
         }
+
+        URI uri = picture.toURI();
+
+
+        // extract attributes from the picture itself
+        int width;
+        int height;
+        Date date;
+        try {
+            LOG.debug("Trying to get size and creation date of file {}",picture.getName());
+            BasicFileAttributes attributes = Files.readAttributes(picture.toPath(),BasicFileAttributes.class);
+            BufferedImage pictureStream = ImageIO.read(picture);
+
+            height = pictureStream.getHeight();
+            width = pictureStream.getWidth();
+            //date = new Date();
+            date = new Date(attributes.creationTime().to(TimeUnit.MILLISECONDS));
+
+        } catch (IOException e) {
+            LOG.error("Error while trying to get the size and/or creation date of picture {}"
+                    ,picture.getAbsolutePath());
+            throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
+        }
+
+        Byte rating = 0;
+
+        return new Picture(name, uri, new ArrayList<>(), extension, height, width, date, "", rating);
     }
 
     /**
