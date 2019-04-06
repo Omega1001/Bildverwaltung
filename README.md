@@ -1,5 +1,9 @@
 # Bildverwaltung
 
+## Datenbank bauen
+
+Das DB-Data Projekt muss gesondert gebaut werden mit den Maven Profilen "BuildRs" und "ProcessData", um eine funktionsfähige Datenbank zu bekommen!
+
 ## app.ini
 
 Muss neben der auszuführenden .jar Datei liegen oder im Workdirectory liegen.
