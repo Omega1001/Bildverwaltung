@@ -9,8 +9,10 @@ import bildverwaltung.gui.fx.search.SearchFieldGenerator;
 import bildverwaltung.gui.fx.search.SearchRenderer;
 import javafx.event.EventHandler;
 import javafx.scene.control.TextField;
+import javafx.scene.input.Clipboard;
 import javafx.scene.input.KeyEvent;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.metamodel.SingularAttribute;
 import java.util.Arrays;
 import java.util.List;
@@ -28,7 +30,30 @@ public class ByteSearchEntry <E extends UUIDBase> extends SearchEntry<E, Byte> {
     }
 
     private TextField constructValueElement() {
-        TextField value = new TextField();
+        TextField value = new TextField() {
+            @Override
+            public void paste() {
+                final Clipboard clipboard = Clipboard.getSystemClipboard();
+                if (clipboard.hasString()) {
+                    final String pasteString = clipboard.getString();
+                    if(pasteString != null) {
+                        if(isNumeric(pasteString)) {
+                            int number = Integer.parseInt(getText() + pasteString);
+                            if(number <= 127 && number >= -128) {
+                                replaceSelection(pasteString);
+                            }
+                        }
+                    }
+                }
+            }
+
+            public boolean isNumeric(String str) {
+            for (char c : str.toCharArray()) {
+                if (!Character.isDigit(c)) return false;
+            }
+            return true;
+}
+        };
         value.setOnKeyTyped(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent event) {
@@ -36,12 +61,9 @@ public class ByteSearchEntry <E extends UUIDBase> extends SearchEntry<E, Byte> {
                     char c = event.getCharacter().charAt(0);
                     if (c >= '0' && c <= '9') {
                         // Check if given number and already existing number in textbox exceeds the lmit of a Byte
-                       String text = value.getText();
-                       if(text != null) {
-                           int size = Integer.parseInt(text + c);
-                           if(size > 127 || size < -128) {
-                               event.consume();
-                           }
+                       int size = Integer.parseInt(getTextFieldString() + c);
+                       if(size > 127 || size < -128) {
+                           event.consume();
                        }
                     } else {
                         // Invalid char, stop event from spreading
@@ -61,6 +83,15 @@ public class ByteSearchEntry <E extends UUIDBase> extends SearchEntry<E, Byte> {
         Byte secondVal = asByte(secondValue.getText());
         FilterDiscriptor<E, ?> res = new FilterDiscriptor<E, Byte>(getField(), new FilterValueDiscriptor<Byte>(val, secondVal), getComparisonMode());
         return Arrays.asList(res);
+    }
+
+    private String getTextFieldString() {
+        String text = value.getText();
+        if(text == null) {
+            return "";
+        } else {
+            return text;
+        }
     }
 
     private Byte asByte(String text) {

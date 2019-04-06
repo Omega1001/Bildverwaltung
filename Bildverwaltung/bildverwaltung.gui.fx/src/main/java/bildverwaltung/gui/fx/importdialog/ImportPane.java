@@ -3,7 +3,6 @@ package bildverwaltung.gui.fx.importdialog;
 import bildverwaltung.container.Container;
 import bildverwaltung.container.Scope;
 import bildverwaltung.dao.entity.Picture;
-import bildverwaltung.dao.exception.ServiceException;
 import bildverwaltung.facade.PictureImportFacade;
 import bildverwaltung.localisation.Messenger;
 import bildverwaltung.utils.ApplicationIni;
@@ -115,16 +114,30 @@ public class ImportPane{
         confirmBt.setOnAction((e)->{
             List<File> li = ol;
             PictureImportFacade pi = Container.getActiveContainer().materialize(PictureImportFacade.class, Scope.APPLICATION,null);
-            try {
              pictures.addAll(pi.importAll(li));
-            } catch (ServiceException ex) {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle(msg.translate("titleImportAlertError"));
-                alert.setHeaderText(msg.translate("headerImportAlertErrorInImport"));
-                alert.setContentText(msg.translate("infoTextImportAlertFilesCouldNotGetImported"));
-                alert.showAndWait();
-            }
-            importWindow.close();
+
+             if(pictures.size() != li.size()) {
+
+                 List<String> successfullyImported = new ArrayList<>();
+                 for(Picture pic:pictures) {
+                     successfullyImported.add(pic.getName() + pic.getExtension());
+                 }
+
+                 //List<File> failedImport = new ArrayList<>();
+                 StringBuilder failedText = new StringBuilder(msg.translate("infoTextImportAlertFilesCouldNotGetImported") + "\n");
+                 for(File file:li) {
+                    if(!successfullyImported.contains(file.getName())) {
+                        failedText.append("\n " + file.getName());
+                    }
+                 }
+
+                 Alert alert = new Alert(Alert.AlertType.ERROR);
+                 alert.setTitle(msg.translate("titleImportAlertError"));
+                 alert.setHeaderText(msg.translate("headerImportAlertErrorInImport"));
+                 alert.setContentText(failedText.toString());
+                 alert.showAndWait();
+             }
+             importWindow.close();
         });
 
         cancelBt.setOnAction((e)-> importWindow.close());

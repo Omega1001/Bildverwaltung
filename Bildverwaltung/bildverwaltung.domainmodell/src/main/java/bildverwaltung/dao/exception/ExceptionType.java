@@ -20,7 +20,9 @@ public enum ExceptionType {
 	IMPORT_SAVING_PIC_TO_DB_FAILED("Adding picture entity to DB failed", "", ""),
     IMPORT_COPY_PIC_FAILED("Copying picture file to own directory failed","", ""),
 	IMPORT_EXTRACT_ATTRIBS_FAILED("Extracting Attributes from picture file failed", "",""),
-	NOT_A_PICTURE("Given picture file is not actually a picture", "", "")
+	NOT_A_PICTURE("Given picture file is not actually a picture", "", ""), 
+	
+	ALBUM_0001("Album already exists","msgAlbumSaveError","msgAlbumSaveErrorDuplicatedName")
 
 
 	;

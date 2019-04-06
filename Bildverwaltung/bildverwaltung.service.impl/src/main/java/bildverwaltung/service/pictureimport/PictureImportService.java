@@ -18,7 +18,7 @@ public interface PictureImportService {
      * convert a List of Files to Picture (if they are actually a picture) into the DB
      * @param pictures given (assumpted) picture as file
      */
-    public List<Picture> importAll(List<File> pictures) throws ServiceException;
+    public List<Picture> importAll(List<File> pictures);
 
     /**
      * converts a single file to Picture and imports it into the DB.

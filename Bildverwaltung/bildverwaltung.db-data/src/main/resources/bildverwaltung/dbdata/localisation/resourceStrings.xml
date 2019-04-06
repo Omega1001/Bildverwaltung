@@ -78,7 +78,7 @@
 		<ResourceString id="confirmBtnImportConfirm">Confirm</ResourceString>
 		<ResourceString id="titleImportAlertError">Error</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Failure in Import</ResourceString>
-		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Your files could not get imported</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Following files could not be imported</ResourceString>
 		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in section [directory] is missing</ResourceString>
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Edit Attributes</ResourceString>
@@ -97,6 +97,10 @@
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Previous Picture</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Fullscreen Mode</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarDiashow">Slide Show</ResourceString>
+		
+		<!-- Exceptions -->
+		<ResourceString id="msgAlbumSaveError">Failed to save Album</ResourceString>
+		<ResourceString id="msgAlbumSaveErrorDuplicatedName">An Album with that name already exists</ResourceString>
 	</Language>
 	<Language languageCode="de" countryCode="">
 		<!-- App commons -->
@@ -177,7 +181,7 @@
 		<ResourceString id="confirmBtnImportConfirm">Bestätigen</ResourceString>
 		<ResourceString id="titleImportAlertError">Fehler</ResourceString>
 		<ResourceString id="headerImportAlertErrorInImport">Fehler beim Import</ResourceString>
-		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Ihre Dateien konnten nicht importiert werden</ResourceString>
+		<ResourceString id="infoTextImportAlertFilesCouldNotGetImported">Folgende Dateien konnten nicht importiert werden:</ResourceString>
 		<ResourceString id="appIniDirectoryPathMissing">PicturesDirectory in Section [directory] fehlt</ResourceString>
 		<!-- Edit Attributes Area -->
 		<ResourceString id="editAttributesDialogHeader">Attribute ändern</ResourceString>
@@ -196,5 +200,9 @@
 		<ResourceString id="buttonEnlargedPictureToolBarLastPicture">Vorheriges Bild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarFullscreen">Vollbild</ResourceString>
 		<ResourceString id="buttonEnlargedPictureToolBarDiashow">Diashow</ResourceString>
+		
+		!-- Exceptions -->
+		<ResourceString id="msgAlbumSaveError">Speichern des Albums ist fehlgeschlagen</ResourceString>
+		<ResourceString id="msgAlbumSaveErrorDuplicatedName">Ein Album mit diesem Namen existiert bereits</ResourceString>
 	</Language>
 </Translations>

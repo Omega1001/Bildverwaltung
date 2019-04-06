@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PictureImportFacade {
 
-    List<Picture> importAll(List<File> pictures)throws ServiceException;
+    List<Picture> importAll(List<File> pictures);
 
     Picture importPicture(File picture)throws ServiceException;
 

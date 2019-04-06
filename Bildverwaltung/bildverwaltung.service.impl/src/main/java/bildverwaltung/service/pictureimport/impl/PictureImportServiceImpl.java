@@ -47,6 +47,7 @@ public class PictureImportServiceImpl implements PictureImportService {
      * convert a List of Files to Picture (if they are actually a picture) into the DB
      *
      * @param pictures given (assumpted) picture as file
+     * @throws ServiceException 
      */
     @Override
     public List<Picture> importAll(List<File> pictures) {
@@ -59,13 +60,11 @@ public class PictureImportServiceImpl implements PictureImportService {
             try {
                 importedPictures.add(importPicture(picture));
             } catch (ServiceException e) {
-                e.printStackTrace();
                 LOG.warn("Import of picture {} failed", picture.getName());
             }
         }
 
         return importedPictures;
-
     }
 
 
@@ -81,42 +80,44 @@ public class PictureImportServiceImpl implements PictureImportService {
             throw new ServiceException(ExceptionType.APP_INI_PICTURES_DIR_MISSING);
         }
 
-        if (!isPicture(picture)) {
+        if(!isPicture(picture) || picture == null) {
+            LOG.error("Picture {} is not actually a picture", picture.getAbsolutePath());
             throw new ServiceException(ExceptionType.NOT_A_PICTURE);
+        } else {
+            Picture newPicture = convertToEntity(picture);
+
+
+            //File directory = new File("PictureManager");
+            File directory = new File(picturesDirectory);
+            //File newFile = new File("PictureManager/" + picture.getName());
+            File newFile = new File(picturesDirectory + File.separator + picture.getName());
+
+            directory.mkdirs();
+            LOG.debug("created Directory {} in absolute path {}", directory.getName(), directory.getAbsolutePath());
+
+            try {
+                LOG.debug("copy {} to {}", picture.getName(), newFile.getName());
+                Files.copy(picture.toPath(), newFile.toPath());
+            } catch (IOException e) {
+                //e.printStackTrace();
+                throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
+            }
+
+
+            //rename the File in copy directory to the corresponding UUID of the Picture entity
+            File newName = new File(directory.getAbsolutePath() + File.separator + newPicture.getId().toString());
+
+            newFile.renameTo(newName);
+            newPicture.setUri(newName.toURI());
+            LOG.debug("Saved new picture file as {}", newName.getAbsolutePath());
+            try {
+                dao.save(newPicture);
+                LOG.debug("saved picture in db with following attributes: {}", newPicture.toString());
+            } catch (DaoException e) {
+                throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
+            }
+            return newPicture;
         }
-
-        Picture newPicture = convertToEntity(picture);
-
-        //File directory = new File("PictureManager");
-        File directory = new File(picturesDirectory);
-        //File newFile = new File("PictureManager/" + picture.getName());
-        File newFile = new File(picturesDirectory + File.separator + picture.getName());
-
-        directory.mkdirs();
-        LOG.debug("created Directory {} in absolute path {}", directory.getName(), directory.getAbsolutePath());
-
-        try {
-            LOG.debug("copy {} to {}",picture.getName(),newFile.getName());
-            Files.copy(picture.toPath(), newFile.toPath());
-        } catch (IOException e) {
-            //e.printStackTrace();
-            throw new ServiceException(ExceptionType.IMPORT_COPY_PIC_FAILED);
-        }
-
-
-        //rename the File in copy directory to the corresponding UUID of the Picture entity
-        File newName = new File(directory.getAbsolutePath() + File.separator + newPicture.getId().toString());
-
-        newFile.renameTo(newName);
-        newPicture.setUri(newName.toURI());
-        LOG.debug("Saved new picture file as {}", newName.getAbsolutePath());
-        try {
-            dao.save(newPicture);
-            LOG.debug("saved picture in db with following attributes: {}", newPicture.toString());
-        } catch (DaoException e) {
-            throw new ServiceException(ExceptionType.IMPORT_SAVING_PIC_TO_DB_FAILED);
-        }
-        return newPicture;
 
     }
 
@@ -146,49 +147,43 @@ public class PictureImportServiceImpl implements PictureImportService {
      * @throws ServiceException if there is a exception thrown while reading the file
      */
     private Picture convertToEntity(File picture) throws ServiceException{
-        if(!isPicture(picture) || picture == null) {
-            LOG.error("Picture {} is not actually a picture", picture.getAbsolutePath());
-           throw new ServiceException(ExceptionType.NOT_A_PICTURE);
-        } else {
+        LOG.debug("trying to get attributes needed from {}", picture.getAbsolutePath());
+        String extension = getFileExtension(picture);
+        String name = picture.getName(); // Does this give the file name with the extension?
 
-            LOG.debug("trying to get attributes needed from {}", picture.getAbsolutePath());
-            String extension = getFileExtension(picture);
-            String name = picture.getName(); // Does this give the file name with the extension?
-
-            if(name.contains(extension)) {
-                int index = name.lastIndexOf(".");
-                if(index != -1) {
-                    name = name.substring(0, name.lastIndexOf("."));
-                }
+        if(name.contains(extension)) {
+            int index = name.lastIndexOf(".");
+            if(index != -1) {
+                name = name.substring(0, name.lastIndexOf("."));
             }
-
-            URI uri = picture.toURI();
-
-
-            // extract attributes from the picture itself
-            int width;
-            int height;
-            Date date;
-            try {
-                LOG.debug("Trying to get size and creation date of file {}",picture.getName());
-                BasicFileAttributes attributes = Files.readAttributes(picture.toPath(),BasicFileAttributes.class);
-                BufferedImage pictureStream = ImageIO.read(picture);
-
-                height = pictureStream.getHeight();
-                width = pictureStream.getWidth();
-                //date = new Date();
-                date = new Date(attributes.creationTime().to(TimeUnit.MILLISECONDS));
-
-            } catch (IOException e) {
-                LOG.error("Error while trying to get the size and/or creation date of picture {}"
-                        ,picture.getAbsolutePath());
-                throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
-            }
-
-            Byte rating = 0;
-
-            return new Picture(name, uri, new ArrayList<>(), extension, height, width, date, "", rating);
         }
+
+        URI uri = picture.toURI();
+
+
+        // extract attributes from the picture itself
+        int width;
+        int height;
+        Date date;
+        try {
+            LOG.debug("Trying to get size and creation date of file {}",picture.getName());
+            BasicFileAttributes attributes = Files.readAttributes(picture.toPath(),BasicFileAttributes.class);
+            BufferedImage pictureStream = ImageIO.read(picture);
+
+            height = pictureStream.getHeight();
+            width = pictureStream.getWidth();
+            //date = new Date();
+            date = new Date(attributes.creationTime().to(TimeUnit.MILLISECONDS));
+
+        } catch (IOException e) {
+            LOG.error("Error while trying to get the size and/or creation date of picture {}"
+                    ,picture.getAbsolutePath());
+            throw new ServiceException(ExceptionType.IMPORT_EXTRACT_ATTRIBS_FAILED,e);
+        }
+
+        Byte rating = 0;
+
+        return new Picture(name, uri, new ArrayList<>(), extension, height, width, date, "", rating);
     }
 
     /**

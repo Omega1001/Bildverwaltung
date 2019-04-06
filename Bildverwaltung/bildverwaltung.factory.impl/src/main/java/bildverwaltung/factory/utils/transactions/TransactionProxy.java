@@ -69,7 +69,6 @@ public class TransactionProxy implements InvocationHandler {
 	private void handleFlush() {
 		if (em.getTransaction().isActive()) {
 			em.flush();
-			em.flush();
 		}
 	}
 
@@ -98,7 +97,10 @@ public class TransactionProxy implements InvocationHandler {
 	private void handleEndTransaction(boolean isBorder, boolean hasStarted) {
 		if (implicitEnd || (isBorder && hasStarted)) {
 			if (em.getTransaction().isActive()) {
+				em.flush();
 				em.getTransaction().commit();
+				em.clear();
+				em.getEntityManagerFactory().getCache().evictAll();
 			}
 		}
 	}

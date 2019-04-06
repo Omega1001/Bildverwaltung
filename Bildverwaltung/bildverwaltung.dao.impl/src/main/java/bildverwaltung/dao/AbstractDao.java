@@ -3,10 +3,12 @@
  */
 package bildverwaltung.dao;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -64,12 +66,26 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>, Aut
 		}
 		try {
 			E res = em.merge(toSave);
+			em.flush();
 			LOG.trace("Exit save res={}", res);
 			return res;
 		} catch (Exception e) {
+			if (e instanceof PersistenceException) {
+				Throwable t = e;
+				while (t != null) {
+					if (t instanceof SQLException) {
+						handlePersistenceException((SQLException) t, e);
+					}
+					t = t.getCause();
+				}
+			}
 			LOG.error("Entity : {} :Error during saving Entity {} : ", entityClass.getSimpleName(), toSave, e);
 			throw new DaoException(ExceptionType.ABS_DAO_0004, e);
 		}
+	}
+
+	protected void handlePersistenceException(SQLException e, Exception cause) throws DaoException {
+		// Do nothing, hook point for custom handling
 	}
 
 	/*
@@ -152,11 +168,12 @@ public abstract class AbstractDao<E extends UUIDBase> implements CRUDDao<E>, Aut
 		em.close();
 		LOG.trace("Exit close");
 	}
-	
+
 	@Override
 	public E refresh(E obj) throws DaoException {
 		if (obj != null && em.contains(obj)) {
 			em.refresh(obj);
+			em.getEntityManagerFactory().getCache().evictAll();
 		}
 		return obj;
 	}
