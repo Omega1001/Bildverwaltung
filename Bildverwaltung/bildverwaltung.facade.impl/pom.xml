@@ -3,7 +3,7 @@
   <parent>
     <groupId>prog3.torvald</groupId>
     <artifactId>bildverwaltung</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0-SNAPSHOT</version>
   </parent>
   <artifactId>bildverwaltung.facade.impl</artifactId>
   <name>Facade Impl</name>
@@ -26,7 +26,7 @@
 	  <dependency>
 		  <groupId>prog3.torvald</groupId>
 		  <artifactId>bildverwaltung.service.impl</artifactId>
-		  <version>1.1.0</version>
+		  <version>1.2.0-SNAPSHOT</version>
 		  <scope>compile</scope>
 	  </dependency>
   </dependencies>
